@@ -1,0 +1,12 @@
+.btn-row{
+    @apply p-4 bg-[#F3F6F8] rounded-lg
+}
+
+.btn-leftcell{
+    @apply p-4 rounded-l-md bg-[#F3F6F8]
+}
+
+.btn-rightcell{
+    @apply p-4 rounded-r-md bg-[#F3F6F8]
+}
+
