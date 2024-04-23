@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IFeedbackCard } from './types';
 
 const FeedbackCard: React.FC<IFeedbackCard> = ({
-  title,
+  title = 'Feedback for User',
   profileImage,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
