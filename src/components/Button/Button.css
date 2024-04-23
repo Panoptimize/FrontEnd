@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+[class^="btn"]{
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-teal {
+    @apply flex items-center bg-teal-600 hover:bg-teal-900 text-white rounded-xl;
+}
+.btn-teal-bold{
+    @apply bg-teal-600 hover:bg-teal-900 font-bold rounded-xl text-white;
+}
+.btn-teal img{
+    @apply scale-50 w-10 h-10
+}
+
+.btn-rose {
+    @apply bg-rose-600 hover:bg-rose-900 rounded-xl text-white;
+}
+.btn-rose-bold {
+    @apply bg-rose-600 hover:bg-rose-900 font-bold rounded-xl text-white;
+}
+.btn-rose img{
+    @apply scale-50 w-10 h-10
+}
+
+.btn-gray {
+    @apply bg-gray-500 hover:bg-gray-800 rounded-xl text-white;
+}
+.btn-gray-bold {
+    @apply bg-gray-500 hover:bg-gray-800 font-bold rounded-xl text-white;
+}
+.btn-gray img{
+    @apply scale-50 w-10 h-10
+}
+
+.btn-transparent {
+    @apply text-black rounded-xl
+}
+.btn-transparent:hover {
+    @apply bg-teal-900 bg-opacity-10 ;
+}
+.btn-transparent img{
+    @apply scale-50 w-10 h-10
+}
