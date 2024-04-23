@@ -1,14 +1,24 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {DataCard} from './components/DataCard'
-import { StatusCard } from './components/StatusCard';
 
 function App() {
   return (
     <div className="App">
-      <DataCard title='Total Contacts' content = {53} />
-      <StatusCard status='Available' numUsers={4} color='bg-blue-500' />
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
     </div>
   );
 }
