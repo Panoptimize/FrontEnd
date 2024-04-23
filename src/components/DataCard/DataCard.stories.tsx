@@ -5,7 +5,7 @@ import DataCard from './DataCard';
 import React from 'react';
 
 const meta ={
-    title: 'Component/DataCard', //El slash va a hacer que cree una carpeta en storybook
+    title: 'Components/DataCard', //El slash va a hacer que cree una carpeta en storybook
     component: DataCard,
     parameters: {
         layout: "centered",

@@ -5,7 +5,7 @@ import StatusCard from './StatusCard';
 import React from 'react';
 
 const meta ={
-    title: 'Component/StatusCard', //El slash va a hacer que cree una carpeta en storybook
+    title: 'Components/StatusCard', //El slash va a hacer que cree una carpeta en storybook
     component: StatusCard,
     parameters: {
         layout: "centered",
