@@ -1,4 +1,4 @@
-.starterChoice{   /* el primer elemento de choice */
+ .starterChoice{   /* el primer elemento de choice */
     display: flex; 
     max-width: 24rem; 
     padding: 0.25rem; 

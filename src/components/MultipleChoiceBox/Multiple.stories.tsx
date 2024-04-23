@@ -1,21 +1,18 @@
 import {Meta, StoryFn} from '@storybook/react';
 
-
-import { IChoiceBox } from './types';
-import ChoiceBox from './ChoiceBox';
+import { IMultipleChoiceBox } from './types';
+import MultipleChoiceBox from './MultipleChoiceBox';
 import React from "react";
 
-
-
 const meta = {
-    title: 'Components/ChoiceBox',
-    component: ChoiceBox,
+    title: 'Components/MultipleChoiceBox',
+    component: MultipleChoiceBox,
     parameters: {
         layout: "centered",
         docs: {
             story: {
                 inline: false,
-                description: "The Choice box component for the panoptimize app, it accepts a string and a list of strings.",
+                description: "The MultipleChoiceBox component for the panoptimize app. This component is similar to the ChoiceBox, but it allows for multiple selections. Each selection is represented as a chip.",
                 iframeHeight: 400,
             }
         }
@@ -23,17 +20,12 @@ const meta = {
     argTypes: {
         boxText: { control: 'text' },
         options: { control: 'object' },
+        selectedOptions: { control: 'object' },
     },
     tags: ["autodocs"],
 } as Meta;
 
-
-
-const Template: StoryFn<IChoiceBox> = (args) => <ChoiceBox {...args} />;
-
-/** 
- * Default story of Choice box
-*/
+const Template: StoryFn<IMultipleChoiceBox> = (args) => <MultipleChoiceBox {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
@@ -43,6 +35,7 @@ Default.args = {
     { value: "option2", label: "Option 2" },
     { value: "option3", label: "Option 3" },
   ],
+  selectedOptions: [],
 };
 
 export default meta;
