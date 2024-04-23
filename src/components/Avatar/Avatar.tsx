@@ -1,11 +1,11 @@
 import React from 'react'
 import { IAvatar } from './types'
 import './Avatar.css'
-import default_img from '../../constants/default-copia.png'
-import item1 from '../../constants/check_mark.png'
-import item2 from '../../constants/plus.png'
-import item3 from '../../constants/minus.png'
-import item4 from '../../constants/x-mark.png'
+import default_img from '../../assets/icons/default-copia.png'
+import item1 from '../../assets/icons/check_mark.png'
+import item2 from '../../assets/icons/plus.png'
+import item3 from '../../assets/icons/minus.png'
+import item4 from '../../assets/icons/x-mark.png'
 
 const Avatar: React.FC<IAvatar> = ({
     profile_img, // Opciones válidas: ' ' o 'Link de la imagen'
