@@ -4,8 +4,12 @@ module.exports = {
     './src/**/*.{ts,tsx}',
   ],
   theme: {
-    extend: {},
+    
+    extend: {
+      fontFamily: {
+        sanchez: ['Sanchez']
+      }
+    },
   },
   plugins: [],
 }
-
