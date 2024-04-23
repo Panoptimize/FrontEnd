@@ -1,0 +1,6 @@
+.pill{
+    @apply bg-cyan-100 text-center rounded-xl  h-10 p-1  my-5  text-xs font-medium  max-w-36 min-w-24
+}
+.text{
+    @apply  font-medium text-xs 
+}

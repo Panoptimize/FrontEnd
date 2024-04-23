@@ -1,0 +1,7 @@
+.main-avatar{
+    @apply h-32 w-32 rounded-full content-center items-center;
+}
+
+.img-avatar{
+    @apply h-28 w-28 rounded-full bg-black pb-2; 
+}
