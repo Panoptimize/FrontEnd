@@ -1,10 +1,12 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { Sidebar } from "./stories/Components/Sidebar/Sidebar";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App flex flex-row">
+      <Sidebar></Sidebar>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
