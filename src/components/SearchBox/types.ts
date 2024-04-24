@@ -2,7 +2,7 @@ export interface SearchBoxProps {
     /**
      * The hint that will be displayed in the search box.
      */
-    hint: string
+    hint?: string
     /**
      * The function that will be called when the user clicks enter or the search icon.
      * 
