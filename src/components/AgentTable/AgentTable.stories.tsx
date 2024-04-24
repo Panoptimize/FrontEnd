@@ -1,7 +1,9 @@
+
 import { Meta, StoryFn } from "@storybook/react";
 import AgentTable from "./AgentTable";
 import React from "react";
 import { IAgentTable } from "./types";
+
 
 const meta = {
   title: "Components/AgentTable",
