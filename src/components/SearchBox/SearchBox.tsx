@@ -7,7 +7,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ hint, handleSearch }) => {
 
     // Search for a term when click enter
     return (
-        <div className="flex justify-center max-w-96">
+        <div className="flex justify-center w-64 h-9">
             <div className="relative w-full">
                 <input
                     className="peer w-full p-4 pl-10 border-2 border-gray-300 rounded-full focus:outline-none focus:border-blue-500"
