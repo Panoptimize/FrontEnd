@@ -1,6 +1,7 @@
 import {Meta, StoryFn} from '@storybook/react'
 import Pill from './Pill';
 import { IPill } from './types';
+import React from 'react';
 
 
 const meta = {
