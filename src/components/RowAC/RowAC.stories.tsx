@@ -17,17 +17,17 @@ const meta = {
         }
     },
     argTypes: {
-        callstatus: { control: "text" },
-        agentImage: { control: "text" },
-        name: { control: "text" },
-        status: { control: "text" },
-        workspace1: { control: "text" },
-        workspace2: { control: "text" },
-        workHours: { control: "number" },
-        alarm: { control: "bool" },
+        callstatus: { control: { type: "text" } },
+        agentImage: { control: { type: "text" } },
+        name: { control: { type: "text" } },
+        status: { control: { type: "text" } },
+        workspace1: { control: { type: "text" } },
+        workspace2: { control: { type: "text" } },
+        workHours: { control: { type: "number" } },
+        alarm: { control: { type: "boolean" } },
     },
     tags: ["autodocs"],
-}as Meta;
+} as Meta;
 
 export default meta;
 
