@@ -40,7 +40,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ max }) => {
   };
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
+    let interval: NodeJS.Timeout | undefined = undefined;
     if (isActive) {
       interval = setInterval(() => {
         setValue((prevValue) => {
