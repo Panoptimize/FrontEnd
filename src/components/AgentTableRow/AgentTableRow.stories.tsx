@@ -1,6 +1,7 @@
 import { Meta, StoryFn } from '@storybook/react'
 import AgentTableRow from './AgentTableRow'
 import { IAgentTableRow } from './types'
+import React from 'react';
 
 const meta = {
     title: 'Components/AgentTableRow',
