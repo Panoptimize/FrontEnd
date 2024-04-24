@@ -11,7 +11,7 @@ export interface IButton{
     /**
      * The thickness of the text of the button. 
      */
-    thickness?: 'normal'|'bold'
+    bold?: boolean
     /**
      * The base color of the button. The hover and click colors are predetermined.
      * More colors should be added into this list as they're needed.
