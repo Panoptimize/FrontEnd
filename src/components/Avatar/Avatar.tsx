@@ -7,62 +7,61 @@ import item2 from '../../assets/icons/plus.png'
 import item3 from '../../assets/icons/minus.png'
 import item4 from '../../assets/icons/x-mark.png'
 
-const Avatar: React.FC<IAvatar> = ({
+const Avatar: React.FC<IAvatar> = ({  
     profile_img, // Opciones válidas: ' ' o 'Link de la imagen'
     state, // Opciones válidas: true o false
     state_color, // Opciones válidas: 'green', 'purple', 'orange', 'grey'
     size, // Opciones válidas: 'large', 'small'
-    square_border // Opciones válidas: true, false
-
+    square_border, // Opciones válidas: true, false 
+    
 }) => {
 
-    const pf_image = (profile_img: string) => {
-        if(profile_img){
-            return profile_img;
-        }else{
-            return default_img;
-        }
-    }
+    profile_img = !profile_img? profile_img = default_img : profile_img;
+    state = !state? state = false : true;
+    state_color = !state_color? state_color = 'green' : state_color;
+    size = !size? size = 'small' : size;
+    square_border = !square_border? square_border = false : true;
 
-    const st_color = (state_color: string) =>{
-        switch (state_color) {
+    const st_color = (st: string | undefined) =>{
+        let color;
+        switch (st) {
             case 'green':
-                state_color = '#18A452'
-                return state_color;  
+                color = '#18A452'
+                return color;  
             case 'purple':
-                state_color = '#AE54E5'
-                return state_color;   
+                color = '#AE54E5'
+                return color;   
             case 'orange':
-                state_color = '#EE9D11'
-                return state_color;  
+                color = '#EE9D11'
+                return color;  
             case 'grey':
-                state_color = '#4A5767'
-                return state_color;  
+                color = '#4A5767'
+                return color;  
             default:
                 break;
         }
     }
 
-    const size_img = (size: string) => {
-        if(size === 'large'){
+    const size_img = (sz: string | undefined) => {
+        
+        if(sz === 'large'){
             return 130;
         }
-        else if(size === 'small'){
+        else if(sz === 'small'){
             return 40;
         }
 
     }
 
-    const size_state = (size: string) => {
-        if(size === 'small'){
+    const size_state = (sz: string | undefined) => {
+        if(sz === 'small'){
             return 44;
         }
     }
 
-
-    const st_img = (state_color: string) => {
+    const st_img = (scl: string | undefined) => {
         let icon;
-        switch (state_color) {
+        switch (scl) {
             case 'green':
                 icon = item1
                 return icon;  
@@ -80,20 +79,19 @@ const Avatar: React.FC<IAvatar> = ({
         }
     }
 
-    const sq = (square_border: boolean) => {
-        if(square_border){
+    const sq = (sb: boolean | undefined) => {
+        if(sb){
             return 8;
         }else{
             return 100;
         }
     }
 
-
     const final = () =>{
         if(size_img(size) === 130){
             return(
                 <div className='relative' style={{height:size_img(size), width:size_img(size), borderRadius:sq(square_border) , overflow: 'hidden'}}>
-                    <img src={pf_image(profile_img)} alt='img' className='h-full w-full' style={{borderRadius:sq(square_border), overflow: 'hidden'}}/> 
+                    <img src={profile_img} alt='img' className='h-full w-full' style={{borderRadius:sq(square_border), overflow: 'hidden'}}/> 
                 </div>
             )            
         }
@@ -102,7 +100,7 @@ const Avatar: React.FC<IAvatar> = ({
                 return(
                     <div className='rounded-full flex items-center justify-center' style={{backgroundColor: st_color(state_color), backgroundSize: 'cover', height:size_state(size), width:size_state(size)}}>
                         <div className='h-28 w-28 relative rounded-full' style={{height:size_img(size), width:size_img(size)}}>
-                            <img src={pf_image(profile_img)} alt='img' className='rounded-full h-full w-full'/> 
+                            <img src={profile_img} alt='img' className='rounded-full h-full w-full'/> 
                         </div>
                         <div className='absolute rounded-full h-3 w-3 ml-7 mt-7 items-center justify-center' style={{backgroundColor: st_color(state_color), padding: 2}}>
                             <img src={st_img(state_color)} alt='icon' className='h-full w-full'/>
@@ -113,7 +111,7 @@ const Avatar: React.FC<IAvatar> = ({
             }else{
                 return(
                     <div className='relative' style={{height:size_img(size), width:size_img(size), borderRadius:sq(square_border) , overflow: 'hidden'}}>
-                        <img src={pf_image(profile_img)} alt='img' className='h-full w-full' style={{borderRadius:sq(square_border), overflow: 'hidden'}}/> 
+                        <img src={profile_img} alt='img' className='h-full w-full' style={{borderRadius:sq(square_border), overflow: 'hidden'}}/> 
                     </div>
                 )
             }
