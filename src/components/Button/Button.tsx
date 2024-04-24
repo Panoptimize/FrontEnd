@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { IButton } from './types';
 import './Button.css';
 
@@ -20,3 +20,4 @@ const Button: React.FC<IButton> = ({ text, thickness, baseColor, image }) => {
 };
 
 export default Button;
+*/
