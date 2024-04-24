@@ -1,11 +1,13 @@
 .starterChoice{   /* el primer elemento de choice */
     display: flex; 
-    max-width: 24rem; 
+    width: 15%; 
     padding: 0.25rem; 
     border-radius: 9999px; 
     border-width: 1px; 
     border-color: #D1D5DB; 
     background-color: #ffffff; 
+    padding-left: 15px;
+    padding-right:15px;
 
 }
 
@@ -15,18 +17,20 @@
     line-height: 1.25rem; 
     font-weight: 500; 
     color: #111827; 
+ 
 }
 .choiceBox{
 
     display: flex; 
-    width: 100%; 
+    width: 20 px; 
+ 
     font-size: 0.875rem;
     line-height: 1.25rem; 
     color: #111827; 
-    flex-wrap: wrap; 
-    max-height: 100px;
+
 
 }
+
 
 .safe{
 display: flex; 
