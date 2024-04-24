@@ -2,6 +2,7 @@ import { Meta, StoryFn } from '@storybook/react';
 
 import { SearchBoxProps } from './types';
 import SearchBox from './SearchBox';
+import React from 'react';
 
 const meta = {
     title: 'Components/SearchBox',
