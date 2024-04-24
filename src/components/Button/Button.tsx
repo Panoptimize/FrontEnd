@@ -6,7 +6,7 @@ const Button: React.FC<IButton> = ({ text, bold, baseColor, image }) => {
   return (
     <>
       <button 
-        className={`btn-${baseColor}${bold?'-bold':''} ${text ? 'px-4':''} ${!image ? 'py-2':''}`}
+        className={`btn-${baseColor}${bold?'-bold':''} ${text ? 'pr-4':''} ${image && text ? 'pl-1':''} ${!image ? 'pl-4 py-2':''}`}
         
       >
         {image && <img src={require(`../../Images/${image}.png`)} alt={image} 
