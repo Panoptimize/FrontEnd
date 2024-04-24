@@ -17,7 +17,7 @@ const meta: Meta = {
         },
     },
     argTypes: {
-        rows: { control: 'array' }, // Configuración para controlar el tipo de argumento
+        rows: { control: { type: "object"}}, // Configuración para controlar el tipo de argumento
     },
     tags: ['autodocs'], // Etiquetas para Storybook
 };

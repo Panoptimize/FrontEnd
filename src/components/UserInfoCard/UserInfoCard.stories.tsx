@@ -39,11 +39,11 @@ const meta = {
       description: 'Profile image of the user' 
     },
     selectedWorkspaces: {
-      control: { type: 'array' },
+      control: { type: "object" },
       description: 'Pre-selected workspaces for the user'
     },
     availableWorkspaces: {
-      control: { type: 'array' },
+      control: { type: "object"  },
       description: 'List of available workspaces that the user can select from'
     },
   },
