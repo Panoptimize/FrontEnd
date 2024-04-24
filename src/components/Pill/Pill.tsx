@@ -6,8 +6,10 @@ const Pill: React.FC<IPill> = ({
     title,
 })=>{
     return(
-        <div className='pill'>
-            {title}
+        <div className='flex'>
+            <div className='pill'>
+                {title}
+            </div>
         </div>
     )
 }
