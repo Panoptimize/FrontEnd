@@ -2,14 +2,14 @@ import React from 'react';
 import { IButton } from './types';
 import './Button.css';
 
-const Button: React.FC<IButton> = ({ text, thickness, baseColor, image }) => {
-
+const Button: React.FC<IButton> = ({ text, bold, baseColor, image }) => {
   return (
     <>
       <button 
-        className={'flex items-center bg-teal-600 hover:bg-teal-900 text-white rounded-xl'}>
+        className={`btn-${baseColor}${bold?'-bold':''} ${text ? 'pr-4':''} ${image && text ? 'pl-1':''} ${!image ? 'pl-4 py-2':''}`}
         
-        {image && <img src='https://img.icons8.com/ios/452/search--v1.png' alt={image} 
+      >
+        {image && <img src={require(`../../Images/${image}.png`)} alt={image} 
         style={baseColor == 'transparent' ? {filter: 'invert(100%)'} : {} }></img>}
         {text}
       </button>

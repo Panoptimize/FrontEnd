@@ -37,6 +37,6 @@ export const Default = Template.bind({});
 Default.args = {
     text: "Button text",
     image: "actionCenter",
-    thickness: "normal",
+    bold: false,
     baseColor: "teal",
 }
