@@ -1,6 +1,7 @@
 .starterChoice{   /* el primer elemento de choice */
     display: flex; 
-    width: 15%; 
+    width: 250px; /* Cambia este valor según tus necesidades */
+    height:35px;
     padding: 0.25rem; 
     border-radius: 9999px; 
     border-width: 1px; 
@@ -8,28 +9,29 @@
     background-color: #ffffff; 
     padding-left: 15px;
     padding-right:15px;
-
 }
 
 .labelChoice{
+    width:50px;
     margin-right: 0.5rem; 
     font-size: 0.875rem;
     line-height: 1.25rem; 
     font-weight: 500; 
     color: #111827; 
- 
+    padding-right: 10px;
 }
-.choiceBox{
 
+.choiceBox{
     display: flex; 
-    width: 20 px; 
- 
+    width: 150px; /* Asegúrate de que no haya espacio entre el número y 'px' */
     font-size: 0.875rem;
+    font-weight: 500; 
     line-height: 1.25rem; 
     color: #111827; 
-
-
 }
+
+
+
 
 
 .safe{
