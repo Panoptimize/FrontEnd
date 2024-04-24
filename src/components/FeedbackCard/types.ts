@@ -2,11 +2,11 @@ export interface IFeedbackCard {
     /**
      * Title of the feedback card
      */
-    title: string;
+    title?: string;
     /**
      * Path to the profile image
      */
-    profileImage: string;
+    profileImage?: string;
 }
 
   

@@ -2,23 +2,23 @@ export interface IUserInfoCard {
     /**
      * Title of the user information card
      */
-    title: string;
+    title?: string;
     /**
      * User's name
      */
-    name: string;
+    name?: string;
     /**
      * User's email address
      */
-    email: string;
+    email?: string;
     /**
      * User's username
      */
-    username: string;
+    username?: string;
     /**
      * Path to the user's profile image
      */
-    profileImage: string;
+    profileImage?: string;
     /**
      * Array of names of workspaces selected by the user (optional)
      */
@@ -26,5 +26,5 @@ export interface IUserInfoCard {
     /**
      * Array of names of workspaces available to the user
      */
-    availableWorkspaces: string[]; 
+    availableWorkspaces?: string[]; 
 }

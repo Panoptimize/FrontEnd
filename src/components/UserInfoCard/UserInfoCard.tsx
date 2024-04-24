@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { IUserInfoCard } from './types';
 
 const UserInfoCard: React.FC<IUserInfoCard> = ({
-  title,
-  name,
-  email,
-  username,
-  selectedWorkspaces: initialSelectedWorkspaces,
-  availableWorkspaces: initialAvailableWorkspaces,
+  title = 'Create New Agent',
+  name = 'Name',
+  email = 'Email',
+  username = 'Username',
+  selectedWorkspaces: initialSelectedWorkspaces = [],
+  availableWorkspaces: initialAvailableWorkspaces = ['Sales', 'Payments'],
   profileImage,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -39,7 +39,7 @@ const UserInfoCard: React.FC<IUserInfoCard> = ({
 
   const handleSave = () => {
     console.log('Guardando datos:', formData, selectedWorkspaces);
-    setIsVisible(false); 
+    setIsVisible(false);  // Cerrar el modal después de guardar
   };
 
   const handleClose = () => {
