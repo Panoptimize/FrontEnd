@@ -13,15 +13,13 @@ const meta ={
             story: {
                 inline: false,
                 description: "A status card component",
-                // iframeHeight: 400,
             }
         }
     },
 
     argTypes: {
         status: { control: 'text' },
-        numUsers : { control: 'number' },
-        color: { control: 'text' },
+        numUsers : { control: 'number' }
     },
     tags: ['autodocs'],
 
@@ -33,23 +31,38 @@ export default meta;
 const Template: StoryFn<IStatusCard> = (args) => <StatusCard {...args} />;
 
 /**
- * Default story of the MovieCard
+ * Default (Available) story of the StatusCard
  */
 
 export const Default = Template.bind({});
-
 Default.args = {
     status: 'Available',
-    numUsers : 16,
-    color: 'bg-green-500',
+    numUsers : 16
 };
 
 /**
- * Offline story of the MovieCard
+ * Offline story of the StatusCard
  */
 export const Offline = Template.bind({});
 Offline.args = {
     status: 'Offline',
-    numUsers: 0,
-    color: 'bg-slate-700',
+    numUsers: 0
 };
+
+/**
+ * After Call Work story of the StatusCard
+ */
+export const AfterCallWork = Template.bind({});
+AfterCallWork.args = {
+    status: 'After Call Work',
+    numUsers: 3
+};
+
+/**
+ * In Contact story of the StatusCard
+ */
+export const InContact = Template.bind({});
+InContact.args = {
+    status: 'In Contact',
+    numUsers: 20
+}
