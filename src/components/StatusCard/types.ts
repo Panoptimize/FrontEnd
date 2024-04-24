@@ -1,14 +1,10 @@
 export interface IStatusCard {
     /**
-     * Activity that the agents are performing
+     * Activity that the agents are performing, is restricted to only the activites allowed
      */
-    status: string;
+    status: 'Available' | 'In Contact' | 'After Call Work' | 'Offline';
     /**
-     * Current number of agent in this activity 
+     * Current amount of agents in this activity 
      */
     numUsers : number;
-    /**
-     * Color coded for easier understanding
-     */
-    color: string;
 }

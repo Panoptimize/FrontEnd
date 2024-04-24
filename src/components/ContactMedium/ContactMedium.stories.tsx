@@ -9,7 +9,7 @@ const meta: Meta<IContactMedium> = {
   argTypes: {
     data: {
       description: 'Array representing the number of contacts via each medium.',
-      control: { type: 'array' },
+      control: { type: undefined },
       defaultValue: [20, 30], // Default values
       table: {
         type: { summary: 'number[]' },
