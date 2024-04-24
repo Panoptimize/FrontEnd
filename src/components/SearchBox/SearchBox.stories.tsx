@@ -4,7 +4,7 @@ import { SearchBoxProps } from './types';
 import SearchBox from './SearchBox';
 import React from 'react';
 
-const meta = {
+const meta: Meta<SearchBoxProps> = {
     title: 'Components/SearchBox',
     component: SearchBox,
     parameters: {
@@ -26,7 +26,7 @@ const meta = {
         }
     }, 
     tags: ['autodocs']
-} as Meta;
+};
 
 export default meta;
 
@@ -34,18 +34,11 @@ const Template: StoryFn<SearchBoxProps> = (args) => <SearchBox {...args} />;
 export const Default = Template.bind({});
 
 Default.args = {
-    hint: 'Search for something...',
     handleSearch: (searchTerm: string) => console.log(searchTerm)
 };
 
 export const CustomHint = Template.bind({});
 CustomHint.args = {
-    hint: 'Search for something in the database...',
-    handleSearch: (searchTerm: string) => console.log(searchTerm)
-};
-
-export const CustomSearch = Template.bind({});
-CustomSearch.args = {
-    hint: 'Search for something in the database...',
+    hint: 'Search with another hint',
     handleSearch: (searchTerm: string) => console.log(searchTerm)
 };
