@@ -19,7 +19,7 @@ const meta = {
     },
   },
   argTypes: {
-    row: { control: "array" },
+    row: { control: { type:"object" } },
   },
   tags: ["autodocs"],
 } as Meta;
