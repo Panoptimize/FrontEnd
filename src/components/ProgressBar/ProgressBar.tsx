@@ -47,6 +47,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ max }) => {
           const nextValue = prevValue + (max * 0.05);
           if (nextValue >= max) {
             clearInterval(interval);
+            resetProgress();
           }
           return nextValue > max ? max : nextValue;
         });
