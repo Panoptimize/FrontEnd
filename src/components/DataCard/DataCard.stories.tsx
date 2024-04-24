@@ -20,7 +20,7 @@ const meta ={
 
     argTypes: {
         title: { control: 'text' },
-        content : { control: 'number' },
+        content : { control: 'text' },
     },
     tags: ['autodocs'],
 
@@ -32,12 +32,31 @@ export default meta;
 const Template: StoryFn<IDataCard> = (args) => <DataCard {...args} />;
 
 /**
- * Default story of the MovieCard
+ * Default story of the DataCard
  */
-
 export const Default = Template.bind({});
 
 Default.args = {
     title: 'Total Contacts',
     content: '53',
+};
+
+/**
+ * Abandon Rate story of the DataCard
+ */
+export const AbandonRate = Template.bind({});
+
+AbandonRate.args = {
+    title: 'Abandon Rate',
+    content: '11%',
+};
+
+/**
+ * Average Call Time story of the DataCard
+ */
+export const AvgCall = Template.bind({});
+
+AvgCall.args = {
+    title: 'Average Call Time',
+    content: '00:02:58',
 };
