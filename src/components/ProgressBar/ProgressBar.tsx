@@ -1,87 +1,81 @@
 import React, { useEffect, useState } from 'react';
 import './ProgressBar.css';
-import { MdCallEnd } from "react-icons/md";
-import { IoMdCall } from "react-icons/io";
-
-
 
 interface ProgressBarProps {
   /** This is the max value our progress bar will have */
   max: number;
+  /** This is the value to be displayed on the progress bar */
+  value: number;
+  /** Type of measurement: "temperature" or "time" */
+  type: 'temperature' | 'time';
+  /** Indicates if the agent is connected */
+  connected: boolean;
 }
 
-/** Progress Bar that determines de temperature of the client-user interaction */
-const ProgressBar: React.FC<ProgressBarProps> = ({ max }) => {
-  const [value, setValue] = useState(0);
+/** Progress Bar that determines the temperature or time based on user interaction */
+const ProgressBar: React.FC<ProgressBarProps> = ({ max, value, type, connected }) => {
   const [isActive, setIsActive] = useState(false);
 
-  const getColorClass = (percentage: number) => {
-    if (percentage < 30) {
-      return 'green'; 
-    } else if (percentage < 70) {
-      return 'orange'; 
-    } else if (percentage < 99) {
-      return 'red';
-    } else if (percentage === 100){
-      return 'purple'; 
-    } else{
-      return 'gray';
+  if (value > max) {
+    console.error('El valor proporcionado para la barra de progreso es mayor que el valor máximo permitido.');
+    return null; 
+  }
+
+  const getColor = (percentage: number) => {
+    if (type === 'temperature') {
+      if (percentage <= 25) {
+        return '#74CA6C'; 
+      } else if (percentage <= 50) {
+        return '#FFD400'; 
+      } else if (percentage <= 75) {
+        return '#FF8B49';
+      } else {
+        return '#C23238'; 
+      }
+    } else {
+      if (connected === true){
+        if (percentage <= 99) {
+          return '#1976D2'; 
+        } else if (percentage === 100) {
+          return '#8C004B'; 
+        } else {
+          return '#5A5A5A'; 
+        }
+      }else if(connected === false){
+        return '#5A5A5A'; 
+      }
     }
   };
-
   const resetProgress = () => {
-    /*setValue(0);
-    setIsActive(false);*/
-    setValue(max);
     setIsActive(false);
-    setTimeout(() => {
-      setValue(0);
-    }, 2000);
   };
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined;
     if (isActive) {
       interval = setInterval(() => {
-        setValue((prevValue) => {
-          const nextValue = prevValue + (max * 0.05);
-          if (nextValue >= max) {
-            clearInterval(interval);
-            resetProgress();
-          }
-          return nextValue > max ? max : nextValue;
-        });
+        if (value >= max) {
+          clearInterval(interval);
+          resetProgress();
+        }
       }, 1000);
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, max]);
+  }, [isActive, max, value]);
 
   const percentage = (value / max) * 100;
-  const colorClass = getColorClass(percentage);
+  const color = getColor(percentage);
 
   return (
     <div className='container'>
-      <div>
-      <h1>Progress Bar Temperature Example</h1>
-      </div>
       <div className='bar'>
         <div
-          className={`progress ${colorClass}`}
-          style={{width: `${percentage}%`}}
+          className='progress'
+          style={{ width: `${percentage}%`, backgroundColor: color}}
         />
-      </div>
-      <div className='button-container'>
-        <button className='round-button-ec'
-          onClick={resetProgress}>
-          <MdCallEnd className='icon' />
-        </button>
-        <button className='round-button-sc'
-          onClick={() => setIsActive(!isActive)}>
-          <IoMdCall className='icon' />
-        </button>
       </div>
     </div>
   );

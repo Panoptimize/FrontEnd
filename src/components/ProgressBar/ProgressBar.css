@@ -3,12 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Utiliza todo el alto de la ventana gráfica */
-}
-
-h1{
-  font-style: italic;
-  font-family: 'Times New Roman', Times, serif;
+  height: 100vh; 
 }
 
 .bar {
@@ -22,26 +17,6 @@ h1{
     height: 13px;
     border-radius: 8px;
     transition: width 0.3s ease-in-out;
-  }
-  
-  .red {
-    background-color: red;
-  }
-  
-  .orange {
-    background-color: #FF8B49;
-  }
-  
-  .green {
-    background-color: #16DD76;
-  }
-  
-  .purple {
-    background-color: #5A5A5A;
-  }
-
-  .gray {
-    background-color: gainsboro;
   }
 
   .button-container {
