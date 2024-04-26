@@ -1,6 +1,6 @@
 .starterChoice{   /* el primer elemento de choice */
     display: flex; 
-    width: 250px; /* Cambia este valor según tus necesidades */
+    /*width: 250px;*/ /* Cambia este valor según tus necesidades */
     height:35px;
     padding: 0.25rem; 
     border-radius: 9999px; 
@@ -12,7 +12,7 @@
 }
 
 .labelChoice{
-    width:50px;
+    /*width:50px;*/
     margin-right: 0.5rem; 
     font-size: 0.875rem;
     line-height: 1.25rem; 
@@ -23,7 +23,7 @@
 
 .choiceBox{
     display: flex; 
-    width: 150px; /* Asegúrate de que no haya espacio entre el número y 'px' */
+    /*width: 150px;*/ /* Asegúrate de que no haya espacio entre el número y 'px' */
     font-size: 0.875rem;
     font-weight: 500; 
     line-height: 1.25rem; 
