@@ -1,4 +1,7 @@
 
+//esto puede cambiar dependiendo de la base de datos real
+
+
 export const workspaces = [
     { value: 'ALL', label: 'All' },
     { value: 'SALES', label: 'Sales' },
@@ -15,5 +18,7 @@ export const workspaces = [
     {value: 'JANE', label: 'Jane Foster'},
     {value: 'DAVE', label: 'Dave Parker'},
     {value: 'ALICE', label: 'Alice Parker'}
-  ];
+  ]  
+
+
   
