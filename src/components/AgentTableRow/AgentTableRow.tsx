@@ -10,9 +10,11 @@ const AgentTableRow: React.FC<IAgentTableRow> = ({
   overallScore,
   lastActivity,
   details,
+  id,
+  onclick = () => {},
 }) => {
   return (
-    <tr className="btn-row">
+    <tr className="btn-row" onClick={() => onclick(id)}>
       <td className="btn-leftcell">
         <div className="agent-image-container">
           <img src={agentImage} alt="user" className="agent-image" />

@@ -6,5 +6,7 @@ export interface IAgentTableRow {
   overallScore: number;
   lastActivity: string;
   details: string /* TEMPORARY */;
+  id: number;
+  onclick?: (arg: number) => void;
 }
 
