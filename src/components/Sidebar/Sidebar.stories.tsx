@@ -11,5 +11,5 @@ export default meta;
 type Story = StoryObj<typeof Sidebar>;
 
 export const Primary: Story = {
-  render: () => <Sidebar />,
+  render: () => <Sidebar expanded />,
 };
