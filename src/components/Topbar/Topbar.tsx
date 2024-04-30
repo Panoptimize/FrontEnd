@@ -1,25 +1,38 @@
 import React from 'react';
 import avatar from '../../assets/images/Toretto.jpg';
+import panoptimize from '../../assets/images/Panoptimize.png';
+import menu from '../../assets/images/Menu.png';
 import { IoIosNotifications } from "react-icons/io";
 import './Topbar.css';
+import {ITopbar} from './types';
+import {Button} from '../Button';
 
 
-const Topbar = ({variant = 0} : {variant? : number}) => {
+const Topbar: React.FC<ITopbar>  = ({
+
+    name = 'User', 
+    fullName = 'User Unknown', 
+    email = 'user@email.com',  
+    img, 
+    numberOfNotifications = 0
+
+    }) => {
     
-    let numberOfNotifications;
     let displayOption = 'hidden ';
 
-    if(variant > 0){
-        numberOfNotifications = variant;
+    if(numberOfNotifications > 0){
         displayOption = 'block'
-        
     }
 
     return (
-        <div className='flex justify-between bg-[#C9F7F5]'>
-            <div className='flex items-center gap-2 h-16 px-5'>
-            <p className='text-gray-600 font-medium text-lg'>Welcome</p>
-            <p className='font-medium text-lg'>John</p>
+        <div className='flex justify-between bg-teal-200'>
+            <div className='flex items-center gap-4 h-16 px-5'>
+                <img className='h-1/2' src={menu} alt="" />
+                <img className='h-1/2' src={panoptimize} alt="" />
+                <div className='flex items-center gap-2 h-full'>
+                    <p className='text-gray-600 font-medium text-lg'>Welcome</p>
+                    <p className='font-medium text-lg'>{name}</p>
+                </div>
             </div>
             <div className=' h-16  flex'>
                 <div className='relative'>
@@ -33,8 +46,8 @@ const Topbar = ({variant = 0} : {variant? : number}) => {
                 
                 <div className='h-full flex flex-col justify-center items-center px-7'>
                     <div className='h-full flex flex-col justify-center'>
-                        <p className='text-left text-lg'>John Connor</p>
-                        <p className='text-gray-600 text-left text-xs'>jconnor28@gmail.com</p>
+                        <p className='text-left text-lg'>{fullName}</p>
+                        <p className='text-gray-600 text-left text-xs'>{email}</p>
                     </div>
                 </div>
                 <img className='h-full p-2 rounded-full' src={avatar} alt="" />
