@@ -1,22 +1,19 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import './index.css';
 import { IChoiceBox } from "./types";
 import Select from 'react-select';
 
-
 const customStyles = {
   control: () => ({
-    
+
     display: 'flex',
-    width: 150,
-    fontSize: '0.875rem',
-    fontWeight: 500,
-    lineHeight: '1.25rem',
-    color: '#111827',
-    borderRadius: 0, // Para eliminar el borde redondeado
+    width: 250, // Ajusta este valor según tus necesidades
+    height:40, // Ajusta este valor según tus necesidades
+    fontSize: 14, // Ajusta este valor según tus necesidades
+    fontWeight: 'font-medium',
+    lineHeight: 'leading-5'
   }),
 };
-
 
 const ChoiceBox: React.FC<IChoiceBox> = ({ boxText, options }) => {
   const selectOptions = options.map(option => ({
@@ -26,18 +23,18 @@ const ChoiceBox: React.FC<IChoiceBox> = ({ boxText, options }) => {
 
   return (
     <div className="starterChoice">
-      <label htmlFor="labelChoice">
+      <label htmlFor="options" className="labelChoice">
         {boxText}
       </label>
       <Select
         id="options"
         className="choiceBox"
         options={selectOptions}
-        styles={customStyles}
+        classNamePrefix="mySelect"
       />
+
     </div>
   );
 };
 
 export default ChoiceBox;
-
