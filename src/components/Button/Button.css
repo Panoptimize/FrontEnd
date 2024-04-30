@@ -31,13 +31,13 @@
 }
 
 .btn-gray {
-    @apply flex items-center bg-gray-500 hover:bg-gray-800 rounded-xl text-white h-10 min-w-10;
+    @apply flex items-center bg-gray-500 hover:bg-gray-700 rounded-xl text-white h-10 min-w-10;
 }
 .btn-gray img{
     @apply scale-50 w-10
 }
 .btn-gray-bold {
-    @apply flex items-center bg-gray-500 hover:bg-gray-800 font-bold rounded-xl text-white h-10 min-w-10;
+    @apply flex items-center bg-gray-500 hover:bg-gray-700 font-bold rounded-xl text-white h-10 min-w-10;
 }
 .btn-gray-bold img{
     @apply scale-50 w-10
