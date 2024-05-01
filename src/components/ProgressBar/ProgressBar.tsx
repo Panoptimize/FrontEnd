@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './ProgressBar.css';
 
 interface ProgressBarProps {
@@ -14,8 +14,6 @@ interface ProgressBarProps {
 
 /** Progress Bar that determines the temperature or time based on user interaction */
 const ProgressBar: React.FC<ProgressBarProps> = ({ max, value, type, connected }) => {
-  const [isActive, setIsActive] = useState(false);
-
   if (value > max) {
     console.error('El valor proporcionado para la barra de progreso es mayor que el valor máximo permitido.');
     return null; 
@@ -24,47 +22,25 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ max, value, type, connected }
   const getColor = (percentage: number) => {
     if (type === 'temperature') {
       if (percentage <= 25) {
-        return '#74CA6C'; 
+        return 'lime-500'; 
       } else if (percentage <= 50) {
-        return '#FFD400'; 
+        return 'yellow-400'; 
       } else if (percentage <= 75) {
-        return '#FF8B49';
+        return 'orange-500';
       } else {
-        return '#C23238'; 
+        return 'rose-600'; 
       }
     } else {
-      if (connected === true){
+      if (connected) {
         if (percentage <= 99) {
-          return '#1976D2'; 
+          return 'blue-700'; 
         } else if (percentage === 100) {
-          return '#8C004B'; 
-        } else {
-          return '#5A5A5A'; 
+          return 'fuchsia-600'; 
         }
-      }else if(connected === false){
-        return '#5A5A5A'; 
       }
+      return 'gray-600';
     }
   };
-  const resetProgress = () => {
-    setIsActive(false);
-  };
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout | undefined = undefined;
-    if (isActive) {
-      interval = setInterval(() => {
-        if (value >= max) {
-          clearInterval(interval);
-          resetProgress();
-        }
-      }, 1000);
-    }
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isActive, max, value]);
 
   const percentage = (value / max) * 100;
   const color = getColor(percentage);
@@ -73,8 +49,8 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ max, value, type, connected }
     <div className='container'>
       <div className='bar'>
         <div
-          className='progress'
-          style={{ width: `${percentage}%`, backgroundColor: color}}
+          className={`progress ${color}`}
+          style={{ width: `${percentage}%`}}
         />
       </div>
     </div>

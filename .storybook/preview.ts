@@ -18,6 +18,8 @@ import '!style-loader!css-loader!postcss-loader!../src/components/TableAC/TableA
   // RowAC
 import '!style-loader!css-loader!postcss-loader!../src/components/RowAC/RowAC.css';
 
+import '!style-loader!css-loader!postcss-loader!../src/components/ProgressBar/ProgressBar.css';
+
 const preview: Preview = {
   parameters: {
     controls: {

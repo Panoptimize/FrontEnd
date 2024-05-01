@@ -65,3 +65,31 @@
     justify-content: center;
     font-size: 24px; 
   }
+
+  .lime-500 {
+    @apply bg-lime-500;
+}
+
+  .yellow-400 {
+    @apply bg-yellow-400;
+  }
+
+  .orange-500 {
+    @apply bg-orange-500;
+  }
+
+  .rose-600 {
+    @apply bg-rose-600;
+}
+
+  .gray-600{
+    @apply bg-gray-600;
+  }
+
+  .fuchsia-600{
+    @apply bg-fuchsia-600;
+  }
+
+  .blue-700{
+    @apply bg-blue-700;
+  }
