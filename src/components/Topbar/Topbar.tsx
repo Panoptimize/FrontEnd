@@ -7,62 +7,53 @@ import "./Topbar.css";
 import { ITopbar } from "./types";
 import { Button } from "../Button";
 
-const Topbar = ({ variant = 0 }: { variant?: number }) => {
-  let numberOfNotifications;
+const Topbar: React.FC<ITopbar> = ({
+  name = "User",
+  fullName = "User Unknown",
+  email = "user@email.com",
+  img,
+  numberOfNotifications = 0,
+}) => {
   let displayOption = "hidden ";
 
-  const Topbar: React.FC<ITopbar> = ({
-    name = "User",
-    fullName = "User Unknown",
-    email = "user@email.com",
-    img,
-    numberOfNotifications = 0,
-  }) => {
-    let displayOption = "hidden ";
+  if (numberOfNotifications > 0) {
+    displayOption = "block";
+  }
 
-    if (numberOfNotifications > 0) {
-      displayOption = "block";
-    }
-
-    return (
-      <div>
-        <div>
-          <div className="flex justify-between bg-teal-200">
-            <div className="flex items-center gap-4 h-16 px-5">
-              <img className="h-1/2" src={menu} alt="" />
-              <img className="h-1/2" src={panoptimize} alt="" />
-              <div className="flex items-center gap-2 h-full">
-                <p className="text-gray-600 font-medium text-lg">Welcome</p>
-                <p className="font-medium text-lg">{name}</p>
-              </div>
-            </div>
-            <div className=" h-16  flex">
-              <div className="relative">
-                <IoIosNotifications
-                  className={`h-full text-4xl notification mr-1`}
-                />
-                <div
-                  className={`${displayOption}  w-4 h-4 rounded-full bg-red-500 flex justify-center items-center absolute bottom-3 right-0`}
-                >
-                  <p className="text-white font-medium text-xs relative">
-                    {numberOfNotifications}
-                  </p>
-                </div>
-              </div>
-
-              <div className="h-full flex flex-col justify-center items-center px-7">
-                <div className="h-full flex flex-col justify-center">
-                  <p className="text-left text-lg">{fullName}</p>
-                  <p className="text-gray-600 text-left text-xs">{email}</p>
-                </div>
-              </div>
-              <img className="h-full p-2 rounded-full" src={avatar} alt="" />
+  return (
+    <div className="h-16 w-screen">
+      <div className="flex justify-between bg-teal-100">
+        <div className="flex items-center h-16 px-1">
+          <Button baseColor="transparent" image="dashboard"></Button>
+          <img className="h-1/2" src={panoptimize} alt="" />
+          <div className="flex items-center gap-2 px-5 h-full justify-center">
+            <p className="text-black font-medium text-lg">Welcome {name}</p>
+          </div>
+        </div>
+        <div className=" h-16 justify-center flex">
+          <div className="relative flex items-center">
+            <Button baseColor="transparent" image="dashboard"></Button>
+            <div
+              className={`${displayOption}  w-4 h-4 rounded-full bg-red-500 flex justify-center items-center absolute bottom-3 right-0`}
+            >
+              <p className="text-black font-medium text-xs relative">
+                {numberOfNotifications}
+              </p>
             </div>
           </div>
-          <img className="h-full p-2 rounded-full" src={avatar} alt="" />
+          <div className="h-full flex flex-col justify-center items-center px-7">
+            <div className="h-full flex flex-col justify-center">
+              <p className="text-black text-left text-lg">{fullName}</p>
+              <p className="text-gray-600 text-left text-xs">{email}</p>
+            </div>
+          </div>
+          <div className="flex items-center mr-5">
+            <Button baseColor="transparent" image="dashboard"></Button>
+          </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 };
+
 export default Topbar;
