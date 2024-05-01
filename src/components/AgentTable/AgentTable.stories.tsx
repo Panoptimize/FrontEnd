@@ -44,6 +44,7 @@ Default.args = {
       overallScore: 90,
       lastActivity: "3 days ago",
       details: "View Details",
+      id: 1
     },
   ],
 };
