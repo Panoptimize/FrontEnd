@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Utiliza todo el alto de la ventana gráfica */
+}
+
+h1{
+  font-style: italic;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.bar {
+    width: 20%;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+
+.progress {
+    height: 13px;
+    border-radius: 8px;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .red {
+    background-color: red;
+  }
+  
+  .orange {
+    background-color: #FF8B49;
+  }
+  
+  .green {
+    background-color: #16DD76;
+  }
+  
+  .purple {
+    background-color: #5A5A5A;
+  }
+
+  .gray {
+    background-color: gainsboro;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 15px;
+    margin-left: 15px;
+    gap: 100px;
+  }
+  
+  .round-button-ec {
+    background-color: red;
+    border: none;
+    color: white;
+    text-align: center;
+    display: inline-flex; 
+    justify-content: center;
+    align-items: center;
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s;
+  }
+  .round-button-sc {
+    background-color: #16DD76;
+    border: none;
+    color: white;
+    text-align: center;
+    display: inline-flex; 
+    justify-content: center;
+    align-items: center;
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s;
+  }
+  
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px; 
+  }

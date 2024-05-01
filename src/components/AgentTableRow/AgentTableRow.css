@@ -1,0 +1,27 @@
+.btn-row {
+  @apply p-4 bg-[#F3F6F8] rounded-lg;
+}
+
+.btn-leftcell {
+  @apply p-4 rounded-l-md bg-[#F3F6F8];
+}
+
+.btn-rightcell {
+  @apply p-4 rounded-r-md bg-[#F3F6F8];
+}
+
+.agent-image-container {
+  @apply flex items-center gap-2;
+}
+
+.agent-image {
+  @apply w-8 h-8 rounded-full;
+}
+
+.workspace-pill {
+  @apply bg-[#C9F7F5] text-black py-1 px-4 rounded-md mx-3;
+}
+
+.agent-details-button {
+  @apply bg-[#008F89] text-white font-semibold py-1 px-4 rounded-md;
+}
