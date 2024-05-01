@@ -7,6 +7,9 @@ import './Topbar.css';
 import {ITopbar} from './types';
 import {Button} from '../Button';
 
+const Topbar = ({ variant = 0 }: { variant?: number }) => {
+  let numberOfNotifications;
+  let displayOption = "hidden ";
 
 const Topbar: React.FC<ITopbar>  = ({
 
@@ -52,8 +55,12 @@ const Topbar: React.FC<ITopbar>  = ({
                 </div>
                 <img className='h-full p-2 rounded-full' src={avatar} alt="" />
             </div>
-        </div>
-    )
-}
 
-export default Topbar
+        </div>
+        <img className="h-full p-2 rounded-full" src={avatar} alt="" />
+      </div>
+    </div>
+  );
+};
+
+export default Topbar;
