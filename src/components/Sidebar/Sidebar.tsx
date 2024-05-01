@@ -1,5 +1,7 @@
 import React from "react";
 import { Button } from "../Button";
+import { Link } from "react-router-dom";
+import { ROUTES } from "../../routes/constants";
 /*
 
 
@@ -12,16 +14,18 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
   const width = expanded ? "w-48" : "w-14";
   return (
-    <div className={`${width} flex flex-auto px-2 justify-center bg-teal-100`}>
+    <div className={`${width} flex flex-auto px-2 justify-center bg-teal-100`} style={{height: "100vh"}}>
       <div className="flex flex-col flex-auto justify-between">
         <div className="flex flex-col my-1 justify-start">
           <div className="flex flex-col">
             <div className="my-1 flex flex-auto">
-              <Button
-                baseColor="teal"
-                image="dashboard"
-                text={expanded ? "Dashboard" : ""}
-              ></Button>
+              < Link to= {ROUTES.DASHBOARD}>
+                <Button
+                  baseColor="teal"
+                  image="dashboard"
+                  text={expanded ? "Dashboard" : ""}
+                ></Button>
+              </Link>
             </div>
             <div className="my-1 flex flex-auto">
               <Button

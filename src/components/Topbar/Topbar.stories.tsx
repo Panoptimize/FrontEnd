@@ -13,7 +13,7 @@ export default {
 };
   
 // Variante con diferentes valores de integer para variant
-export const Topbar1 = (args) => <Topbar {...args} />;
+export const Topbar1 = (args: any) => <Topbar {...args} />;
 Topbar1.args = {
     variant: 1 // Valor por defecto para variant
-};
+} as { variant: number };
