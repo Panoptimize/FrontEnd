@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState, useEffect} from "react";
 import { Sidebar } from "../../components/Sidebar";
 import { Topbar } from "../../components/Topbar";
 import { StatusCard } from "../../components/StatusCard";
@@ -8,8 +8,11 @@ import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
 import { getContactMedium } from '../../services/contactMedium';
+import { getStatus } from '../../services';
+import { IStatusCard } from '../../components/StatusCard/types';
 
-function App() {
+
+export const Dashboard: React.FC = () => {
     const users = [
         { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
@@ -21,6 +24,22 @@ function App() {
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
     ];
+    const [status, setStatus] = useState<IStatusCard[]>([]);
+
+    const getAgentsStatus = async () => {
+        const result = await getStatus();
+        if (result.error) {
+            console.error(result.error);
+        } else {
+            setStatus(result.data); 
+        }
+    };
+    
+      useEffect(() => {
+   
+        getAgentsStatus();
+    }, []);
+
 
     const [contactMediumData, setContactMediumData] = useState<number[]>([]);
     const[errorOnRequest, setErrorOnRequest] = useState(false);
@@ -55,10 +74,10 @@ function App() {
                     <p className="text-gray-600 pt-4 px-4 text-lg"> Agents      </p>
                 </div>
                 <div className="flex flex-row justify-between items-stretch w-full px-20">
-                    <StatusCard status="Available"          numUsers={2}/>
-                    <StatusCard status="In Contact"         numUsers={3}/>
-                    <StatusCard status="After Call Work"    numUsers={1}/>
-                    <StatusCard status="Offline"            numUsers={1}/>
+                    {status.map((item, index) => (
+                        <StatusCard key={index} status={item.status} numUsers={item.numUsers} />
+                    ))}
+           
                 </div>
 
                 <div className="font-poppins px-6">
@@ -91,5 +110,5 @@ function App() {
     );
 }
 
-export default App;
+export default Dashboard;
 

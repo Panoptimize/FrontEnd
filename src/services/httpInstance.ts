@@ -7,15 +7,12 @@ const httpInstance = axios.create({
 
 httpInstance.interceptors.request.use(
     async (config) => {
-        const newConfig = { ...config };
-
+        const newConfig = {...config};
         return newConfig;
     },
     (error) => {
-        //console.log(error);
         return Promise.reject(error);
     }
-
 )
 
 export default httpInstance;
