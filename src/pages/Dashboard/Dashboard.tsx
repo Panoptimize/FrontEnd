@@ -8,7 +8,10 @@ import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
 import { getStatus } from '../../services';
-import { IStatus } from './types';
+import { IStatusCard } from '../../components/StatusCard/types';
+import getKpis from "../../services/kpicard/getKpis";
+import { IDataCard } from "../../components/DataCard/types";
+import { KpiData } from "./kpitypes";
 
 
 export const Dashboard: React.FC = () => {
@@ -23,7 +26,8 @@ export const Dashboard: React.FC = () => {
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
     ];
-    const [status, setStatus] = useState<IStatus[]>([]);
+    const [status, setStatus] = useState<IStatusCard[]>([]);
+    const [kpiData, setKpiData] = useState<KpiData>();
 
     const getAgentsStatus = async () => {
         const result = await getStatus();
@@ -33,9 +37,23 @@ export const Dashboard: React.FC = () => {
             setStatus(result.data); 
         }
     };
+    const getKpiData = async () => {
+        const result = await getKpis();
+        if (result.error) {
+            console.error(result.error);
+        } else {
+            // Solo actualiza el estado si result.data no es null
+            if (result.data) {
+                setKpiData(result.data);
+            }
+        }
+    };
+
+
     
       useEffect(() => {
-   
+
+        getKpiData();
         getAgentsStatus();
     }, []);
 
@@ -68,16 +86,20 @@ export const Dashboard: React.FC = () => {
                         <SatisfactionChart />
                         <ContactMedium />
                         <div>
-                            <div className="flex flex-row space-x-6">
-                                    <DataCard title="Insert KPI average time" content="00:00:00"  />
-                                    <DataCard title="Insert KPI" content="00:00:00"  />
-                                    <DataCard title="Insert KPI" content="00:00:00"  />
-                            </div>
-                            <div className="flex flex-row space-x-6 pt-5">
-                                    <DataCard title="Insert KPI" content="00:00:00"  />
-                                    <DataCard title="Insert KPI" content="00:00:00"  />
-                                    <DataCard title="Insert KPI" content="00:00:00"  />
-                            </div>
+                            {kpiData && (
+                                <div>
+                                    <div className="flex flex-row space-x-6">
+                                        <DataCard title="Avg Hold Time" content={`${kpiData?.avgHoldTime} seconds`} />
+                                        <DataCard title="Agent Schedule Adherence" content={`${kpiData?.agentScheduleAdherence}%`} />
+                                        <DataCard title="Abandonment Rate" content={`${kpiData?.abandonmentRate}%`} />
+                                    </div>
+                                    <div className="flex flex-row space-x-6 pt-5">
+                                        <DataCard title="Service Level" content={`${kpiData?.serviceLevel}%`} />
+                                        <DataCard title="Occupancy" content={`${kpiData?.occupancy}%`} />
+                                        <DataCard title="Avg Speed Answer" content={`${kpiData?.avgSpeedAnswer} seconds`} />
+                                    </div>
+                                </div>
+                            )}
                         </div>
                 </div>
                 {/* Second row of charts */}

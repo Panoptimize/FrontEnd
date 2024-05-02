@@ -1,5 +1,5 @@
 import httpInstance from "../httpInstance";
-import { IStatus } from "../../pages/Dashboard/types";
+import { IStatusCard } from "../../components/StatusCard/types";
 
 export const getStatus = async () => {
     try {
@@ -11,7 +11,7 @@ export const getStatus = async () => {
     }
 }
 
-const processMetrics = (data: MetricData): IStatus[] => {
+const processMetrics = (data: MetricData): IStatusCard[] => {
     if (data && data.MetricResults && data.MetricResults.length > 0) {
         return data.MetricResults[0].Collections.map(item => ({
             status: item.Metric.Name,  
