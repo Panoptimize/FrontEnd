@@ -12,7 +12,7 @@ const defaultStatusCards: IStatusCard[] = [
 // Modifica la función getStatus
 export const getStatus = async () => {
     try {
-        const response = await httpInstance.get(`status`);
+        const response = await httpInstance.get(status);
         const processedData = processMetrics(response.data);
         // Si los datos procesados están vacíos, devuelve datos por defecto.
         return processedData.length > 0 ? processedData : defaultStatusCards;
@@ -53,5 +53,5 @@ interface MetricResult {
 interface MetricData {
     MetricResults: Array<{
         Collections: MetricResult[];
-    }>;
+    }>;
 }
