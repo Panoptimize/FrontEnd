@@ -1,9 +1,9 @@
 .starterChoice {
-    @apply flex items-center w-80 h-10 ;
+    @apply flex items-center w-80 h-10 rounded-full border border-gray-400 bg-white pl-4 pr-4;
   }
   
   .labelChoice {
-    @apply w-12 mr-4 text-xs leading-6 font-medium text-teal-950 h-auto pr-2;
+    @apply w-12 mr-4 text-xs leading-6 font-medium text-yellow-700 h-auto pr-2;
   }
   
   .choiceBox {
