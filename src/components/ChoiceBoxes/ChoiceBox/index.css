@@ -3,7 +3,7 @@
   }
   
   .labelChoice {
-    @apply w-12 mr-4 text-xs leading-6 font-medium text-teal-950 h-auto pr-2;
+    @apply w-12 mr-4 text-sm leading-6 font-medium text-teal-950 h-auto pr-2;
   }
   
   .choiceBox {

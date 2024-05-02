@@ -13,23 +13,35 @@ const ChoiceBox: React.FC<IChoiceBox> = ({ boxText, options }) => {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <label className="labelChoice"> Agent: </label>
-  <Select
-    id="options"
-    options={selectOptions}
-    placeholder={`${"Select an option..."}`} // boxText dentro del cuadro de selección
-    theme={(theme) => ({
-      ...theme,
-      borderRadius: 50,
-      colors: {
-        ...theme.colors,
-        primary75: 'blue',
-        primary: 'teal',
-        neutral0: 'white', // color de fondo del menú
-        neutral80: 'black', // color del texto del menú
-      },
-    })}
-  />
+      <label className="labelChoice"> {boxText} </label>
+      <Select
+  id="options"
+  options={selectOptions}
+  placeholder={`${"Select an option..."}`}
+  theme={(theme) => ({
+    ...theme,
+    borderRadius: 50,
+    colors: {
+      ...theme.colors,
+      primary75: 'teal',
+      primary: 'teal',
+      neutral0: 'white',
+      neutral80: 'black',
+    },
+  })}
+  styles={{
+    option: (styles, { isFocused, isSelected }) => {
+      return {
+        ...styles,
+        backgroundColor: isSelected
+          ? styles.backgroundColor
+          : isFocused
+          ? '#e6fffa'
+          : styles.backgroundColor,
+      };
+    },
+  }}
+/>
 </div>
   );
 };
