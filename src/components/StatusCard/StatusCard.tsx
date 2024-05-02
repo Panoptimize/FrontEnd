@@ -8,16 +8,16 @@ const StatusCard: React.FC<IStatusCard> = ({
 
     const getColor = (status: string) : string => {
       if (status == "Available") {
-        return "bg-green-600";
+        return "bg-[#67C15E]";
 
       } else if (status == "In Contact") {
-        return "bg-amber-500";
+        return "bg-[#FBBB00]";
 
       } else if (status == "After Call Work") {
-        return "bg-fuchsia-600";
+        return "bg-[#FF8B49]";
         
       } else if (status == "Offline") {
-        return "bg-gray-600";
+        return "bg-[#5A5A5A]";
       }
       return ""
       
