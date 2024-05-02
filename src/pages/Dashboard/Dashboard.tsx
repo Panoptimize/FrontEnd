@@ -7,15 +7,20 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
-import { getSatisfaction } from "../../services/satisfactionChart/getSatisfaction";
-import { getContactMedium } from '../../services/contactMedium';
+
+import { getContactMedium } from "../../services";
 import { getStatus } from '../../services';
+import { getSatisfaction } from "../../services";
+import { getMonthlyActivity } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
 
 
 export const Dashboard: React.FC = () => {
 
-    const[satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
+    const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
+    const [status, setStatus] = useState<IStatusCard[]>([]);
+    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
+    const [activityData, setActivityData] = useState<number[]>([]);
 
     const users = [
         { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
@@ -28,48 +33,6 @@ export const Dashboard: React.FC = () => {
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
     ];
-    const [status, setStatus] = useState<IStatusCard[]>([]);
-
-    const getAgentsStatus = async () => {
-        const data = await getStatus();
-        setStatus(data);  
-    };
-    
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            getAgentsStatus();
-        }, 5000); 
-    
-      
-        return () => clearInterval(intervalId);
-    }, []);
-    
-    
-    // Este useEffect se ejecutará cada vez que el estado 'status' se actualice.
-    useEffect(() => {
-        console.log("Status actualizado:", status);
-    }, [status]);
-    
-
-    const getSatisfactionLevels = async () => {
-        await getSatisfaction().then((data) => {
-            if(data && data.data) {
-                console.log(data.data);
-                setSatisfactionLevels(data.data);
-            } else {
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-    };
-
-    useEffect(() => {
-        getSatisfactionLevels();
-    }, []);
-
-    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
-    const[errorOnRequest, setErrorOnRequest] = useState(false);
 
     const fetchContactMedium = async () => {
         try {
@@ -78,14 +41,46 @@ export const Dashboard: React.FC = () => {
                 setContactMediumData(response.data);
             }
         } catch (error) {
-            console.error("Error al obtener datos:", error);
-            setErrorOnRequest(true);
+            console.error("Error al obtener datos de medios de contacto:", error);
+        }
+    };
+
+    const getAgentsStatus = async () => {
+        try {
+            const data = await getStatus();
+            setStatus(data); 
+        } catch (error) {
+            console.error("Error al obtener el estado de los agentes:", error);
+        }
+    };
+
+    const getSatisfactionLevels = async () => {
+        try {
+            const data = await getSatisfaction();
+            if (data) {
+                setSatisfactionLevels(data);
+            }
+        } catch (error) {
+            console.error("Error al obtener los niveles de satisfacción:", error);
+        }
+    };
+    
+
+    const fetchActivityData = async () => {
+        try {
+            const data = await getMonthlyActivity();
+            setActivityData(data);
+        } catch (error) {
+            console.error("Error al obtener datos de actividad mensual:", error);
         }
     };
 
     useEffect(() => {
         fetchContactMedium();
-      }, []);
+        getAgentsStatus();
+        getSatisfactionLevels();
+        fetchActivityData();
+    }, []);
 
     return (
         
@@ -102,7 +97,6 @@ export const Dashboard: React.FC = () => {
                     <p className="text-gray-600 pt-4 px-4 text-lg"> Agents      </p>
                 </div>
                 <div className="flex flex-row justify-between items-stretch w-full px-20">
-                    
                     {status.map((item, index) => (
                         <StatusCard key={index} status={item.status} numUsers={item.numUsers} />
                     ))}
@@ -132,7 +126,7 @@ export const Dashboard: React.FC = () => {
                 {/* Second row of charts */}
                 <div className="flex flex-row justify-between items-stretch space-x-6 pt-6 px-16">
                     <PerformanceChart users={users} />
-                    <ActivityChart />
+                    <ActivityChart data={activityData}/>
                 </div>
             </div>
         </div>

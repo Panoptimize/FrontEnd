@@ -1,1 +1,0 @@
-export {getContactMedium} from './getContactMedium'
