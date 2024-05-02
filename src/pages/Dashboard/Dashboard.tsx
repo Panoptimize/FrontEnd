@@ -32,11 +32,16 @@ export const Dashboard: React.FC = () => {
 
     const getAgentsStatus = async () => {
         const data = await getStatus();
-        setStatus(data);  // Establece el estado directamente con los datos.
+        setStatus(data);  
     };
     
     useEffect(() => {
-        getAgentsStatus();
+        const intervalId = setInterval(() => {
+            getAgentsStatus();
+        }, 5000); 
+    
+      
+        return () => clearInterval(intervalId);
     }, []);
     
     
