@@ -20,10 +20,9 @@ const ChoiceBox: React.FC<IChoiceBox> = ({ boxText, options }) => {
   placeholder={`${"Select an option..."}`}
   theme={(theme) => ({
     ...theme,
-    borderRadius: 50,
+    borderRadius: 25,
     colors: {
       ...theme.colors,
-      primary75: 'teal',
       primary: 'teal',
       neutral0: 'white',
       neutral80: 'black',
