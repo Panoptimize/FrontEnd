@@ -10,6 +10,7 @@ const Button: React.FC<IButton> = ({ text, bold, baseColor, image }) => {
       <button 
         className={`btn-${baseColor}${bold?'-bold':''} ${text ? 'pr-4':''} ${image && text ? 'pl-1':''} ${!image ? 'pl-4 py-2':''} `}
       >
+      <div className="flex items-center text-black">
         {image && (
           <img
             src={require(`../../assets/images/${image}${isSvg ? '' : '.png'}`)}
