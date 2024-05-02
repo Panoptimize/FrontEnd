@@ -7,16 +7,26 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
+
+import { getContactMedium } from "../../services";
 import { getStatus } from '../../services';
-import { IStatusCard } from '../../components/StatusCard/types';
 import getKpis from "../../services/kpicard/getKpis";
 import { IDataCard } from "../../components/DataCard/types";
 import { KpiData } from "./kpitypes";
 import {getPerformance} from '../../services';
 import { IPerformanceChart,IUsersChartData } from "../../components/PerformanceChart/types";
+import { getSatisfaction } from "../../services";
+import { getMonthlyActivity } from "../../services";
+import { IStatusCard } from '../../components/StatusCard/types';
 
 
 export const Dashboard: React.FC = () => {
+
+    const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
+    const [status, setStatus] = useState<IStatusCard[]>([]);
+    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
+    const [activityData, setActivityData] = useState<number[]>([]);
+
     const users = [
         { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
@@ -91,18 +101,38 @@ export const Dashboard: React.FC = () => {
      */
 
     
-    const [status, setStatus] = useState<IStatusCard[]>([]);
     const [kpiData, setKpiData] = useState<KpiData>();
     const [performance, setPerformance] = useState< IUsersChartData[]>();
 
     
+    const fetchContactMedium = async () => {
+        try {
+            const response = await getContactMedium();
+            if (response && response.data) {
+                setContactMediumData(response.data);
+            }
+        } catch (error) {
+            console.error("Error al obtener datos de medios de contacto:", error);
+        }
+    };
 
     const getAgentsStatus = async () => {
-        const result = await getStatus();
-        if (result.error) {
-            console.error(result.error);
-        } else {
-            setStatus(result.data); 
+        try {
+            const data = await getStatus();
+            setStatus(data); 
+        } catch (error) {
+            console.error("Error al obtener el estado de los agentes:", error);
+        }
+    };
+
+    const getSatisfactionLevels = async () => {
+        try {
+            const data = await getSatisfaction();
+            if (data) {
+                setSatisfactionLevels(data);
+            }
+        } catch (error) {
+            console.error("Error al obtener los niveles de satisfacción:", error);
         }
     };
     const getKpiData = async () => {
@@ -134,17 +164,27 @@ export const Dashboard: React.FC = () => {
     };
 
     
-      useEffect(() => {
 
-        getKpiData();
+    const fetchActivityData = async () => {
+        try {
+            const data = await getMonthlyActivity();
+            setActivityData(data);
+        } catch (error) {
+            console.error("Error al obtener datos de actividad mensual:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchContactMedium();
         getAgentsStatus();
-        getPerformanceData();
+        getSatisfactionLevels();
+        fetchActivityData();
     }, []);
     
     const performanceData = performance || [];
 
-
     return (
+        
         <div className="flex">
             {/* Put the sidebar and the topbar in the same row */}
             <div className="flex">
@@ -169,8 +209,8 @@ export const Dashboard: React.FC = () => {
                 </div>
                 {/* Charts */}
                 <div className="flex flex-row justify-between items-stretch w-full pt-4 px-16">
-                        <SatisfactionChart />
-                        <ContactMedium />
+                        <SatisfactionChart data={satisfactionLevels}/>
+                        <ContactMedium data = {contactMediumData}/>
                         <div>
                             {kpiData && (
                                 <div>
@@ -190,13 +230,11 @@ export const Dashboard: React.FC = () => {
                 </div>
                 {/* Second row of charts */}
                 <div className="flex flex-row justify-between items-stretch space-x-6 pt-6 px-16">
-                    <PerformanceChart users={performanceData} />
-                    <ActivityChart />
+                    <PerformanceChart users={users} />
+                    <ActivityChart data={activityData}/>
                 </div>
             </div>
         </div>
     );
 }
-
 export default Dashboard;
-
