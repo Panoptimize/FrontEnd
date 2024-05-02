@@ -1,10 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { SatisfactionChart } from "./components/SatisfactionChart";
 
 function App() {
   return (
     <div className="App">
+      <SatisfactionChart></SatisfactionChart>
+      <SatisfactionChart data={[10, 20, 10, 20, 5]}></SatisfactionChart>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
