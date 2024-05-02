@@ -1,14 +1,14 @@
-import React from "react";
-import { IButton } from "./types";
-import "./Button.css";
+import React from 'react';
+import { IButton } from './types';
+import './Button.css';
 
 const Button: React.FC<IButton> = ({ text, bold, baseColor, image }) => {
   const isSvg = image?.endsWith('.svg');
 
   return (
     <>
-      <button
-        className={`btn-${baseColor}${bold ? "-bold" : ""} ${text ? "pr-4" : ""} ${image && text ? "pl-1" : ""} ${!image ? "pl-4 py-2" : ""}`}
+      <button 
+        className={`btn-${baseColor}${bold?'-bold':''} ${text ? 'pr-4':''} ${image && text ? 'pl-1':''} ${!image ? 'pl-4 py-2':''} `}
       >
         {image && (
           <img
@@ -18,6 +18,7 @@ const Button: React.FC<IButton> = ({ text, bold, baseColor, image }) => {
           ></img>
         )}
         {text}
+      </div>
       </button>
     </>
   );

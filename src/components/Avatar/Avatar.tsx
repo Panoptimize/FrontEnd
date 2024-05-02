@@ -6,6 +6,7 @@ import item1 from '../../assets/icons/check_mark.png'
 import item2 from '../../assets/icons/plus.png'
 import item3 from '../../assets/icons/minus.png'
 import item4 from '../../assets/icons/x-mark.png'
+import item5 from '../../assets/icons/Rectangle 173.png'
 
 const Avatar: React.FC<IAvatar> = ({  
     profile_img, // Opciones válidas: ' ' o 'Link de la imagen'
@@ -36,7 +37,10 @@ const Avatar: React.FC<IAvatar> = ({
                 return color;  
             case 'grey':
                 color = '#4A5767'
-                return color;  
+                return color; 
+            case 'black':
+                color = '#4A5767'
+                return color; 
             default:
                 break;
         }
@@ -45,7 +49,7 @@ const Avatar: React.FC<IAvatar> = ({
     const size_img = (sz: string | undefined) => {
         
         if(sz === 'large'){
-            return 130;
+            return 100;
         }
         else if(sz === 'small'){
             return 40;
@@ -56,6 +60,9 @@ const Avatar: React.FC<IAvatar> = ({
     const size_state = (sz: string | undefined) => {
         if(sz === 'small'){
             return 44;
+        }
+        else if(sz === 'large'){
+            return 110;
         }
     }
 
@@ -74,6 +81,9 @@ const Avatar: React.FC<IAvatar> = ({
             case 'grey':
                 icon = item4
                 return icon;  
+            case 'black':
+                icon = item5
+                return icon;
             default:
                 break;
         }
@@ -88,18 +98,31 @@ const Avatar: React.FC<IAvatar> = ({
     }
 
     const final = () =>{
-        if(size_img(size) === 130){
-            return(
-                <div className='relative' style={{height:size_img(size), width:size_img(size), borderRadius:sq(square_border) , overflow: 'hidden'}}>
-                    <img src={profile_img} alt='img' className='h-full w-full' style={{borderRadius:sq(square_border), overflow: 'hidden'}}/> 
-                </div>
-            )            
+        if(size_img(size) === 100){
+            if(state){
+                return(
+                    <div className='rounded-full flex items-center justify-center' style={{backgroundColor: st_color(state_color), backgroundSize: 'cover', height:size_state(size), width:size_state(size)}}>
+                        <div className='relative rounded-full' style={{height:size_img(size), width:size_img(size)}}>
+                            <img src={profile_img} alt='img' className='rounded-full h-full w-full'/> 
+                        </div>
+                        <div className='absolute rounded-full h-8 w-8 ml-20 mt-20 items-center justify-center' style={{backgroundColor: st_color(state_color), padding: 0}}>
+                            <img src={st_img(state_color)} alt='icon' className='h-full w-full'/>
+                        </div>
+                    </div>
+                )                 
+            }else{
+                return(
+                    <div className='relative' style={{height:size_img(size), width:size_img(size), borderRadius:sq(square_border) , overflow: 'hidden'}}>
+                        <img src={profile_img} alt='img' className='h-full w-full' style={{borderRadius:sq(square_border), overflow: 'hidden'}}/> 
+                    </div>
+                ) 
+            }
         }
         else if (size_img(size) === 40){
             if(state){
                 return(
                     <div className='rounded-full flex items-center justify-center' style={{backgroundColor: st_color(state_color), backgroundSize: 'cover', height:size_state(size), width:size_state(size)}}>
-                        <div className='h-28 w-28 relative rounded-full' style={{height:size_img(size), width:size_img(size)}}>
+                        <div className='relative rounded-full' style={{height:size_img(size), width:size_img(size)}}>
                             <img src={profile_img} alt='img' className='rounded-full h-full w-full'/> 
                         </div>
                         <div className='absolute rounded-full h-3 w-3 ml-7 mt-7 items-center justify-center' style={{backgroundColor: st_color(state_color), padding: 2}}>

@@ -1,14 +1,22 @@
 import React from "react";
 import avatar from "../../assets/images/Toretto.jpg";
+import panoptimize from "../../assets/images/Panoptimize.png";
+import menu from "../../assets/images/Menu.png";
 import { IoIosNotifications } from "react-icons/io";
 import "./Topbar.css";
+import { ITopbar } from "./types";
+import { Button } from "../Button";
 
-const Topbar = ({ variant = 0 }: { variant?: number }) => {
-  let numberOfNotifications;
+const Topbar: React.FC<ITopbar> = ({
+  name = "User",
+  fullName = "User Unknown",
+  email = "user@email.com",
+  img,
+  numberOfNotifications = 0,
+}) => {
   let displayOption = "hidden ";
 
-  if (variant > 0) {
-    numberOfNotifications = variant;
+  if (numberOfNotifications > 0) {
     displayOption = "block";
   }
 
@@ -38,7 +46,6 @@ const Topbar = ({ variant = 0 }: { variant?: number }) => {
             </p>
           </div>
         </div>
-        <img className="h-full p-2 rounded-full" src={avatar} alt="" />
       </div>
     </div>
   );
