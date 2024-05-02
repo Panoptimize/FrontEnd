@@ -23,9 +23,6 @@ export const getStatus = async () => {
     }
 };
 
-
-
-
 const processMetrics = (data: MetricData): IStatusCard[] => {
     console.log("Datos recibidos en processMetrics:", data);
     if (data && data.MetricResults && data.MetricResults.length > 0) {
