@@ -21,7 +21,6 @@ import { IStatusCard } from '../../components/StatusCard/types';
 export const Dashboard: React.FC = () => {
 
     const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
-    const [status, setStatus] = useState<IStatusCard[]>([]);
     const [contactMediumData, setContactMediumData] = useState<number[]>([]);
     const [activityData, setActivityData] = useState<number[]>([]);
 
@@ -49,14 +48,21 @@ export const Dashboard: React.FC = () => {
         }
     };
 
+    const [status, setStatus] = useState<IStatusCard[]>([]);
+
     const getAgentsStatus = async () => {
-        try {
-            const data = await getStatus();
-            setStatus(data); 
-        } catch (error) {
-            console.error("Error al obtener el estado de los agentes:", error);
+        const result = await getStatus();
+        if (result.error) {
+            console.error(result.error);
+        } else {
+            setStatus(result.data); 
         }
     };
+    
+      useEffect(() => {
+   
+        getAgentsStatus();
+    }, []);
 
     const getSatisfactionLevels = async () => {
         try {
