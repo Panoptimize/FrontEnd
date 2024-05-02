@@ -8,7 +8,7 @@ import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
 import { getStatus } from '../../services';
-import { IStatus } from './types';
+import { IStatusCard } from '../../components/StatusCard/types';
 
 
 export const Dashboard: React.FC = () => {
@@ -23,7 +23,7 @@ export const Dashboard: React.FC = () => {
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
     ];
-    const [status, setStatus] = useState<IStatus[]>([]);
+    const [status, setStatus] = useState<IStatusCard[]>([]);
 
     const getAgentsStatus = async () => {
         const result = await getStatus();
