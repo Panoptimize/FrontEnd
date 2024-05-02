@@ -12,6 +12,8 @@ import { IStatusCard } from '../../components/StatusCard/types';
 import getKpis from "../../services/kpicard/getKpis";
 import { IDataCard } from "../../components/DataCard/types";
 import { KpiData } from "./kpitypes";
+import {getPerformance} from '../../services';
+import { IPerformanceChart,IUsersChartData } from "../../components/PerformanceChart/types";
 
 
 export const Dashboard: React.FC = () => {
@@ -26,8 +28,74 @@ export const Dashboard: React.FC = () => {
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
     ];
+
+
+    
+// Performance harcodeado, solo descomenten  y cambien la d de data
+/*     const performancedata = [
+        { username: "Mariah Carey",     data: [
+                21.28959565272351,
+                54.693349736357995,
+                63.707487633125574,
+                53.864920220761164,
+                53.294567353910786,
+                75.92164532591352,
+                63.3488489784212,
+                54.94054224588983
+            ] },
+        { username: "Will Smith",       data: [
+                21.28959565272351,
+                54.693349736357995,
+                63.707487633125574,
+                53.864920220761164,
+                53.294567353910786,
+                75.92164532591352,
+                63.3488489784212,
+                54.94054224588983,
+                49.89816044434891,
+                45.826743782603984,
+                32.774555209491616,
+                71.04522752765659,
+                67.24658431360889,
+                54.79418761851176,
+                34.02481690852419,
+                57.12769269877885
+            ] },
+        { username: "Tom Cruise",       data: [
+                21.28959565272351,
+                54.693349736357995,
+                63.707487633125574,
+                53.864920220761164,
+                53.294567353910786,
+                75.92164532591352,
+                63.3488489784212,
+                54.94054224588983,
+                49.89816044434891,
+                45.826743782603984,
+                32.774555209491616,
+                71.04522752765659,
+                67.24658431360889,
+                54.79418761851176,
+                34.02481690852419,
+                57.12769269877885,
+                92.36073870301352,
+                62.99786537419662,
+                54.86967279817256,
+                83.79335219579514,
+                38.16132040346896,
+                37.656812215454956,
+                49.01356631270775,
+                56.72106334147938
+            ] },
+    ]
+     */
+
+    
     const [status, setStatus] = useState<IStatusCard[]>([]);
     const [kpiData, setKpiData] = useState<KpiData>();
+    const [performance, setPerformance] = useState< IUsersChartData[]>();
+
+    
 
     const getAgentsStatus = async () => {
         const result = await getStatus();
@@ -49,13 +117,31 @@ export const Dashboard: React.FC = () => {
         }
     };
 
+    const getPerformanceData = async () => {
+        const result = await getPerformance();
+        if (result.error) {
+            console.error(result.error);
+            console.log("trono")
+        } else {
+            // Solo actualiza el estado si result.data no es null
+            if (result.data) {
+                
+                console.log(result.data);
+                setPerformance(result.data);
+
+            }
+        }
+    };
 
     
       useEffect(() => {
 
         getKpiData();
         getAgentsStatus();
+        getPerformanceData();
     }, []);
+    
+    const performanceData = performance || [];
 
 
     return (
@@ -104,7 +190,7 @@ export const Dashboard: React.FC = () => {
                 </div>
                 {/* Second row of charts */}
                 <div className="flex flex-row justify-between items-stretch space-x-6 pt-6 px-16">
-                    <PerformanceChart users={users} />
+                    <PerformanceChart users={performanceData} />
                     <ActivityChart />
                 </div>
             </div>
