@@ -90,12 +90,12 @@ export const Dashboard: React.FC = () => {
                                 <div>
                                     <div className="flex flex-row space-x-6">
                                         <DataCard title="Avg Hold Time" content={`${kpiData?.avgHoldTime} seconds`} />
-                                        <DataCard title="Agent Schedule Adherence" content={`${kpiData?.agentScheduleAdherence}%`} />
+                                        <DataCard title="First Contact Resolution" content={`${kpiData?.firstcontactresolution}%`} />
                                         <DataCard title="Abandonment Rate" content={`${kpiData?.abandonmentRate}%`} />
                                     </div>
                                     <div className="flex flex-row space-x-6 pt-5">
                                         <DataCard title="Service Level" content={`${kpiData?.serviceLevel}%`} />
-                                        <DataCard title="Occupancy" content={`${kpiData?.occupancy}%`} />
+                                        <DataCard title="Agent Schedule Adherence" content={`${kpiData?.agentScheduleAdherence}%`} />
                                         <DataCard title="Avg Speed Answer" content={`${kpiData?.avgSpeedAnswer} seconds`} />
                                     </div>
                                 </div>
