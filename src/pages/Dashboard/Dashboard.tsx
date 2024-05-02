@@ -7,12 +7,16 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
+import { getSatisfaction } from "../../services/satisfactionChart/getSatisfaction";
 import { getContactMedium } from '../../services/contactMedium';
 import { getStatus } from '../../services';
 import { IStatusCard } from '../../components/StatusCard/types';
 
 
 export const Dashboard: React.FC = () => {
+
+    const[satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
+
     const users = [
         { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
@@ -42,6 +46,22 @@ export const Dashboard: React.FC = () => {
     }, [status]);
     
 
+    const getSatisfactionLevels = async () => {
+        await getSatisfaction().then((data) => {
+            if(data && data.data) {
+                console.log(data.data);
+                setSatisfactionLevels(data.data);
+            } else {
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    };
+
+    useEffect(() => {
+        getSatisfactionLevels();
+    }, []);
 
     const [contactMediumData, setContactMediumData] = useState<number[]>([]);
     const[errorOnRequest, setErrorOnRequest] = useState(false);
@@ -89,7 +109,7 @@ export const Dashboard: React.FC = () => {
                 </div>
                 {/* Charts */}
                 <div className="flex flex-row justify-between items-stretch w-full pt-4 px-16">
-                        <SatisfactionChart />
+                        <SatisfactionChart data={satisfactionLevels}/>
                         <ContactMedium data = {contactMediumData}/>
                         <div>
                             <div className="flex flex-row space-x-6">
@@ -113,5 +133,4 @@ export const Dashboard: React.FC = () => {
         </div>
     );
 }
-
 export default Dashboard;
