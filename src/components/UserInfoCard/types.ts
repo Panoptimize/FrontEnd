@@ -2,6 +2,10 @@ export interface IUserInfoCard {
     /**
      * Title of the user information card
      */
+    bttnTitle?: string;
+    /**
+     * Title of the user information card
+     */
     title?: string;
     /**
      * User's name

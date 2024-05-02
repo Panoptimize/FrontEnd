@@ -6,13 +6,14 @@ const DataCard: React.FC<IDataCard> =({
     content
 }) => {
   return (
-    <a className="block h-20 w-40 p-2 bg-white border border-gray-200 rounded-lg shadow">
-      <h4 className="flex font-bold text-sm text-gray-700 dark:text-black-400">{title}</h4>
-      <h5 className="flex mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-grey">{content}</h5>
+    <a className="block h-20 w-40 px-2 pt-3 pb-2 bg-white border border-gray-200 rounded-3xl shadow flex flex-col justify-center items-start" style={{ minWidth: "180px", width: "180px", height: "105px" }}>
+      <div className="flex-grow-0">
+        <h4 className="ml-2 font-bold text-sm text-gray-700 dark:text-black-400">{title}</h4>
+      </div>
+      <div className="flex-grow flex items-center">
+        <h5 className="ml-2 text-xl font-bold tracking-tight text-gray-900 dark:text-grey">{content}</h5>
+      </div>
     </a>
-
-
-
   );
 };
 

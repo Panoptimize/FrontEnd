@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { IUserInfoCard } from './types';
 
 const UserInfoCard: React.FC<IUserInfoCard> = ({
+  bttnTitle = '+ Create',
   title = 'Create New Agent',
   name = 'Name',
   email = 'Email',
@@ -10,6 +11,7 @@ const UserInfoCard: React.FC<IUserInfoCard> = ({
   availableWorkspaces: initialAvailableWorkspaces = ['Sales', 'Payments'],
   profileImage,
 }) => {
+
   const [isVisible, setIsVisible] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -50,10 +52,11 @@ const UserInfoCard: React.FC<IUserInfoCard> = ({
     setIsVisible(true);
   };
 
-  if (!isVisible) return <button onClick={handleOpen} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Open UserInfo</button>;
+  if (!isVisible) return <button onClick={handleOpen} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{bttnTitle}</button>;
 
   return (
-    <div className="bg-white rounded-3xl shadow-lg p-8 mx-auto" style={{ maxWidth: '700px', width: '100%' }}>
+    <div className='fixed inset-0 flex justify-center items-center bg-black/[0.3]'>
+      <div className="bg-white rounded-3xl shadow-lg p-8 mx-auto" style={{ maxWidth: '700px', width: '100%' }}>
       <div className="flex justify-between items-start">
         <h2 className="text-3xl font-bold mb-5">{title}</h2>
       </div>
@@ -139,6 +142,7 @@ const UserInfoCard: React.FC<IUserInfoCard> = ({
         </div>
       </div>
     </div>
+  </div>  
   );
   
 };

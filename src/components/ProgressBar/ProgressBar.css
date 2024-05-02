@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+}
+
+.bar {
+    width: 20%;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+
+.progress {
+    height: 13px;
+    border-radius: 8px;
+    transition: width 0.3s ease-in-out;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 15px;
+    margin-left: 15px;
+    gap: 100px;
+  }
+  
+  .round-button-ec {
+    background-color: red;
+    border: none;
+    color: white;
+    text-align: center;
+    display: inline-flex; 
+    justify-content: center;
+    align-items: center;
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s;
+  }
+  .round-button-sc {
+    background-color: #16DD76;
+    border: none;
+    color: white;
+    text-align: center;
+    display: inline-flex; 
+    justify-content: center;
+    align-items: center;
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s;
+  }
+  
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px; 
+  }
+
+  .lime-500 {
+    @apply bg-lime-500;
+}
+
+  .yellow-400 {
+    @apply bg-yellow-400;
+  }
+
+  .orange-500 {
+    @apply bg-orange-500;
+  }
+
+  .rose-600 {
+    @apply bg-rose-600;
+}
+
+  .gray-600{
+    @apply bg-gray-600;
+  }
+
+  .fuchsia-600{
+    @apply bg-fuchsia-600;
+  }
+
+  .blue-700{
+    @apply bg-blue-700;
+  }

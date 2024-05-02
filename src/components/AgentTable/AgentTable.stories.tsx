@@ -19,7 +19,7 @@ const meta = {
     },
   },
   argTypes: {
-    row: { control: "array" },
+    row: { control: { type:"object" } },
   },
   tags: ["autodocs"],
 } as Meta;
@@ -44,6 +44,7 @@ Default.args = {
       overallScore: 90,
       lastActivity: "3 days ago",
       details: "View Details",
+      id: 1
     },
   ],
 };
