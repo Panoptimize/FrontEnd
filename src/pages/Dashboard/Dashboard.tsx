@@ -13,12 +13,18 @@ function App() {
         { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
+        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
+        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
+        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
+        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
+        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
+        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
     ];
 
     return (
         <div className="flex">
             {/* Put the sidebar and the topbar in the same row */}
-            <div className="flex 00:00:00">
+            <div className="flex">
                 <Sidebar />
             </div>
             <div className="flex flex-col flex-auto">
