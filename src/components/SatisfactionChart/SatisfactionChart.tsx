@@ -21,11 +21,11 @@ const SatisfactionChart: React.FC<ISatisfactionChart> = ({
         label: "  Opinions",
         data: customData || [10, 15, 10, 5, 10], // Default data or custom data
         backgroundColor: [
-          "#1D4ED8",
-          "#83CB18",
-          "#F3CA1B",
-          "#F67419",
-          "#DC1F4B",
+          '#67C15E',
+          '#4D7DF9',
+          '#E5E5E5',
+          '#FFBC7F',
+          '#FF9999'
         ],
         borderRadius: 4,
       },
@@ -58,7 +58,7 @@ const SatisfactionChart: React.FC<ISatisfactionChart> = ({
   return (
     <div
       className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"
-      style={{ minWidth: "250px", width: "250px", height: "230px" }}
+      style={{ minWidth: "250px", width: "280px", height: "230px" }}
     >
       <div className="text-md text-left pt-2 px-3 pb-2 w-full">
         Customer Satisfaction
