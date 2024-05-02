@@ -25,7 +25,7 @@ const processMetrics = (data: MetricResponse): KpiData => {
         contactsHandled: data.CONTACTS_HANDLED,
         serviceLevel: data.SERVICE_LEVEL,
         occupancy: data.OCCUPANCY,
-        avgSpeedAnswer:parseFloat((data.SUM_HOLD_TIME / data.CONTACTS_HANDLED).toFixed(2)) 
+        avgSpeedAnswer:parseFloat((data.SUM_HANDLE_TIME / data.CONTACTS_HANDLED).toFixed(2)) 
     };
 }
   
@@ -39,7 +39,7 @@ interface MetricResponse {
     AVG_HOLD_TIME: number;
     AGENT_SCHEDULE_ADHERENCE: number;
     ABANDONMENT_RATE: number;
-    SUM_HOLD_TIME: number;
+    SUM_HANDLE_TIME: number;
     CONTACTS_HANDLED: number;
     OCCUPANCY: number;
     SERVICE_LEVEL: number;
