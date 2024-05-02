@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from 'react'
 import { Sidebar } from "../../components/Sidebar";
 import { Topbar } from "../../components/Topbar";
 import { StatusCard } from "../../components/StatusCard";
@@ -7,6 +7,7 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
+import { getContactMedium } from '../../services/contactMedium';
 
 function App() {
     const users = [
@@ -20,6 +21,25 @@ function App() {
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
     ];
+
+    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
+    const[errorOnRequest, setErrorOnRequest] = useState(false);
+
+    const fetchContactMedium = async () => {
+        try {
+            const response = await getContactMedium();
+            if (response && response.data) {
+                setContactMediumData(response.data);
+            }
+        } catch (error) {
+            console.error("Error al obtener datos:", error);
+            setErrorOnRequest(true);
+        }
+    };
+
+    useEffect(() => {
+        fetchContactMedium();
+      }, []);
 
     return (
         <div className="flex">
@@ -47,7 +67,7 @@ function App() {
                 {/* Charts */}
                 <div className="flex flex-row justify-between items-stretch w-full pt-4 px-16">
                         <SatisfactionChart />
-                        <ContactMedium />
+                        <ContactMedium data = {contactMediumData}/>
                         <div>
                             <div className="flex flex-row space-x-6">
                                     <DataCard title="Insert KPI average time" content="00:00:00"  />
