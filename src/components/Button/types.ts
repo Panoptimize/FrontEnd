@@ -7,7 +7,8 @@ export interface IButton{
      * Image of a button. The image will always go left of the text if there is any. 
      * The images should be added into this list as they're needed.
      */
-    image?:'actionCenter'|'agents'|'dashboard'|'history'
+    image?:string
+
     /**
      * The thickness of the text of the button. 
      */

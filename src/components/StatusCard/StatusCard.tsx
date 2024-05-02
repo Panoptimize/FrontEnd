@@ -23,7 +23,7 @@ const StatusCard: React.FC<IStatusCard> = ({
       
     }
     return (
-      <div className="relative flex rounded-md shadow h-auto w-auto m-4 bg-white" style={{ minWidth: "240px", width: "240px", height: "90px" }}>
+      <div className="relative flex rounded-md shadow h-auto w-auto m-4 bg-white" style={{ minWidth: "240px", width: "240px", height: "80px" }}>
           <div className={`${getColor(status)} w-7 mr-1 rounded-tl-md rounded-bl-md`}></div>
           <div className="flex flex-col items-center justify-center flex-grow">
               <span className="text-lg text-black">{status}</span>

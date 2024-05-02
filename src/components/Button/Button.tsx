@@ -3,6 +3,8 @@ import { IButton } from "./types";
 import "./Button.css";
 
 const Button: React.FC<IButton> = ({ text, bold, baseColor, image }) => {
+  const isSvg = image?.endsWith('.svg');
+
   return (
     <>
       <button
@@ -10,9 +12,9 @@ const Button: React.FC<IButton> = ({ text, bold, baseColor, image }) => {
       >
         {image && (
           <img
-            src={require(`../../assets/images/${image}.png`)}
+            src={require(`../../assets/images/${image}${isSvg ? '' : '.png'}`)}
             alt={image}
-            style={baseColor == "transparent" ? { filter: "invert(100%)" } : {}}
+            style={baseColor === "transparent" && !isSvg ? { filter: "invert(100%)" } : {}}
           ></img>
         )}
         {text}

@@ -109,7 +109,7 @@ const ActivityChart: React.FC<IActivityChart> = ({ data: customData }) => {
   return (
     <div
       className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"
-      style={{ minWidth: "530px", width: "530px", maxHeight: "230px" }}
+      style={{ minWidth: "580px", width: "580px", maxHeight: "230px" }}
     >
       <div className="text-md text-left pl-6 pt-3 w-full">
         Overall User Activity

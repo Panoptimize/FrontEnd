@@ -13,7 +13,7 @@ const Topbar = ({ variant = 0 }: { variant?: number }) => {
   }
 
   return (
-    <div className="flex justify-between bg-teal-100">
+    <div className="flex justify-between bg-[#FFFFFF] border-b">
       <div className="flex items-center gap-2 h-16 px-5">
         <p className="text-gray-600 font-medium text-lg">Welcome</p>
         <p className="font-medium text-lg">John</p>
