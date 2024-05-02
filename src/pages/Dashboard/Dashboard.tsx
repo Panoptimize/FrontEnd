@@ -27,18 +27,20 @@ export const Dashboard: React.FC = () => {
     const [status, setStatus] = useState<IStatusCard[]>([]);
 
     const getAgentsStatus = async () => {
-        const result = await getStatus();
-        if (result.error) {
-            console.error(result.error);
-        } else {
-            setStatus(result.data); 
-        }
+        const data = await getStatus();
+        setStatus(data);  // Establece el estado directamente con los datos.
     };
     
-      useEffect(() => {
-   
+    useEffect(() => {
         getAgentsStatus();
     }, []);
+    
+    
+    // Este useEffect se ejecutará cada vez que el estado 'status' se actualice.
+    useEffect(() => {
+        console.log("Status actualizado:", status);
+    }, [status]);
+    
 
 
     const [contactMediumData, setContactMediumData] = useState<number[]>([]);
@@ -61,6 +63,7 @@ export const Dashboard: React.FC = () => {
       }, []);
 
     return (
+        
         <div className="flex">
             {/* Put the sidebar and the topbar in the same row */}
             <div className="flex">
@@ -74,6 +77,7 @@ export const Dashboard: React.FC = () => {
                     <p className="text-gray-600 pt-4 px-4 text-lg"> Agents      </p>
                 </div>
                 <div className="flex flex-row justify-between items-stretch w-full px-20">
+                    
                     {status.map((item, index) => (
                         <StatusCard key={index} status={item.status} numUsers={item.numUsers} />
                     ))}
@@ -111,4 +115,3 @@ export const Dashboard: React.FC = () => {
 }
 
 export default Dashboard;
-
