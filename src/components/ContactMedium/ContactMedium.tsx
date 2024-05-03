@@ -14,7 +14,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ContactMedium: React.FC<IContactMedium> = ({ data: customData }) => {
   const data = {
-    labels: ["Chat", "Call"], // Add more if needed
+    labels: ["Call", "Chat"], // Add more if needed
     datasets: [
       {
         label: "  Opinions",
@@ -59,7 +59,7 @@ const ContactMedium: React.FC<IContactMedium> = ({ data: customData }) => {
   return (
     <div
       className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"
-      style={{ minWidth: "250px", width: "250px", height: "230px" }}
+      style={{ minWidth: "250px", width: "280px", height: "230px" }}
     >
       <div className="text-md text-left pt-2 px-3 pb-2 w-full">
         Contact Medium

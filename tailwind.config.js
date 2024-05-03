@@ -4,7 +4,11 @@ module.exports = {
     './src/**/*.{ts,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif'] // Asegúrate de incluir un fallback adecuado.
+      },
+    },
   },
   plugins: [],
 }
