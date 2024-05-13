@@ -18,6 +18,7 @@ import { IPerformanceChart,IUsersChartData } from "../../components/PerformanceC
 import { getSatisfaction } from "../../services";
 import { getMonthlyActivity } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
+import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
 
 
 export const Dashboard: React.FC = () => {
@@ -32,6 +33,12 @@ export const Dashboard: React.FC = () => {
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
     ];
+
+    const timeframes = [
+        {value: 'ALL', label: 'All'},
+        {value: '2024', label: '2024'},
+        {value: '2023', label: '2023'}
+      ];
     
     const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
     const [status, setStatus] = useState<IStatusCard[]>([]);
@@ -167,12 +174,20 @@ export const Dashboard: React.FC = () => {
                             )}
                         </div>
                 </div>
+
                 {/* Second row of charts */}
                 <div className="flex flex-row justify-between items-stretch space-x-6 pt-6 px-16">
                     <PerformanceChart users={performanceData} />
                     <ActivityChart data={activityData}/>
+
+                    <ChoiceBox boxText='Timeframe: ' options={timeframes}></ChoiceBox>
+
                 </div>
+
+
             </div>
+
+
         </div>
     );
 }
