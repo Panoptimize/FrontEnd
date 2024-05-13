@@ -180,8 +180,6 @@ export const Dashboard: React.FC = () => {
                     <PerformanceChart users={performanceData} />
                     <ActivityChart data={activityData}/>
 
-                    <ChoiceBox boxText='Timeframe: ' options={timeframes}></ChoiceBox>
-
                 </div>
 
 
