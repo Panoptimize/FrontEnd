@@ -21,12 +21,6 @@ import { IStatusCard } from '../../components/StatusCard/types';
 
 
 export const Dashboard: React.FC = () => {
-
-    const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
-    const [status, setStatus] = useState<IStatusCard[]>([]);
-    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
-    const [activityData, setActivityData] = useState<number[]>([]);
-
     const users = [
         { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
@@ -38,14 +32,22 @@ export const Dashboard: React.FC = () => {
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
     ];
-
-
     
-
-
-    
+    const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
+    const [status, setStatus] = useState<IStatusCard[]>([]);
+    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
+    const [activityData, setActivityData] = useState<number[]>([]);
     const [kpiData, setKpiData] = useState<KpiData>();
     const [performance, setPerformance] = useState< IUsersChartData[]>();
+
+
+
+
+    
+
+
+    
+ 
 
     
     const fetchContactMedium = async () => {
