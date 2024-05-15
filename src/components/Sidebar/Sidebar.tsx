@@ -1,12 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../Button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ROUTES } from "../../routes/constants";
 import myLogo from "../../assets/images/Panoptimize.png";
-/*
-
-
-*/
 
 interface SidebarProps {
   expanded?: boolean;
@@ -14,57 +10,91 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
   const width = expanded ? "w-48" : "w-14";
+
+  // Get the current location
+  const location = useLocation();
+
+  // Logic for sidebar active link
+  const [activeButton, setActiveButton] = useState<string>(ROUTES.DASHBOARD);
+
+  // Handle button click
+  const handleButtonClick = (route: string) => {
+    setActiveButton(route);
+    localStorage.setItem("activeButton", route);
+  };
+
+  // Restore active button state from localStorage when the component mounts
+  useEffect(() => {
+    const savedActiveButton = localStorage.getItem("activeButton");
+    if (savedActiveButton) {
+      setActiveButton(savedActiveButton);
+    }
+  }, []);
+
+  // Update the active button based on the location
+  useEffect(() => {
+    setActiveButton(location.pathname);
+  }, [location.pathname]);
+
   return (
-    <div className={`${width} flex flex-auto px-2 justify-center bg-[#FFFFFF] border-r`} style={{height: "100vh"}}>
+    <div className={`${width} flex flex-auto px-2 justify-center bg-[#FFFFFF] border-r`} style={{ height: "100vh" }}>
       <div className="flex flex-col flex-auto justify-between">
         <div className="flex flex-col my-1 justify-start">
           <div className="flex flex-col">
-
             <div className="my-1 flex flex-auto justify-start">
               <img src={myLogo} alt="logo" className="w-full px-2 pt-6 pb-12"></img>
             </div>
-      
-            <Link to= {ROUTES.DASHBOARD} className="w-full">
+
+            <Link to={ROUTES.DASHBOARD} className="w-full" onClick={() => handleButtonClick(ROUTES.DASHBOARD)}>
               <div className="my-1 flex flex-grow justify-center">
-                    <Button
-                      baseColor="teal"
-                      image="dashboard"
-                      text={expanded ? "Dashboard" : ""}
-                    ></Button>
+                <Button
+                  baseColor={activeButton === ROUTES.DASHBOARD ? "teal" : "transparent"}
+                  image="Dashboard.svg"
+                  text={expanded ? "Dashboard" : ""}
+                ></Button>
               </div>
             </Link>
-            <div className="my-1 flex flex-auto">
-              <Button
-                baseColor="transparent"
-                image="actionCenter"
-                text={expanded ? "Action Center" : ""}
-              ></Button>
-            </div>
-            <div className="my-1 flex flex-auto">
-              <Button
-                baseColor="transparent"
-                image="agents"
-                text={expanded ? "Agents" : ""}
-              ></Button>
-            </div>
-            <div className="my-1 flex flex-auto">
-              <Button
-                baseColor="transparent"
-                image="history"
-                text={expanded ? "History" : ""}
-              ></Button>
-            </div>
+            <Link to={ROUTES.ACTION_CENTER} className="w-full" onClick={() => handleButtonClick(ROUTES.ACTION_CENTER)}>
+              <div className="my-1 flex flex-auto">
+                <Button
+                  baseColor={activeButton === ROUTES.ACTION_CENTER ? "teal" : "transparent"}
+                  image="ActionCenter.svg"
+                  text={expanded ? "Action Center" : ""}
+                ></Button>
+              </div>
+            </Link>
+            <Link to={ROUTES.AGENTS} className="w-full" onClick={() => handleButtonClick(ROUTES.AGENTS)}>
+              <div className="my-1 flex flex-auto">
+                <Button
+                  baseColor={activeButton === ROUTES.AGENTS ? "teal" : "transparent"}
+                  image="Agents.svg"
+                  text={expanded ? "Agents" : ""}
+                ></Button>
+              </div>
+            </Link>
+
+            <Link to={ROUTES.HISTORY} className="w-full" onClick={() => handleButtonClick(ROUTES.HISTORY)}>
+              <div className="my-1 flex flex-auto">
+                <Button
+                  baseColor={activeButton === ROUTES.HISTORY ? "teal" : "transparent"}
+                  image="History.svg"
+                  text={expanded ? "History" : ""}
+                ></Button>
+              </div>
+            </Link>
           </div>
         </div>
-        
+
         <div className="flex flex-col justify-end my-4">
-          <div className="my-1 flex flex-auto">
-            <Button
-              baseColor="transparent"
-              text={expanded ? "Settings" : ""}
-              image="gear.svg"
-            ></Button>
-          </div>
+          <Link to={ROUTES.SETTINGS} className="w-full" onClick={() => handleButtonClick(ROUTES.SETTINGS)}>
+            <div className="my-1 flex flex-auto">
+              <Button
+                baseColor={activeButton === ROUTES.SETTINGS ? "teal" : "transparent"}
+                image="Gear.svg"
+                text={expanded ? "Settings" : ""}
+              ></Button>
+            </div>
+          </Link>
           <div className="my-1  flex flex-auto">
             <Button
               baseColor="transparent"

@@ -1,18 +1,16 @@
 import React from 'react'
 
-const Agents:React.FC = () => {
+const SettingsPage:React.FC = () => {
   return (
     <div>
-            {/* Title */}
             <div className="font-poppins pt-6 pb-0 px-6">
                 <h1 className="font-semibold text-3xl">
-                    Agents
+                    Settings
                 </h1>
             </div>
-            
-            {/* List of Agents */}
+
     </div>
   )
 }
 
-export default Agents
+export default SettingsPage
