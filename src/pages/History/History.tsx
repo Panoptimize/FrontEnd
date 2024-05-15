@@ -2,7 +2,14 @@ import React from 'react'
 
 const History:React.FC = () => {
   return (
-    <div>History</div>
+    <div>
+            <div className="font-poppins pt-6 pb-0 px-6">
+                <h1 className="font-semibold text-3xl">
+                    History
+                </h1>
+            </div>
+
+    </div>
   )
 }
 

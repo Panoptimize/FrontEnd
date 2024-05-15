@@ -1,6 +1,4 @@
 import React, {useState, useEffect} from "react";
-import { Sidebar } from "../../components/Sidebar";
-import { Topbar } from "../../components/Topbar";
 import { StatusCard } from "../../components/StatusCard";
 import { SatisfactionChart } from "../../components/SatisfactionChart";
 import { ContactMedium } from "../../components/ContactMedium";
@@ -11,7 +9,7 @@ import { ActivityChart } from "../../components/ActivityChart";
 import { getContactMedium } from "../../services";
 import { getStatus } from '../../services';
 import getKpis from "../../services/kpicard/getKpis";
-import { IDataCard } from "../../components/DataCard/types";
+// import { IDataCard } from "../../components/DataCard/types";
 import { KpiData } from "./kpitypes";
 import { getSatisfaction } from "../../services";
 import { getMonthlyActivity } from "../../services";
@@ -105,14 +103,7 @@ export const Dashboard: React.FC = () => {
     }, []);
 
     return (
-        
-        <div className="flex">
-            {/* Put the sidebar and the topbar in the same row */}
-            <div className="flex">
-                <Sidebar />
-            </div>
-            <div className="flex flex-col flex-auto">
-                <Topbar />
+        <div>
                 {/* Title and Active Agents */}
                 <div className="font-poppins pt-6 pb-0 px-6">
                     <h1 className="font-semibold text-3xl">         Dashboard   </h1>
@@ -154,7 +145,6 @@ export const Dashboard: React.FC = () => {
                     <PerformanceChart users={users} />
                     <ActivityChart data={activityData}/>
                 </div>
-            </div>
         </div>
     );
 }
