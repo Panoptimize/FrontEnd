@@ -60,7 +60,7 @@
     @apply flex flex-auto items-center text-white rounded-xl h-10 min-w-10;
 }
 .btn-transparent:hover {
-    @apply bg-teal-900 bg-opacity-10 ;
+    @apply bg-teal-100 ;
 }
 .btn-transparent img{
     @apply scale-50 w-10

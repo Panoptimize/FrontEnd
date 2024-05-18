@@ -42,11 +42,11 @@ const SatisfactionChart: React.FC<ISatisfactionChart> = ({
         label: "  Opinions",
         data: customData || fetchJsonData, // Default data or custom data
         backgroundColor: [
-          '#67C15E',
-          '#4D7DF9',
-          '#E5E5E5',
-          '#FFBC7F',
-          '#FF9999'
+          "#18A452",
+          "#83CB18",
+          "#F3CA1B",
+          "#F67419",
+          "#DC1F4B",
         ],
         borderRadius: 4,
       },
@@ -59,7 +59,7 @@ const SatisfactionChart: React.FC<ISatisfactionChart> = ({
     cutout: "50%",
     plugins: {
       legend: {
-        position: "bottom" as const, // Using 'as const' to avoid type error
+        position: "right" as const, // Using 'as const' to avoid type error
         labels: {
           font: {
             size: 9,
@@ -77,17 +77,11 @@ const SatisfactionChart: React.FC<ISatisfactionChart> = ({
   };
 
   return (
-    <div
-      className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"
-      style={{ minWidth: "250px", width: "280px", height: "230px" }}
-    >
-      <div className="text-md text-left pt-2 px-3 pb-2 w-full">
+    <div className="bg-white shadow-md w-20 rounded-3xl p-1 flex flex-col justify-center flex-auto">
+      <div className="text-md pt-2 px-3 pb-2 font-semibold">
         Customer Satisfaction
       </div>
-      <div
-        className="flex-grow w-full"
-        style={{ minHeight: "140px", maxHeight: "180px" }}
-      >
+      <div className="flex-auto pb-6 px-2">
         <Doughnut data={data} options={options} />
       </div>
     </div>

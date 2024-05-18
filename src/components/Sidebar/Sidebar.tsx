@@ -1,38 +1,26 @@
 import React from "react";
 import { Button } from "../Button";
-import { Link } from "react-router-dom";
-import { ROUTES } from "../../routes/constants";
-import myLogo from "../../assets/images/Panoptimize.png";
-/*
-
-
-*/
 
 interface SidebarProps {
   expanded?: boolean;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
-  const width = expanded ? "w-48" : "w-14";
+  const width = expanded ? "w-56" : "w-14";
   return (
-    <div className={`${width} flex flex-auto px-2 justify-center bg-[#FFFFFF] border-r`} style={{height: "100vh"}}>
+    <div
+      className={`sidebar ${width} flex flex-col px-2 justify-center bg-white`}
+    >
       <div className="flex flex-col flex-auto justify-between">
         <div className="flex flex-col my-1 justify-start">
           <div className="flex flex-col">
-
-            <div className="my-1 flex flex-auto justify-start">
-              <img src={myLogo} alt="logo" className="w-full px-2 pt-6 pb-12"></img>
+            <div className="my-1 flex flex-auto">
+              <Button
+                baseColor="teal"
+                image="dashboard"
+                text={expanded ? "Dashboard" : ""}
+              ></Button>
             </div>
-      
-            <Link to= {ROUTES.DASHBOARD} className="w-full">
-              <div className="my-1 flex flex-grow justify-center">
-                    <Button
-                      baseColor="teal"
-                      image="dashboard"
-                      text={expanded ? "Dashboard" : ""}
-                    ></Button>
-              </div>
-            </Link>
             <div className="my-1 flex flex-auto">
               <Button
                 baseColor="transparent"
@@ -56,13 +44,12 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
             </div>
           </div>
         </div>
-        
         <div className="flex flex-col justify-end my-4">
           <div className="my-1 flex flex-auto">
             <Button
               baseColor="transparent"
-              text={expanded ? "Settings" : ""}
               image="gear.svg"
+              text={expanded ? "Settings" : ""}
             ></Button>
           </div>
           <div className="my-1  flex flex-auto">
