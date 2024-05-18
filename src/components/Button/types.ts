@@ -26,4 +26,8 @@ export interface IButton{
      */
     inverted?: number
     isSelected?: boolean
+    /**
+     * Method that the button does onClick
+     */
+    method?: () => void
 }
