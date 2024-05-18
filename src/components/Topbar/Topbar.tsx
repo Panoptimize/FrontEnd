@@ -29,7 +29,9 @@ const Topbar = ({ variant = 0 }: { variant?: number }) => {
       </div>
       <div className="h-16 flex items-center space-x-5">
         <div className="relative">
+
           <IoIosNotifications className="h-full text-4xl notification" />
+
           <div
             className={`${displayOption} w-4 h-4 rounded-full bg-red-500 flex justify-center items-center absolute bottom-3 right-0`}
           >
