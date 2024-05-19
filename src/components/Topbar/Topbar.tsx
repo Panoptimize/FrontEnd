@@ -20,7 +20,7 @@ const Topbar = ({ variant = 0 }: { variant?: number }) => {
       </div>
       <div className=" h-16  flex">
         <div className="relative">
-          <IoIosNotifications className={`h-full text-3xl notification mr-1`} />
+          <IoIosNotifications className={`h-full text-4xl notification mr-1`} />
           <div
             className={`${displayOption}  w-4 h-4 rounded-full bg-red-500 flex justify-center items-center absolute bottom-3 right-0`}
           >

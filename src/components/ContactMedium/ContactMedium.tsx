@@ -14,7 +14,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ContactMedium: React.FC<IContactMedium> = ({ data: customData }) => {
   const data = {
-    labels: ["Call", "Chat"], // Add more if needed
+    labels: ["Chat", "Call"], // Add more if needed
     datasets: [
       {
         label: "  Opinions",
