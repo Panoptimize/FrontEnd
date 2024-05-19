@@ -25,4 +25,5 @@ export interface IButton{
      * Goes from 0-100 with 0 being not inverted at all, and 100 being completely inverted.
      */
     inverted?: number
+    isSelected?: boolean
 }
