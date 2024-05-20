@@ -1,4 +1,6 @@
 import React from 'react'
+import { Pill } from '../../components/Pill'
+import { Button } from '../../components/Button'
 
 const Agents:React.FC = () => {
   return (
@@ -8,6 +10,7 @@ const Agents:React.FC = () => {
                 <h1 className="font-semibold text-3xl">
                     Agents
                 </h1>
+                
             </div>
             
             {/* List of Agents */}
