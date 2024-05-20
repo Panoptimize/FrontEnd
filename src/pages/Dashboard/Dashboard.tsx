@@ -20,6 +20,10 @@ import { getMonthlyActivity } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
 import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
 
+//Prueba de FlexHolder
+import { Pill } from "../../components/Pill";
+import { FlexHolder } from "../../components/FlexHolder";
+
 
 export const Dashboard: React.FC = () => {
     const users = [
@@ -48,6 +52,12 @@ export const Dashboard: React.FC = () => {
     const [performance, setPerformance] = useState< IUsersChartData[]>();
 
 
+    //Prueba de FlexHolder
+    const componentes = [
+    <Pill title="Hola"/> ,<Pill title="adios"/>, <Pill title="no se"/>,
+    <Pill title="Hola"/> ,<Pill title="adios"/>, <Pill title="no se"/>,
+    <Pill title="Hola"/> ,<Pill title="adios"/>, <Pill title="no se"/>,
+    <Pill title="Hola"/> ,<Pill title="adios"/>, <Pill title="no se"/>]
 
 
     
@@ -181,6 +191,12 @@ export const Dashboard: React.FC = () => {
                     <ActivityChart data={activityData}/>
 
                 </div>
+
+                <div>
+                    <FlexHolder components={componentes}/>
+                </div>
+
+
 
 
             </div>
