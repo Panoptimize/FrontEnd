@@ -1,6 +1,7 @@
 import React from 'react';
 import { IPill } from './types';
 import './Pill.css'
+import { Button } from '../Button';
 
 const Pill: React.FC<IPill> = ({title, icon,})=>{
     const isIcon = icon?.endsWith('.svg');
@@ -11,15 +12,10 @@ const Pill: React.FC<IPill> = ({title, icon,})=>{
 
     return(
         <div className='flex'>
-            <div className={`pill ${!icon ? 'pl-4 py-2' : ''}`}>
-                {title}
+            <div className={`pill ${!icon ? '' : ''}`}>
+                <div className='title'>{title}</div>
                 {icon &&(
-                    <img
-                    // Work only with SVG files
-                    src={require(`../../assets/images/${icon}`)}
-                    //src={require(`../../assets/images/${image}${isSvg ? '' : '.png'}`)}
-                    alt={icon}
-                    />
+                    <Button baseColor='transparent' image='Cross.svg'></Button>
                 )}
             </div>
         </div>
