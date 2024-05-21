@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
   return (
     <div
       className={`${width} flex flex-auto px-2 justify-center bg-[#FFFFFF] border-r`}
-      style={{ height: "100vh" }}
+      style={{ height: "100vh-65" }}
     >
       <div className="flex flex-col flex-auto justify-between">
         <div className="flex flex-col my-1 justify-start">
