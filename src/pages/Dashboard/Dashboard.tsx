@@ -7,6 +7,8 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
+import { UserInfoCard } from "../../components/UserInfoCard";
+import { Modal } from "../../components/Modal";
 
 import { getContactMedium } from "../../services";
 import { getStatus } from '../../services';
@@ -104,6 +106,8 @@ export const Dashboard: React.FC = () => {
         fetchActivityData();
     }, []);
 
+    const [open, setOpen] = useState<boolean>(false);
+
     return (
         
         <div className="flex">
@@ -117,6 +121,15 @@ export const Dashboard: React.FC = () => {
                 <div className="font-poppins pt-6 pb-0 px-6">
                     <h1 className="font-semibold text-3xl">         Dashboard   </h1>
                     <p className="text-gray-600 pt-4 px-4 text-lg"> Agents      </p>
+                    <button 
+                        className="border border-neutral-300 rounded-lg px-10 py-1.5 my-2 bg-blue-500 hover:bg-blue-600 text-white "
+                        onClick={( ) => setOpen(true)} 
+                    >
+                        View Details
+                    </button>
+                    <Modal open={open} onClose={() => setOpen(false)}>
+                        <UserInfoCard />
+                    </Modal>
                 </div>
                 <div className="flex flex-row justify-between items-stretch w-full px-20">
                     {status.map((item, index) => (
