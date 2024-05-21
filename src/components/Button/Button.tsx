@@ -2,7 +2,13 @@ import React from "react";
 import { IButton } from "./types";
 import "./Button.css";
 
-const Button: React.FC<IButton> = ({ text, bold, baseColor, image }) => {
+const Button: React.FC<IButton> = ({
+  text,
+  bold,
+  baseColor,
+  image,
+  onClick,
+}) => {
   // Using only SVG files for icons
   const isSvg = image?.endsWith(".svg");
   if (!isSvg) {
@@ -13,6 +19,7 @@ const Button: React.FC<IButton> = ({ text, bold, baseColor, image }) => {
   return (
     <button
       className={`btn-${baseColor}${bold ? "-bold" : ""} ${text ? "pr-4" : ""} ${image && text ? "pl-1" : ""} ${!image ? "pl-4 py-2" : ""}`}
+      onClick={onClick} // Añadir el onClick handler aquí
     >
       <div
         className={`flex items-center ${baseColor !== "transparent" ? "text-white" : "text-black"}`}
@@ -21,7 +28,6 @@ const Button: React.FC<IButton> = ({ text, bold, baseColor, image }) => {
           <img
             // Work only with SVG files
             src={require(`../../assets/images/${image}`)}
-            //src={require(`../../assets/images/${image}${isSvg ? '' : '.png'}`)}
             alt={image}
             style={
               baseColor === "transparent" ? {} : { filter: "invert(100%)" }

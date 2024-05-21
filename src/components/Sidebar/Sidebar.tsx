@@ -5,11 +5,11 @@ import { ROUTES } from "../../routes/constants";
 import myLogo from "../../assets/images/Panoptimize.png";
 
 interface SidebarProps {
-  expanded?: boolean;
+  expanded: boolean;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
-  const width = expanded ? "w-52" : "w-14";
+const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
+  const width = expanded ? "w-56" : "w-14";
 
   // Get the current location
   const location = useLocation();
@@ -38,8 +38,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
 
   return (
     <div
-      className={`${width} flex flex-auto px-2 justify-center bg-[#FFFFFF] border-r`}
-      style={{ height: "100vh-65" }}
+      className={`${width} flex flex-auto h-[calc(100vh-65px)] px-2 justify-center bg-[#FFFFFF] border-r`}
     >
       <div className="flex flex-col flex-auto justify-between">
         <div className="flex flex-col my-1 justify-start">

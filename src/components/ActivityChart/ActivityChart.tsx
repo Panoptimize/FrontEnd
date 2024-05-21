@@ -114,7 +114,7 @@ const ActivityChart: React.FC<IActivityChart> = ({ data: customData }) => {
       <div className="px-4">
         <hr className="border-gray-300 my-2" />
       </div>
-      <div className="flex-grow  px-4 py-2" style={{ height: "180px" }}>
+      <div className="flex-grow px-4 py-2" style={{ height: "180px" }}>
         <Line data={data} options={options} />
       </div>
     </div>

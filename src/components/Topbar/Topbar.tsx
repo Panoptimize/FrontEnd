@@ -5,7 +5,12 @@ import "./Topbar.css";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 
-const Topbar = ({ variant = 0 }: { variant?: number }) => {
+interface TopbarProps {
+  toggleSidebar: () => void;
+  variant?: number;
+}
+
+const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, variant = 0 }) => {
   let numberOfNotifications;
   let displayOption = "hidden";
 
@@ -15,10 +20,14 @@ const Topbar = ({ variant = 0 }: { variant?: number }) => {
   }
 
   return (
-    <div className="topbar flex items-center justify-between bg-white border-b">
+    <div className="topbar flex flex-auto items-center justify-between bg-white border-b">
       <div className="flex items-center h-16 p-2 space-x-5">
-        <div className="flex flex-row h-16 py-1 items-center space-x-1">
-          <Button baseColor="transparent" image="Menu.svg"></Button>
+        <div className="flex flex-row h-16 py-1 items-center space-x-3">
+          <Button
+            baseColor="transparent"
+            image="Menu.svg"
+            onClick={toggleSidebar}
+          ></Button>
           <img
             className="h-full"
             style={{ paddingTop: 18, paddingBottom: 18 }}

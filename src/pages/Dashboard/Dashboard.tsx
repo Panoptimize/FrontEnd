@@ -99,7 +99,7 @@ export const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-auto  flex-col">
+    <div className="flex w-full h-fit flex-col">
       <div className="font-poppins pt-6 px-6">
         <h1 className="font-semibold text-3xl"> Dashboard </h1>
         <p className="text-gray-600 pt-4 text-lg"> Agents </p>
