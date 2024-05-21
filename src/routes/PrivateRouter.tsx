@@ -1,21 +1,26 @@
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import { Topbar } from "../components/Topbar";
 import { Sidebar } from "../components/Sidebar";
+import { Topbar } from "../components/Topbar";
 
 const PrivateRouter = () => {
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarExpanded(!isSidebarExpanded);
+  };
   return (
-    <div className="h-screen">
-        <Topbar />
-        <div className="flex  h-[calc(100vh-65px)]">
-            <div className="flex flex-row flex-auto">
-                <div className="flex">
-                <Sidebar />
-                </div>  
-                
-                <div className="flex flex-auto" style={{ overflowY: "auto" }}>
-                    <Outlet />
-                </div>
-            </div>
+    <div className="flex flex-col flex-initial h-screen">
+      <Topbar toggleSidebar={toggleSidebar} />
+      <div className="h-dvh flex flex-row flex-auto">
+        <div>
+          <Sidebar expanded={isSidebarExpanded} />
+        </div>
+        <div className="flex flex-col flex-auto h-[calc(100vh-65px)]        ">
+          <div className="flex flex-auto bg-white overflow-y-scroll">
+            <Outlet />
+          </div>
+        </div>
       </div>
     </div>
   );
