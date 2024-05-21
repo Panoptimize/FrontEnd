@@ -1,5 +1,5 @@
 export interface ITextInput {
-    placeholder: string;
-    icon?: string;
-    size: 'big' | 'small';
-  }
+  placeholder: string;
+  icon?: string;
+  size: "big" | "small";
+}

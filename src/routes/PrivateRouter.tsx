@@ -1,11 +1,12 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 
-const PrivateRouter = () => {
-    return (
-        <div>
-            <Outlet />
-        </div>
-    );
-}
+const PrivateRouter: React.FC = () => {
+  return (
+    <>
+      <Outlet />
+    </>
+  );
+};
 
 export default PrivateRouter;
