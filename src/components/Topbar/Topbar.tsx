@@ -27,7 +27,7 @@ const Topbar = ({ variant = 0 }: { variant?: number }) => {
           />
         </div>
         <div className="flex flex-row space-x-2">
-          <p className="text-gray-600 font-medium text-lg">Welcome</p>
+          <p className="text-gray-600 font-medium text-lg ml-1">Welcome</p>
           <p className="font-medium text-lg">John</p>
         </div>
       </div>

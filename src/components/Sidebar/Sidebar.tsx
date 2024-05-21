@@ -9,7 +9,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
-  const width = expanded ? "w-48" : "w-14";
+  const width = expanded ? "w-52" : "w-14";
 
   // Get the current location
   const location = useLocation();
