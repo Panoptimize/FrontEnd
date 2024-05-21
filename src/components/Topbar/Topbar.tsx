@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/images/PanoptimizeApp Transparent.png";
+import logo from "../../assets/images/Panoptimize.png";
 import { IoIosNotifications } from "react-icons/io";
 import "./Topbar.css";
 import { Button } from "../Button";
@@ -18,20 +18,22 @@ const Topbar = ({ variant = 0 }: { variant?: number }) => {
     <div className="topbar flex items-center justify-between bg-white border-b">
       <div className="flex items-center h-16 p-2 space-x-5">
         <div className="flex flex-row h-16 py-1 items-center space-x-1">
-          <Button baseColor="transparent" image="Menu"></Button>
-          <img className="h-full py-2" src={logo} alt="Logo" />
-          <p className="text-gray-600 font-medium text-lg">Panoptimize</p>
+          <Button baseColor="transparent" image="Menu.svg"></Button>
+          <img
+            className="h-full"
+            style={{ paddingTop: 18, paddingBottom: 18 }}
+            src={logo}
+            alt="Logo"
+          />
         </div>
         <div className="flex flex-row space-x-2">
-          <p className="text-gray-600 font-medium text-lg">Welcome</p>
+          <p className="text-gray-600 font-medium text-lg ml-1">Welcome</p>
           <p className="font-medium text-lg">John</p>
         </div>
       </div>
       <div className="h-16 flex items-center space-x-5">
         <div className="relative">
-
           <IoIosNotifications className="h-full text-4xl notification" />
-
           <div
             className={`${displayOption} w-4 h-4 rounded-full bg-red-500 flex justify-center items-center absolute bottom-3 right-0`}
           >

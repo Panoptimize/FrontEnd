@@ -93,3 +93,48 @@ EditAgentDetails.args = {
     "Customer Support",
   ],
 };
+/*
+{status.map((item, index) => (
+            <StatusCard
+              key={index}
+              status={item.status}
+              numUsers={item.numUsers}
+            />
+          ))}
+
+
+
+
+{kpiData && (
+            <div className="flex flex-col flex-auto place-content-evenly space-y-2 ">
+              <div className="flex flex-row flex-auto space-x-3">
+                <DataCard
+                  title="Avg Hold Time"
+                  content={`${kpiData?.avgHoldTime} seconds`}
+                />
+                <DataCard
+                  title="First Contact Resolution"
+                  content={`${kpiData?.firstcontactresolution}%`}
+                />
+                <DataCard
+                  title="Abandonment Rate"
+                  content={`${kpiData?.abandonmentRate}%`}
+                />
+              </div>
+              <div className="flex flex-row flex-auto space-x-3">
+                <DataCard
+                  title="Service Level"
+                  content={`${kpiData?.serviceLevel}%`}
+                />
+                <DataCard
+                  title="Agent Schedule Adherence"
+                  content={`${kpiData?.agentScheduleAdherence}%`}
+                />
+                <DataCard
+                  title="Avg Speed Answer"
+                  content={`${kpiData?.avgSpeedAnswer} seconds`}
+                />
+              </div>
+            </div>
+          )}
+          */

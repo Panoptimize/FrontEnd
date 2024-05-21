@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Sidebar } from "../../components/Sidebar";
-import { Topbar } from "../../components/Topbar";
 import { StatusCard } from "../../components/StatusCard";
 import { SatisfactionChart } from "../../components/SatisfactionChart";
 import { ContactMedium } from "../../components/ContactMedium";
@@ -11,7 +9,7 @@ import { ActivityChart } from "../../components/ActivityChart";
 import { getContactMedium } from "../../services";
 import { getStatus } from "../../services";
 import getKpis from "../../services/kpicard/getKpis";
-import { IDataCard } from "../../components/DataCard/types";
+// import { IDataCard } from "../../components/DataCard/types";
 import { KpiData } from "./kpitypes";
 import { getSatisfaction } from "../../services";
 import { getMonthlyActivity } from "../../services";
@@ -101,79 +99,72 @@ export const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen flex-auto">
-      <Topbar />
-      <div className=" flex flex-row flex-auto">
-        <Sidebar />
-        {/* Page : Title and Active Agents */}
-        <div className="flex flex-auto bg-gray-100 flex-col">
-          <div className="font-poppins pt-6 px-6">
-            <h1 className="font-semibold text-3xl"> Dashboard </h1>
-            <p className="text-gray-600 pt-4 text-lg"> Agents </p>
-            <div className="flex flex-row justify-between place-content-evenly space-x-10 mx-6 my-4">
-              {status.map((item, index) => (
-                <StatusCard
-                  key={index}
-                  status={item.status}
-                  numUsers={item.numUsers}
-                />
-              ))}
-            </div>
+    <div className="flex flex-auto  flex-col">
+      <div className="font-poppins pt-6 px-6">
+        <h1 className="font-semibold text-3xl"> Dashboard </h1>
+        <p className="text-gray-600 pt-4 text-lg"> Agents </p>
+        <div className="flex flex-row justify-between place-content-evenly space-x-10 mx-6 my-4">
+          {status.map((item, index) => (
+            <StatusCard
+              key={index}
+              status={item.status}
+              numUsers={item.numUsers}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="font-poppins px-6">
+        <p className="text-gray-600 pt-2 text-lg">Overall Performance</p>
+      </div>
+      {/* First row of charts, add cards */}
+      <div className="grid grid-cols-2 my-2 mx-10 h-72 space-x-5 place-content-evenly">
+        <div className="flex flex-auto space-x-5 place-content-evenly">
+          <div className="flex flex-auto">
+            <SatisfactionChart data={satisfactionLevels} />
           </div>
-          <div className="font-poppins px-6">
-            <p className="text-gray-600 pt-2 text-lg">Overall Performance</p>
-          </div>
-          {/* First row of charts, add cards */}
-          <div className="grid grid-cols-2 my-2 mx-10 h-72 space-x-5 place-content-evenly">
-            <div className="flex flex-auto space-x-5 place-content-evenly">
-              <div className="flex flex-auto">
-                <SatisfactionChart data={satisfactionLevels} />
-              </div>
-              <div className="flex flex-auto">
-                <ContactMedium data={contactMediumData} />
-              </div>
-            </div>
-            <div className="flex flex-auto">
-              {kpiData && (
-                <div className="flex flex-col flex-auto place-content-evenly space-y-2 ">
-                  <div className="flex flex-row flex-auto space-x-3">
-                    <DataCard
-                      title="Avg Hold Time"
-                      content={`${kpiData?.avgHoldTime} seconds`}
-                    />
-                    <DataCard
-                      title="First Contact Resolution"
-                      content={`${kpiData?.firstcontactresolution}%`}
-                    />
-                    <DataCard
-                      title="Abandonment Rate"
-                      content={`${kpiData?.abandonmentRate}%`}
-                    />
-                  </div>
-                  <div className="flex flex-row flex-auto space-x-3">
-                    <DataCard
-                      title="Service Level"
-                      content={`${kpiData?.serviceLevel}%`}
-                    />
-                    <DataCard
-                      title="Agent Schedule Adherence"
-                      content={`${kpiData?.agentScheduleAdherence}%`}
-                    />
-                    <DataCard
-                      title="Avg Speed Answer"
-                      content={`${kpiData?.avgSpeedAnswer} seconds`}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          {/* Second row of charts */}
-          <div className="grid grid-cols-2 flex-auto my-2 mx-10  space-x-5 place-content-evenly">
-            <PerformanceChart users={users} />
-            <ActivityChart data={activityData} />
+          <div className="flex flex-auto">
+            <ContactMedium data={contactMediumData} />
           </div>
         </div>
+        <div className="flex flex-auto">
+          {kpiData && (
+            <div className="flex flex-col flex-auto place-content-evenly space-y-2 ">
+              <div className="grid grid-cols-3 flex-auto space-x-3">
+                <DataCard
+                  title="Avg Hold Time"
+                  content={`${kpiData?.avgHoldTime} seconds`}
+                />
+                <DataCard
+                  title="First Contact Resolution"
+                  content={`${kpiData?.firstcontactresolution}%`}
+                />
+                <DataCard
+                  title="Abandonment Rate"
+                  content={`${kpiData?.abandonmentRate}%`}
+                />
+              </div>
+              <div className="grid grid-cols-3 flex-auto space-x-3">
+                <DataCard
+                  title="Service Level"
+                  content={`${kpiData?.serviceLevel}%`}
+                />
+                <DataCard
+                  title="Agent Schedule Adherence"
+                  content={`${kpiData?.agentScheduleAdherence}%`}
+                />
+                <DataCard
+                  title="Avg Speed Answer"
+                  content={`${kpiData?.avgSpeedAnswer} seconds`}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      {/* Second row of charts */}
+      <div className="grid grid-cols-2 flex-auto my-2 mx-10  space-x-5 place-content-evenly">
+        <PerformanceChart users={users} />
+        <ActivityChart data={activityData} />
       </div>
     </div>
   );
