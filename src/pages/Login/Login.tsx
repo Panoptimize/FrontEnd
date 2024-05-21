@@ -44,6 +44,9 @@ const Login = () => {
           </div>
           <div className="w-96 h-96 bg-white rounded-r-xl shadow-lg flex flex-col items-center justify-center">
             <div className="flex flex-col items-center justify-center space-y-6">
+              {error && (
+                <p className="text-red-500 mb-4 text-sm font-medium">{error}</p>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label
@@ -77,11 +80,7 @@ const Login = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <Button
-                  baseColor="mint"
-                  text={"Log In"}
-                  type="submit"
-                ></Button>
+                <Button baseColor="mint" text={"Log In"} type="submit"></Button>
               </form>
             </div>
           </div>
