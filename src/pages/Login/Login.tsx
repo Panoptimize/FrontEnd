@@ -1,8 +1,7 @@
 import Background from "../../assets/images/AuthBackground.png";
 import Logo from "../../assets/images/PanoptimizeVertical.png";
 import { Button } from "../../components/Button";
-import React, { FormEvent, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { useAppContext } from "../../store/app-context/app-context";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/constants";
@@ -53,7 +52,7 @@ const Login = () => {
                     htmlFor="email"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Email
+                    Email:
                   </label>
                   <input
                     type="email"
@@ -69,7 +68,7 @@ const Login = () => {
                     htmlFor="password"
                     className="block text-gray-700 font-bold mb-2"
                   >
-                    Password
+                    Password:
                   </label>
                   <input
                     type="password"
@@ -80,7 +79,12 @@ const Login = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <Button baseColor="mint" text={"Log In"} type="submit"></Button>
+                <Button
+                  baseColor="mint"
+                  text={"Log In"}
+                  type="submit"
+                  bold={true}
+                ></Button>
               </form>
             </div>
           </div>

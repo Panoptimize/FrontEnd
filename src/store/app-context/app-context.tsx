@@ -48,7 +48,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
               if (currentUser) {
                 const token = await getIdToken(currentUser);
                 config.headers.Authorization = `Bearer ${token}`;
-                // config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OTk1NDNhMzNmMDQ1YzI4YzMwOTdmZmYwNDQzOTIwZiIsInN1YiI6IjY0NjJhMzdhZWY4YjMyMDE3MmQ2MzJlYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hdInKVfcYTObF4ffhNC7ZZgkNYPffNgrzG_yl40uChA`;
               }
             });
             console.log(config);
