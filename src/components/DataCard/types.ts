@@ -2,7 +2,7 @@ export interface IDataCard {
     /**
      * Title of the information
      */
-    title: string;
+    title: string
     /**
      * Value of the information
      */
