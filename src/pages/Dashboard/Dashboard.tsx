@@ -49,15 +49,9 @@ export const Dashboard: React.FC = () => {
     const [contactMediumData, setContactMediumData] = useState<number[]>([]);
     const [activityData, setActivityData] = useState<number[]>([]);
     const [kpiData, setKpiData] = useState<KpiData>();
-    const [performance, setPerformance] = useState< IUsersChartData[]>();
+    const [performance, setPerformance] = useState<IUsersChartData[] | undefined>(undefined);
 
 
-    //Prueba de FlexHolder
-    const componentes = [
-    <Pill title="Hola"/> ,<Pill title="adios"/>, <Pill title="no se"/>,
-    <Pill title="Hola"/> ,<Pill title="adios"/>, <Pill title="no se"/>,
-    <Pill title="Hola"/> ,<Pill title="adios"/>, <Pill title="no se"/>,
-    <Pill title="Hola"/> ,<Pill title="adios"/>, <Pill title="no se"/>]
 
 
     
@@ -67,7 +61,7 @@ export const Dashboard: React.FC = () => {
  
 
     
-    const fetchContactMedium = async () => {
+     const fetchContactMedium = async () => {
         try {
             const response = await getContactMedium();
             if (response && response.data) {
@@ -77,7 +71,7 @@ export const Dashboard: React.FC = () => {
             console.error("Error al obtener datos de medios de contacto:", error);
         }
     };
-
+ 
     const getAgentsStatus = async () => {
         try {
             const data = await getStatus();
@@ -111,13 +105,19 @@ export const Dashboard: React.FC = () => {
 
     const getPerformanceData = async () => {
         try {
-            const result = await getPerformance();
-            setPerformance(result); 
+            const response = await getPerformance();
+            if (response.success) {
+                // Set the performance data
+                setPerformance(response.data?.users);
+            } else {
+                // Handle the error message
+                console.error("Error obtaining the performance data:", response.error);
+            }
         } catch (error) {
             console.error("Error al obtener el performance de los agentes:", error);
         }
     };
-
+    
     
 
     const fetchActivityData = async () => {
@@ -166,7 +166,6 @@ export const Dashboard: React.FC = () => {
                 {/* Charts */}
                 <div className="flex flex-row justify-between items-stretch w-full pt-4 px-16">
                         <SatisfactionChart data={satisfactionLevels}/>
-                        <ContactMedium data = {contactMediumData}/>
                         <div>
                             {kpiData && (
                                 <div>
@@ -190,10 +189,6 @@ export const Dashboard: React.FC = () => {
                     <PerformanceChart users={performanceData} />
                     <ActivityChart data={activityData}/>
 
-                </div>
-
-                <div>
-                    <FlexHolder components={componentes}/>
                 </div>
 
 
