@@ -1,28 +1,31 @@
-.starterChoice {
-    @apply flex items-center w-80 h-10 ;
-  }
-  
-  .labelChoice {
-    @apply w-12 mr-4 text-sm leading-6 font-medium text-teal-950 h-auto pr-2 gap-4;
-  }
-  
-  .choiceBox {
-    @apply flex w-80 text-sm font-medium leading-5 gap-4 text-gray-900;
-  }
-  
-  .mySelect__control {
-    @apply w-64 text-sm font-medium leading-5 text-gray-900;
-  }
-  
-  .mySelect__menu {
-    @apply bg-white;
-  }
-  
-  .mySelect__option--is-focused {
-    @apply bg-gray-200;
-  }
-  
-  .mySelect__option--is-selected {
-    @apply bg-gray-400 text-white;
-  }
-  
+.starterChoice{   /* el primer elemento de choice */
+    display: flex; 
+    width: 250px; /* Cambia este valor según tus necesidades */
+    height:35px;
+    padding: 0.25rem; 
+    border-radius: 9999px; 
+    border-width: 1px; 
+    border-color: #D1D5DB; 
+    background-color: #ffffff; 
+    padding-left: 15px;
+    padding-right:15px;
+}
+
+.labelChoice{
+    width:50px;
+    margin-right: 0.5rem; 
+    font-size: 0.875rem;
+    line-height: 1.25rem; 
+    font-weight: 500; 
+    color: #111827; 
+    padding-right: 10px;
+}
+
+.choiceBox{
+    display: flex; 
+    width: 150px; /* Asegúrate de que no haya espacio entre el número y 'px' */
+    font-size: 0.875rem;
+    font-weight: 500; 
+    line-height: 1.25rem; 
+    color: #111827; 
+}

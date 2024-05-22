@@ -20,13 +20,11 @@ export const getKpis = async () => {
 const processMetrics = (data: MetricResponse): KpiData => {
     return {
         avgHoldTime: data.AVG_HOLD_TIME,
-
-        agentScheduleAdherence: data.AGENT_SCHEDULE_ADHERENCE,
+        firstcontactresolution: data.PERCENT_CASES_FIRST_CONTACT_RESOLVED,
         abandonmentRate: data.ABANDONMENT_RATE,
         contactsHandled: data.CONTACTS_HANDLED,
         serviceLevel: data.SERVICE_LEVEL,
-        occupancy: data.OCCUPANCY,
-
+        agentScheduleAdherence: data.AGENT_SCHEDULE_ADHERENCE,
         avgSpeedAnswer:parseFloat((data.SUM_HOLD_TIME / data.CONTACTS_HANDLED).toFixed(2)) 
     };
 }
@@ -39,13 +37,11 @@ export default getKpis;
      */
 interface MetricResponse {
     AVG_HOLD_TIME: number;
-
-    AGENT_SCHEDULE_ADHERENCE: number;
+    PERCENT_CASES_FIRST_CONTACT_RESOLVED: number;
     ABANDONMENT_RATE: number;
     SUM_HOLD_TIME: number;
     CONTACTS_HANDLED: number;
-    OCCUPANCY: number;
-
+    AGENT_SCHEDULE_ADHERENCE: number;
     SERVICE_LEVEL: number;
     AVG_SPEED_ANSWER: string; // Add this line
   }

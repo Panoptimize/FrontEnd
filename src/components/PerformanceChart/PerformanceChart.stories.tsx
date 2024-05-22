@@ -38,25 +38,25 @@ const Template: StoryFn<IPerformanceChart> = (args) => <PerformanceChart {...arg
 export const Default = Template.bind({});
 Default.args = {
   users: [
-    { username: 'Mariah Carey',     data: [65, 90, 65, 80, 100]   },
-    { username: 'Will Smith',    data: [55, 85, 59, 73, 100] },
-    { username: 'Tom Cruise',     data: [60, 50, 70, 100, 95]  },
+    { username: 'Agent 001', data: [10, 30, 50, 70, 70, 99] },
+    { username: 'Agent 002', data: [20, 50, 15, 60, 20, 100] },
   ]
 };
 
-/* /* export const SingleUser = Template.bind({});
+export const SingleUser = Template.bind({});
 SingleUser.args = {
   users: [
     { username: 'Bruce Wayne', data: [90, 70, 89, 67, 100] }
-  ] 
-}; */
+  ]
+};
 
 export const MultipleUsers = Template.bind({});
 MultipleUsers.args = {
   users: [
-    { username: 'Mariah Carey',     data: [65, 90, 65, 80, 100]   },
-    { username: 'Will Smith',    data: [55, 85, 59, 73, 100] },
-    { username: 'Tom Cruise',     data: [60, 50, 70, 100, 95]  },
-
+    { username: 'Barry Allen',     data: [65, 90, 65, 80, 100]   },
+    { username: 'Diana Prince',    data: [55, 85, 59, 73, 100] },
+    { username: 'Clark Kent',     data: [60, 50, 70, 100, 95]  },
+    { username: 'Bruce Wayne',  data: [90, 70, 89, 67, 100]  },
+    { username: 'Hall Jordan',   data: [69, 85, 49, 99, 62]  },
   ]
 };
