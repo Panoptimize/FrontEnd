@@ -93,17 +93,17 @@ const PerformanceChart: React.FC<IPerformanceChart> = ({ users }) => {
   ///
 
   return (
-    <div
-      className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"
-      style={{ minWidth: "580px", width: "580px", maxHeight: "250px" }}
-    >
-      <div className="text-md text-left pl-6 pt-3 w-full">
+    <div className="bg-white shadow-md rounded-3xl p-1 flex flex-col justify-center flex-auto">
+      <div className="text-md text-left pl-6 pt-3 w-full font-semibold">
         Agents Performance
       </div>
       <div className="w-full px-4">
         <hr className="border-gray-300 my-2" />
       </div>
-      <ul className="w-full px-10" style={{ overflowY: "auto", maxHeight: "300px" }}>
+      <ul
+        className="w-full px-10"
+        style={{ overflowY: "auto", maxHeight: "300px" }}
+      >
         {users.map((user: any, index: any) => (
           <li key={index} className="flex justify-between items-center py-2">
             <div className="flex text-left text-gray-500">{user.username}</div>

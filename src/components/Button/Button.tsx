@@ -1,12 +1,12 @@
-import React from 'react';
-import { IButton } from './types';
-import './Button.css';
+import React from "react";
+import { IButton } from "./types";
+import "./Button.css";
 
-const Button: React.FC<IButton> = ({ text, bold, baseColor, image, inverted, method }) => {
+const Button: React.FC<IButton> = ({ text, bold, baseColor, image, method }) => {
   // Using only SVG files for icons
-  const isSvg = image?.endsWith('.svg');
+  const isSvg = image?.endsWith(".svg");
   if (!isSvg) {
-    console.error('Only SVG files are supported for the image prop.');
+    console.error("Only SVG files are supported for the image prop.");
     return null;
   }
 
@@ -15,13 +15,15 @@ const Button: React.FC<IButton> = ({ text, bold, baseColor, image, inverted, met
       className={`btn-${baseColor}${bold ? '-bold' : ''} ${text ? 'pr-4' : ''} ${image && text ? 'pl-1' : ''} ${!image ? 'pl-4 py-2' : ''}`}
       onClick={method}
     >
-      <div className={`flex items-center ${baseColor !== 'transparent' ? 'text-white' : 'text-black'}`} style={{filter: `invert(${inverted})`}}>
+      <div className={`flex items-center ${baseColor !== 'transparent' ? 'text-white' : 'text-black'}`}>
         {image && (
           <img
             // Work only with SVG files
             src={require(`../../assets/images/${image}`)}
-            //src={require(`../../assets/images/${image}${isSvg ? '' : '.png'}`)}
             alt={image}
+            style={
+              baseColor === "transparent" ? {} : { filter: "invert(100%)" }
+            }
           />
         )}
         {text}
