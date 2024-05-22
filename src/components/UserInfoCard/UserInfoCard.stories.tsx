@@ -18,10 +18,6 @@ const meta = {
     },
   },
   argTypes: {
-    title: { 
-      control: 'text',
-      description: 'Title of the card, in order to be "Edit Agent Details" or "Create New Agents" '
-    },
     name: { 
       control: 'text',
       description: 'Name of the user' 
@@ -59,7 +55,6 @@ const Template: StoryFn<IUserInfoCard> = (args) => <UserInfoCard {...args} />;
  */
 export const CreateNewAgent = Template.bind({});
 CreateNewAgent.args = {
-  title: "Create New Agent",
   name: "Name",
   email: "Email",
   username: "Username",
@@ -73,7 +68,6 @@ CreateNewAgent.args = {
  */
 export const EditAgentDetails = Template.bind({});
 EditAgentDetails.args = {
-  title: "Edit Agent Details",
   name: "John Doe",
   email: "johndoe@example.com",
   username: "johndoe",

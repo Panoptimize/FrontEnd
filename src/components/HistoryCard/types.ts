@@ -1,4 +1,8 @@
-export interface IUserInfoCard {
+export interface IHistoryCard {
+    /**
+     * Title of the user information card
+     */
+    bttnTitle?: string;
     /**
      * Title of the user information card
      */
