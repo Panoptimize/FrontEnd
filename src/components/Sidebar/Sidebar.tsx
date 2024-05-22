@@ -120,7 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
                 baseColor={
                   activeButton === ROUTES.SETTINGS ? "teal" : "transparent"
                 }
-                image="Gear.svg"
+                image="gear.svg"
                 text={expanded ? "Settings" : ""}
               ></Button>
             </div>
