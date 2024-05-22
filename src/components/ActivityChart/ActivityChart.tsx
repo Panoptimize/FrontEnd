@@ -27,7 +27,18 @@ ChartJS.register(
 const ActivityChart: React.FC<IActivityChart> = ({ data: customData }) => {
   const data = {
     labels: [
-      "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
     ],
     datasets: [
       {
@@ -96,17 +107,14 @@ const ActivityChart: React.FC<IActivityChart> = ({ data: customData }) => {
   };
 
   return (
-    <div
-      className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"
-      style={{ minWidth: "580px", width: "580px", height: "250px" }}
-    >
-      <div className="text-md text-left pl-6 pt-3 w-full">
+    <div className="bg-white shadow-md rounded-3xl p-1 flex flex-col justify-center flex-auto">
+      <div className="text-md font-semibold text-left pl-6 pt-3 w-full">
         Overall User Activity
       </div>
-      <div className="w-full px-4">
+      <div className="px-4">
         <hr className="border-gray-300 my-2" />
       </div>
-      <div className="flex-grow w-full px-4 py-2" style={{ height: "180px" }}>
+      <div className="flex-grow px-4 py-2" style={{ height: "180px" }}>
         <Line data={data} options={options} />
       </div>
     </div>
