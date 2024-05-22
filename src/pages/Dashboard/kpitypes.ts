@@ -7,7 +7,7 @@ export interface KpiData {
     /**
      * Agent Schedule Adherence KPI
      */
-    firstcontactresolution: number;
+    agentScheduleAdherence: number;
     /**
      * Abandonment Rate KPI
      */
@@ -23,7 +23,7 @@ export interface KpiData {
     /**
      * Occupancy KPI
      */
-    agentScheduleAdherence: number;
+    occupancy: number;
     /**
      * Average Speed Answer KPI
      */

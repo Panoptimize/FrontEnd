@@ -6,6 +6,5 @@ export interface IDataCard {
     /**
      * Value of the information
      */
-    content: string | number
-    textColor?:'green'|'yellow'|'blue'|'red'|'purple'
+    content: string | number;
 }

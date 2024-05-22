@@ -5,59 +5,105 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
-
 import { getContactMedium } from "../../services";
-import { getStatus } from "../../services";
+import { getStatus } from '../../services';
 import getKpis from "../../services/kpicard/getKpis";
-// import { IDataCard } from "../../components/DataCard/types";
+import { IDataCard } from "../../components/DataCard/types";
 import { KpiData } from "./kpitypes";
+import {getPerformance} from '../../services';
+import { IPerformanceChart,IUsersChartData } from "../../components/PerformanceChart/types";
 import { getSatisfaction } from "../../services";
 import { getMonthlyActivity } from "../../services";
-import { IStatusCard } from "../../components/StatusCard/types";
+import { IStatusCard } from '../../components/StatusCard/types';
+import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
+
+//Prueba de FlexHolder
+import { Pill } from "../../components/Pill";
+import { FlexHolder } from "../../components/FlexHolder";
+
 
 export const Dashboard: React.FC = () => {
-  const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
-  const [contactMediumData, setContactMediumData] = useState<number[]>([]);
-  const [activityData, setActivityData] = useState<number[]>([]);
+    const users = [
+        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
+        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
+        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
+        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
+        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
+        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
+        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
+        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
+        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
+    ];
 
-  const users = [
-    { username: "Mariah Carey", data: [0, 10, 5, 2, 20, 30, 45] },
-    { username: "Will Smith", data: [0, 5, 10, 15, 20, 25, 30] },
-    { username: "Tom Cruise", data: [0, 10, 15, 20, 25, 30, 35] },
-    { username: "Mariah Carey", data: [0, 10, 5, 2, 20, 30, 45] },
-    { username: "Will Smith", data: [0, 5, 10, 15, 20, 25, 30] },
-    { username: "Tom Cruise", data: [0, 10, 15, 20, 25, 30, 35] },
-    { username: "Mariah Carey", data: [0, 10, 5, 2, 20, 30, 45] },
-    { username: "Will Smith", data: [0, 5, 10, 15, 20, 25, 30] },
-    { username: "Tom Cruise", data: [0, 10, 15, 20, 25, 30, 35] },
-  ];
-  const [kpiData, setKpiData] = useState<KpiData>();
+    const timeframes = [
+        {value: 'ALL', label: 'All'},
+        {value: '2024', label: '2024'},
+        {value: '2023', label: '2023'}
+      ];
+    
+    const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
+    const [status, setStatus] = useState<IStatusCard[]>([]);
+    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
+    const [activityData, setActivityData] = useState<number[]>([]);
+    const [kpiData, setKpiData] = useState<KpiData>();
+    const [performance, setPerformance] = useState<IUsersChartData[] | undefined>(undefined);
 
-  const fetchContactMedium = async () => {
-    try {
-      const response = await getContactMedium();
-      if (response && response.data) {
-        setContactMediumData(response.data);
-      }
-    } catch (error) {
-      console.error("Error al obtener datos de medios de contacto:", error);
-    }
-  };
+     const fetchContactMedium = async () => {
+        try {
+            const response = await getContactMedium();
+            if (response && response.data) {
+                setContactMediumData(response.data);
+            }
+        } catch (error) {
+            console.error("Error al obtener datos de medios de contacto:", error);
+        }
+    };
+ 
+    const getAgentsStatus = async () => {
+        try {
+            const data = await getStatus();
+            setStatus(data); 
+        } catch (error) {
+            console.error("Error al obtener el estado de los agentes:", error);
+        }
+    };
 
-  const [status, setStatus] = useState<IStatusCard[]>([]);
+    const getSatisfactionLevels = async () => {
+        try {
+            const data = await getSatisfaction();
+            if (data) {
+                setSatisfactionLevels(data);
+            }
+        } catch (error) {
+            console.error("Error al obtener los niveles de satisfacción:", error);
+        }
+    };
+    const getKpiData = async () => {
+        const result = await getKpis();
+        if (result.error) {
+            console.error(result.error);
+        } else {
+            // Solo actualiza el estado si result.data no es null
+            if (result.data) {
+                setKpiData(result.data);
+            }
+        }
+    };
 
-  const getAgentsStatus = async () => {
-    const result = await getStatus();
-    if (result.error) {
-      console.error(result.error);
-    } else {
-      setStatus(result.data);
-    }
-  };
-
-  useEffect(() => {
-    getAgentsStatus();
-  }, []);
+    const getPerformanceData = async () => {
+        try {
+            const response = await getPerformance();
+            if (response.success) {
+                // Set the performance data
+                setPerformance(response.data?.users);
+            } else {
+                // Handle the error message
+                console.error("Error obtaining the performance data:", response.error);
+            }
+        } catch (error) {
+            console.error("Error al obtener el performance de los agentes:", error);
+        }
+    };
 
   const getSatisfactionLevels = async () => {
     try {
@@ -81,6 +127,16 @@ export const Dashboard: React.FC = () => {
     }
   };
 
+    useEffect(() => {
+        fetchContactMedium();
+        getAgentsStatus();
+        getSatisfactionLevels();
+        fetchActivityData();
+        getPerformanceData();
+    }, []);
+    
+    const performanceData = performance || [];
+
   const fetchActivityData = async () => {
     try {
       const data = await getMonthlyActivity();
@@ -97,6 +153,7 @@ export const Dashboard: React.FC = () => {
     getSatisfactionLevels();
     fetchActivityData();
   }, []);
+
 
   return (
     <div className="flex w-full h-fit flex-col">
@@ -129,36 +186,19 @@ export const Dashboard: React.FC = () => {
         <div className="flex flex-auto">
           {kpiData && (
             <div className="flex flex-col flex-auto place-content-evenly space-y-2 ">
-              <div className="grid grid-cols-3 flex-auto space-x-3">
-                <DataCard
-                  title="Avg Hold Time"
-                  content={`${kpiData?.avgHoldTime} seconds`}
-                />
-                <DataCard
-                  title="First Contact Resolution"
-                  content={`${kpiData?.firstcontactresolution}%`}
-                />
-                <DataCard
-                  title="Abandonment Rate"
-                  content={`${kpiData?.abandonmentRate}%`}
-                />
-              </div>
-              <div className="grid grid-cols-3 flex-auto space-x-3">
-                <DataCard
-                  title="Service Level"
-                  content={`${kpiData?.serviceLevel}%`}
-                />
-                <DataCard
-                  title="Agent Schedule Adherence"
-                  content={`${kpiData?.agentScheduleAdherence}%`}
-                />
-                <DataCard
-                  title="Avg Speed Answer"
-                  content={`${kpiData?.avgSpeedAnswer} seconds`}
-                />
-              </div>
+                <div className="flex flex-row space-x-6">
+                    <DataCard title="Avg Hold Time" content={`${kpiData?.avgHoldTime} seconds`} />
+                    <DataCard title="Agent Schedule Adherence" content={`${kpiData?.agentScheduleAdherence}%`} />
+                    <DataCard title="Abandonment Rate" content={`${kpiData?.abandonmentRate}%`} />
+                </div>
+                <div className="flex flex-row space-x-6 pt-5">
+                    <DataCard title="Service Level" content={`${kpiData?.serviceLevel}%`} />
+                    <DataCard title="Occupancy" content={`${kpiData?.occupancy}%`} />
+                    <DataCard title="Avg Speed Answer" content={`${kpiData?.avgSpeedAnswer} seconds`} />
+                </div>
             </div>
           )}
+          
         </div>
       </div>
       {/* Second row of charts */}
