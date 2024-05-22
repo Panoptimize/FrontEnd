@@ -28,10 +28,11 @@ const ContactMedium: React.FC<IContactMedium> = ({ data: customData }) => {
   };
 
   // Calculate total sum of data
-  const totalSum = data.datasets[0].data.reduce(
-    (acc, current) => acc + current,
-    0
-  );
+  //const totalSum = data.datasets[0].data.reduce(
+    //(acc, current) => acc + current,
+    //0
+  //);
+  const totalSum = 0;
 
   const options = {
     responsive: true,

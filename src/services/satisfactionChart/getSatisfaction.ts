@@ -2,7 +2,7 @@ import httpInstance from "../httpInstance";
 
 export const getSatisfaction = async () => {
     try {
-        const endpoint = 'customer-satisfaction';
+        const endpoint = '/customer-satisfaction';
         const response = await httpInstance.get(endpoint);
         if (response.data && Array.isArray(response.data) && response.data.length > 0) {
             return response.data;
