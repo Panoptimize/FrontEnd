@@ -18,7 +18,7 @@ const Button: React.FC<IButton> = ({
 
   return (
     <button
-      className={`btn-${baseColor}${bold ? "-bold" : ""} ${text ? "pr-4" : ""} ${image && text ? "pl-1" : ""} ${!image ? "pl-4 py-2" : ""}`}
+      className={`btn-${baseColor}${bold ? "-bold" : ""} ${text ? "pr-4" : ""} ${image && text ? "pl-0" : ""} ${!image ? "pl-4 py-2" : ""}`}
       onClick={onClick} // Añadir el onClick handler aquí
     >
       <div
