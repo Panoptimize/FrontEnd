@@ -122,14 +122,14 @@ export const Dashboard: React.FC = () => {
                     {kpiData && (
                         <div>
                             <div className="flex flex-row space-x-6">
-                                <DataCard title="Avg Hold Time" content={`${kpiData?.avgHoldTime} seconds`} />
-                                <DataCard title="First Contact Resolution" content={`${kpiData?.firstContactResolution}%`} />
-                                <DataCard title="Abandonment Rate" content={`${kpiData?.abandonmentRate}%`} />
+                                <DataCard title="Avg Hold Time" content={`${kpiData?.avgHoldTime}`} decorator=" seconds" />
+                                <DataCard title="First Contact Resolution" content={`${kpiData?.firstContactResolution}`} decorator="%" />
+                                <DataCard title="Abandonment Rate" content={`${kpiData?.abandonmentRate}`} decorator="%" />
                             </div>
                             <div className="flex flex-row space-x-6 pt-5">
-                                <DataCard title="Service Level" content={`${kpiData?.serviceLevel}%`} />
-                                <DataCard title="Agent Schedule Adherence" content={`${kpiData?.agentScheduleAdherence}%`} />
-                                <DataCard title="Avg Speed Answer" content={`${kpiData?.avgSpeedOfAnswer} seconds`} />
+                                <DataCard title="Service Level" content={`${kpiData?.serviceLevel}`} decorator="%" />
+                                <DataCard title="Agent Schedule Adherence" content={`${kpiData?.agentScheduleAdherence}`} decorator="%" />
+                                <DataCard title="Avg Speed Answer" content={`${kpiData?.avgSpeedOfAnswer}`} decorator=" seconds" />
                             </div>
                         </div>
                     )}

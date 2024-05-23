@@ -7,4 +7,9 @@ export interface IDataCard {
      * Value of the information
      */
     content: string | number;
+
+    /**
+     * Value decorator
+     */
+    decorator?: string;
 }
