@@ -1,13 +1,22 @@
 import exp from "constants";
 import { Outlet } from "react-router-dom";
+import { useAppContext } from "../store/app-context/app-context";
 
 const PublicRouter = () => {
-    return (
-        <div>
-            <h1>Public</h1>
-            <Outlet />
-        </div>
-    );
-}
+  const { loadingContext } = useAppContext();
+
+  return (
+    <div>
+      {loadingContext ? (
+        <h1>Loading...</h1>
+      ) : (
+        <>
+          <Outlet />
+        </>
+      )}
+    </div>
+  );
+};
 
 export default PublicRouter;
+
