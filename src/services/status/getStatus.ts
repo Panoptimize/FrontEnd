@@ -34,11 +34,3 @@ interface MetricData {
         Collections: IStatus[];
     }>;
 }
-
-export default getStatus;
-
-interface MetricData {
-  MetricResults: Array<{
-    Collections: IStatus[];
-  }>;
-}
