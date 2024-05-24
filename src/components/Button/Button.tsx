@@ -17,25 +17,25 @@ const Button: React.FC<IButton> = ({
     return null;
   }
 
+
   return (
     <button
-      onClick={onClick}
-      type={type}
       className={`btn-${baseColor}${bold ? "-bold" : ""} ${text ? "pr-4" : ""} ${image && text ? "pl-0" : ""} ${!image ? "pl-4 py-2" : ""}`}
+      onClick={onClick} // Añadir el onClick handler aquí
+      type={type}
     >
       <div
         className={`flex items-center ${baseColor !== "transparent" ? "text-white" : "text-black"}`}
       >
         {image && (
           <img
+            // Work only with SVG files
             src={require(`../../assets/images/${image}`)}
             alt={image}
             style={
-              baseColor === "transparent" && !isSvg
-                ? { filter: "invert(100%)" }
-                : {}
+              baseColor === "transparent" ? {} : { filter: "invert(100%)" }
             }
-          ></img>
+          />
         )}
         {text}
       </div>
