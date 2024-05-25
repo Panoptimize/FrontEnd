@@ -9,28 +9,22 @@ import { ActivityChart } from "../../components/ActivityChart";
 import { getContactMedium } from "../../services";
 import { getStatus } from "../../services";
 import getKpis from "../../services/kpicard/getKpis";
+import getPerformance from "../../services/performance/getPerformance";
 // import { IDataCard } from "../../components/DataCard/types";
 import { KpiData } from "./kpitypes";
 import { getSatisfaction } from "../../services";
 import { getMonthlyActivity } from "../../services";
 import { IStatusCard } from "../../components/StatusCard/types";
+import { IUsersChartData } from "../../components/PerformanceChart/types";
 
 export const Dashboard: React.FC = () => {
   const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
   const [contactMediumData, setContactMediumData] = useState<number[]>([]);
   const [activityData, setActivityData] = useState<number[]>([]);
+  const [performance, setPerformance] = useState<IUsersChartData[]>([]);
 
-  const users = [
-    { username: "Mariah Carey", data: [0, 10, 5, 2, 20, 30, 45] },
-    { username: "Will Smith", data: [0, 5, 10, 15, 20, 25, 30] },
-    { username: "Tom Cruise", data: [0, 10, 15, 20, 25, 30, 35] },
-    { username: "Mariah Carey", data: [0, 10, 5, 2, 20, 30, 45] },
-    { username: "Will Smith", data: [0, 5, 10, 15, 20, 25, 30] },
-    { username: "Tom Cruise", data: [0, 10, 15, 20, 25, 30, 35] },
-    { username: "Mariah Carey", data: [0, 10, 5, 2, 20, 30, 45] },
-    { username: "Will Smith", data: [0, 5, 10, 15, 20, 25, 30] },
-    { username: "Tom Cruise", data: [0, 10, 15, 20, 25, 30, 35] },
-  ];
+
+
   const [kpiData, setKpiData] = useState<KpiData>();
 
   const fetchContactMedium = async () => {
@@ -95,6 +89,20 @@ export const Dashboard: React.FC = () => {
       console.error("Error al obtener datos de actividad mensual:", error);
     }
   };
+  const getPerformanceData = async () => {
+    try {
+      const response = await getPerformance();
+      if (response.success) {
+         // Set the performance data
+         //setPerformance(response.data?.users);
+        } else {
+            // Handle the error message
+            console.error("Error obtaining the performance data:", response.error);
+        }
+    } catch (error) {
+        console.error("Error al obtener el performance de los agentes:", error);
+    }
+};
 
   useEffect(() => {
     fetchContactMedium();
@@ -102,6 +110,7 @@ export const Dashboard: React.FC = () => {
     getAgentsStatus();
     getSatisfactionLevels();
     fetchActivityData();
+    getPerformanceData();
   }, []);
 
   return (
@@ -169,7 +178,7 @@ export const Dashboard: React.FC = () => {
       </div>
       {/* Second row of charts */}
       <div className="grid grid-cols-2 flex-auto my-2 mx-10  space-x-5 place-content-evenly">
-        <PerformanceChart users={users} />
+        <PerformanceChart users={performance}/>
         <ActivityChart data={activityData} />
       </div>
     </div>
