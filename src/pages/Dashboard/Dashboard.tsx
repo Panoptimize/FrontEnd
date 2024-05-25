@@ -32,32 +32,49 @@ export const Dashboard: React.FC = () => {
     { username: "Tom Cruise", data: [0, 10, 15, 20, 25, 30, 35] },
   ];
   const [kpiData, setKpiData] = useState<KpiData>();
-
+  const [error, setError] = useState<string | null>(null);
+  
+  // Fetches the contact medium data from the server
   const fetchContactMedium = async () => {
     try {
-      const response = await getContactMedium();
-      if (response && response.data) {
-        setContactMediumData(response.data);
+        const response = await getContactMedium();
+        console.log("Response from fetchContactMedium:", response);
+      
+        if (response && 'voice' in response && 'chat' in response) {
+            const valuesArray = [response.voice, response.chat];
+            setContactMediumData(valuesArray);
+        } else if (response && response.message) {
+          setError(response.message);
+        } else {
+          setError('An unknown error occurred');
+        }
+      } catch (error) {
+        console.error("Error al obtener datos de medios de contacto:", error);
+        setError((error as Error).message || 'An unknown error occurred');
       }
-    } catch (error) {
-      console.error("Error al obtener datos de medios de contacto:", error);
-    }
-  };
+    };
+
 
   const [status, setStatus] = useState<IStatusCard[]>([]);
 
-  const getAgentsStatus = async () => {
-    const result = await getStatus();
-    if (result.error) {
-      console.error(result.error);
-    } else {
-      setStatus(result.data);
-    }
-  };
-
+    const getAgentsStatus = async () => {
+        const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
+        if (result.error) {
+            console.error(result.error);
+        } else {
+            setStatus(result.data); 
+        }
+    };
+  
   useEffect(() => {
-    getAgentsStatus();
-  }, []);
+        const intervalId = setInterval(() => {
+            getAgentsStatus();
+        }, 5000);
+    
+        return () => clearInterval(intervalId);
+    }, []);
+  
+  
 
   const getSatisfactionLevels = async () => {
     try {
