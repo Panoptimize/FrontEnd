@@ -30,6 +30,4 @@ export interface IButton {
    * Function to handle click events.
    */
   onClick?: () => void; // Añadir esta línea
-
-  type?: "button" | "submit" | "reset";
 }

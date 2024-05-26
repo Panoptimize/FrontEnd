@@ -8,7 +8,6 @@ const Button: React.FC<IButton> = ({
   baseColor,
   image,
   onClick,
-  type,
 }) => {
   // Using only SVG files for icons
   const isSvg = image?.endsWith(".svg");
@@ -21,7 +20,6 @@ const Button: React.FC<IButton> = ({
     <button
       className={`btn-${baseColor}${bold ? "-bold" : ""} ${text ? "pr-4" : ""} ${image && text ? "pl-0" : ""} ${!image ? "pl-4 py-2" : ""}`}
       onClick={onClick} // Añadir el onClick handler aquí
-      type={type}
     >
       <div
         className={`flex items-center ${baseColor !== "transparent" ? "text-white" : "text-black"}`}

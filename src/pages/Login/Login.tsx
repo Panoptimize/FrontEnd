@@ -91,7 +91,13 @@ const Login = () => {
                     />
                   </div>
                 </div>
-                <Button baseColor="teal" text={"Log In"} type="submit"></Button>
+
+                <button
+                  type="submit"
+                  className="w-full bg-teal-700 text-white py-2 px-4 rounded-md hover:bg-teal-800 transition-colors duration-300 mt-3"
+                >
+                  Log In
+                </button>
               </form>
             </div>
           </div>
