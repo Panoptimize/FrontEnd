@@ -2,9 +2,10 @@ export interface IDataCard {
     /**
      * Title of the information
      */
-    title: string;
+    title: string
     /**
      * Value of the information
      */
-    content: string | number;
+    content: string | number
+    textColor?:'green'|'yellow'|'blue'|'red'|'purple'
 }
