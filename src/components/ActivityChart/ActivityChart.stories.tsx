@@ -1,48 +1,24 @@
 import { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 import ActivityChart from './ActivityChart';
-import { IActivityChart } from './types';
 
-const meta: Meta<IActivityChart> = {
+const meta: Meta = {
     title: 'Components/Charts/Activity Chart',
     component: ActivityChart,
     parameters: {
         layout: 'centered',
         docs: {
             description: {
-                component: 'Displays yearly activity as a line chart. Use this chart to visualize user engagement metrics across different months.',
+                component: 'Displays activity as a line chart. This chart fetches and visualizes user engagement metrics directly, without external inputs.',
             },
             iframeHeight: 500,
-        },
-        controls: { expanded: true }
+        }
     },
-    argTypes: {
-        data: {
-            description: 'Array of monthly activity data points.',
-            control: { type: 'object' },
-            table: {
-                type: { summary: 'number[]' },
-                defaultValue: { summary: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]' },
-            },
-        },
-    },
+    // Como tu componente no toma props externas, puedes quitar `argTypes` por completo.
 };
 
 export default meta;
 
-const Template: StoryFn<IActivityChart> = (args) => <ActivityChart {...args} />;
+const Template: StoryFn<typeof ActivityChart> = () => <ActivityChart />;
 
 export const Default = Template.bind({});
-Default.args = {
-    data: [10, 12, 13, 11, 15, 28, 10, 86, 63, 77, 55, 87],
-};
-
-export const Empty = Template.bind({});
-Empty.args = {
-    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-};
-
-export const RandomData = Template.bind({});
-RandomData.args = {
-    data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 100)),
-};

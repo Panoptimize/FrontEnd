@@ -1,43 +1,44 @@
-import React from "react";
-import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Chart,
-  Ticks,
-} from "chart.js";
-import { IActivityChart } from "./types";
+// ActivityChart.tsx
+import React, { useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { getActivityData } from '../../services/activityChart/getMonthlyActivity';
+import { IActivityChart } from './types';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const ActivityChart: React.FC<IActivityChart> = ({ data: customData }) => {
+const ActivityChart: React.FC = () => {
+  const [chartData, setChartData] = useState<IActivityChart>({ data: [] });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getActivityData();
+      setChartData(data);
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
   const data = {
-    labels: [
-      "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
-    ],
-    datasets: [
-      {
-        data: customData || [20, 35, 28, 42, 50, 43, 50, 60, 70, 55, 30, 78],
-        tension: 0.5,
-        fill: true,
-        borderWidth: 5,
-        borderRadius: 10,
-      },
-    ],
+    labels: chartData.data?.map(item => new Date(item.startTime).toLocaleDateString("en-US", {
+      month: 'short',
+      day: '2-digit'
+    })) || [],
+    datasets: [{
+      data: chartData.data?.map(item => item.value) || [],
+      tension: 0.5,
+      fill: true,
+      borderWidth: 5,
+      borderColor: 'rgba(75, 192, 192, 0.8)',
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(75, 192, 192, 1)'
+    }]
   };
 
   const options = {
@@ -45,13 +46,14 @@ const ActivityChart: React.FC<IActivityChart> = ({ data: customData }) => {
     maintainAspectRatio: false,
     elements: {
       point: {
-        radius: 0,
+        radius: 6,
+        hitRadius: 10,
+        hoverRadius: 12,
       },
     },
     plugins: {
       legend: {
         display: false,
-        position: "top" as const,
       },
       tooltip: {
         mode: "index" as const,
@@ -66,7 +68,7 @@ const ActivityChart: React.FC<IActivityChart> = ({ data: customData }) => {
         },
         ticks: {
           font: {
-            size: 10,
+            size: 12,
           },
         },
       },
@@ -76,30 +78,24 @@ const ActivityChart: React.FC<IActivityChart> = ({ data: customData }) => {
         },
         ticks: {
           font: {
-            size: 10,
+            size: 12,
           },
         },
       },
     },
-    onResize: function (chart: Chart) {
-      const canvas = chart.canvas;
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-        gradient.addColorStop(0, "rgba(145, 241, 229, 0.5)");
-        gradient.addColorStop(0.5, "rgba(14, 148, 138, 1)");
-        gradient.addColorStop(1, "rgba(1, 69, 66, 1)");
-        chart.data.datasets[0].borderColor = gradient;
-        chart.update();
-      }
-    },
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
-    <div
-      className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"
-      style={{ minWidth: "580px", width: "580px", height: "250px" }}
-    >
+    <div className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"
+         style={{ minWidth: "580px", width: "580px", height: "250px" }}>
       <div className="text-md text-left pl-6 pt-3 w-full">
         Overall User Activity
       </div>

@@ -12,15 +12,12 @@ import getKpis from "../../services/kpicard/getKpis";
 // import { IDataCard } from "../../components/DataCard/types";
 import { KpiData } from "./kpitypes";
 import { getSatisfaction } from "../../services";
-import { getMonthlyActivity } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
 
 
 export const Dashboard: React.FC = () => {
 
     const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
-    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
-    const [activityData, setActivityData] = useState<number[]>([]);
 
     const users = [
         { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
@@ -35,16 +32,6 @@ export const Dashboard: React.FC = () => {
     ];
     const [kpiData, setKpiData] = useState<KpiData>();
 
-    const fetchContactMedium = async () => {
-        try {
-            const response = await getContactMedium();
-            if (response && response.data) {
-                setContactMediumData(response.data);
-            }
-        } catch (error) {
-            console.error("Error al obtener datos de medios de contacto:", error);
-        }
-    };
 
     const [status, setStatus] = useState<IStatusCard[]>([]);
 
@@ -85,21 +72,10 @@ export const Dashboard: React.FC = () => {
     };
 
 
-    const fetchActivityData = async () => {
-        try {
-            const data = await getMonthlyActivity();
-            setActivityData(data);
-        } catch (error) {
-            console.error("Error al obtener datos de actividad mensual:", error);
-        }
-    };
-
     useEffect(() => {
-        fetchContactMedium();
         getKpiData();
         getAgentsStatus();
         getSatisfactionLevels();
-        fetchActivityData();
     }, []);
 
     return (
@@ -122,7 +98,6 @@ export const Dashboard: React.FC = () => {
                 {/* Charts */}
                 <div className="flex flex-row justify-between items-stretch w-full pt-4 px-16">
                         <SatisfactionChart data={satisfactionLevels}/>
-                        <ContactMedium data = {contactMediumData}/>
                         <div>
                             {kpiData && (
                                 <div>
@@ -143,7 +118,7 @@ export const Dashboard: React.FC = () => {
                 {/* Second row of charts */}
                 <div className="flex flex-row justify-between items-stretch space-x-6 pt-6 px-16">
                     <PerformanceChart users={users} />
-                    <ActivityChart data={activityData}/>
+                    <ActivityChart />
                 </div>
         </div>
     );
