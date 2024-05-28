@@ -5,6 +5,8 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
+import { UserInfoCard } from "../../components/UserInfoCard";
+import { Modal } from "../../components/Modal";
 
 import { getContactMedium, getStatus, getPerformance, getSatisfaction, getMonthlyActivity } from "../../services";
 import getKpis from "../../services/kpicard/getKpis";
@@ -165,6 +167,7 @@ export const Dashboard: React.FC = () => {
         <ActivityChart data={activityData} />
       </div>
     </div>
+
   );
 };
 

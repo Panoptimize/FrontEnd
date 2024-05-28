@@ -5,15 +5,17 @@ const UserInfoCard: React.FC<IUserInfoCard> = ({
   name = 'Name',
   email = 'Email',
   username = 'Username',
-  selectedWorkspaces: initialSelectedWorkspaces = [],
+  selectedWorkspaces='WorkSpace',
   availableWorkspaces: initialAvailableWorkspaces = ['Sales', 'Payments', 'Test', 'Customer', 'Testing'],
   profileImage,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedWorkspaces, setSelectedWorkspaces] = useState<string[]>(initialSelectedWorkspaces || []);
+  /*
+  const [selectedWorkspaces, setSelectedWorkspaces] = useState<string>(initialSelectedWorkspaces || );
   const [availableWorkspaces, setAvailableWorkspaces] = useState<string[]>(initialAvailableWorkspaces || []);
-
+  */
+  /*
   const handleSelectWorkspace = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newWorkspace = e.target.value;
     if (!selectedWorkspaces.includes(newWorkspace)) {
@@ -24,11 +26,12 @@ const UserInfoCard: React.FC<IUserInfoCard> = ({
   const handleRemoveWorkspace = (workspaceToRemove: string) => {
     setSelectedWorkspaces(prev => prev.filter(ws => ws !== workspaceToRemove));
   };
-
+  */
+ /*
   const handleSave = () => {
     console.log('Guardando datos:', { name, email, username, selectedWorkspaces });
     setIsEditing(false);  // Volver al estado de no edición después de guardar
-  };
+  };*/
 
   const handleClose = () => {
     setIsVisible(false);
@@ -78,39 +81,9 @@ const UserInfoCard: React.FC<IUserInfoCard> = ({
               </div>
               <div className="flex flex-col items-start w-full">
                 <label className="flex text-sm font-medium w-24">Workspace</label>
-                {isEditing && (
-                  <select
-                    onChange={handleSelectWorkspace}
-                    className="border-gray-300 rounded-md shadow-sm py-2 px-4 mt-1 w-full"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>Select workspace</option>
-                    {availableWorkspaces.map((ws) => (
-                      <option key={ws} value={ws}>{ws}</option>
-                    ))}
-                  </select>
-                )}
+                
                 <div className="mt-2 w-full flex flex-row flex-wrap gap-1 overflow-auto" style={{ maxHeight: '40px' }}>
-                  {selectedWorkspaces.length > 0 ? (
-                    selectedWorkspaces.map((ws) => (
-                      <span
-                        key={ws}
-                        className="bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded flex items-center"
-                      >
-                        {ws}
-                        {isEditing && (
-                          <button
-                            onClick={() => handleRemoveWorkspace(ws)}
-                            className="bg-transparent border-none text-blue-800 ml-2 cursor-pointer"
-                          >
-                            &times;
-                          </button>
-                        )}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="px-4 inline font-medium text-m text-gray-500">No workspaces selected</span>
-                  )}
+                  {selectedWorkspaces}
                 </div>
               </div>
             </div>
@@ -119,15 +92,9 @@ const UserInfoCard: React.FC<IUserInfoCard> = ({
                 <button onClick={handleCancelEdit} className="bg-gray-300 text-gray-700 rounded px-6 py-2">
                   Cancel
                 </button>
-                <button onClick={handleSave} className="bg-blue-600 text-white rounded px-6 py-2">
-                  Save
-                </button>
               </div>
             ) : (
               <div className="flex justify-center mt-8">
-                <button onClick={handleEdit} className="bg-blue-600 text-white rounded px-6 py-2">
-                  Edit Workspace
-                </button>
               </div>
             )}
           </div>

@@ -22,9 +22,15 @@ export interface IUserInfoCard {
     /**
      * Array of names of workspaces selected by the user (optional)
      */
-    selectedWorkspaces?: string[]; 
+    selectedWorkspaces?: string; 
     /**
      * Array of names of workspaces available to the user
      */
     availableWorkspaces?: string[]; 
+    /**
+     * Values to open de card
+     */
+    open?: boolean;
+    onClose?: () => void;
+    children?: React.ReactNode;
 }
