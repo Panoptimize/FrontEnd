@@ -1,27 +1,12 @@
-// ActivityChart.tsx
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { getActivityData } from '../../services/activityChart/getMonthlyActivity';
-import { IActivityChart } from './types';
+import { IActivityChart } from './types'; // Importa IActivityChart de types.ts
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const ActivityChart: React.FC = () => {
-  const [chartData, setChartData] = useState<IActivityChart>({ data: [] });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getActivityData();
-      setChartData(data);
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, []);
-
+// Utiliza IActivityChart directamente como las props del componente
+const ActivityChart: React.FC<{ chartData: IActivityChart }> = ({ chartData }) => {
   const data = {
     labels: chartData.data?.map(item => new Date(item.startTime).toLocaleDateString("en-US", {
       month: 'short',
@@ -84,14 +69,6 @@ const ActivityChart: React.FC = () => {
       },
     },
   };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   return (
     <div className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"

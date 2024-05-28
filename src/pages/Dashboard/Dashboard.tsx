@@ -5,7 +5,7 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
-
+import { IActivityChart } from "../../components/ActivityChart/types";
 import { getContactMedium } from "../../services";
 import { getStatus } from '../../services';
 import getKpis from "../../services/kpicard/getKpis";
@@ -13,6 +13,8 @@ import getKpis from "../../services/kpicard/getKpis";
 import { KpiData } from "./kpitypes";
 import { getSatisfaction } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
+import { getActivityData } from "../../services/activityChart/getMonthlyActivity";
+
 
 
 export const Dashboard: React.FC = () => {
@@ -71,11 +73,24 @@ export const Dashboard: React.FC = () => {
         }
     };
 
+    const [activityData, setActivityData] = useState<IActivityChart>({data: []});
+
+    const loadActivityData = async () => {
+        try {
+            const data = await getActivityData();
+            setActivityData(data);
+        } catch (error) {
+            console.error("Error loading activity data:", error);
+            // Considera manejar estados de error aquí también
+        }
+    };
+
 
     useEffect(() => {
         getKpiData();
         getAgentsStatus();
         getSatisfactionLevels();
+        loadActivityData();
     }, []);
 
     return (
@@ -118,7 +133,7 @@ export const Dashboard: React.FC = () => {
                 {/* Second row of charts */}
                 <div className="flex flex-row justify-between items-stretch space-x-6 pt-6 px-16">
                     <PerformanceChart users={users} />
-                    <ActivityChart />
+                    <ActivityChart chartData={activityData} />
                 </div>
         </div>
     );
