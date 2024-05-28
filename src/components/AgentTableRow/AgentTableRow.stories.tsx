@@ -41,10 +41,9 @@ const Templates: StoryFn<IAgentTableRow> = (args) => (
 export const Default = Templates.bind({});
 Default.args = {
   agentImage:
-    "https://saki.ichoria.org/f/y3gml/Mark_Hamill_by_Gage_Skidmore_2.jpg",
+    "ProfileIcon.svg",
   name: "Mark Hamill",
   workspace1: "Sales",
-  workspace2: "Delivery",
   overallScore: 90,
   lastActivity: "3 days ago",
   details: "View Details",
