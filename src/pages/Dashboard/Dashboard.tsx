@@ -81,7 +81,6 @@ export const Dashboard: React.FC = () => {
             setActivityData(data);
         } catch (error) {
             console.error("Error loading activity data:", error);
-            // Considera manejar estados de error aquí también
         }
     };
 

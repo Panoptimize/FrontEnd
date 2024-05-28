@@ -20,10 +20,10 @@ export const getActivityData = async (): Promise<IActivityChart> => {
     if (response.data && response.data.activities) {
       return { data: response.data.activities };
     } else {
-      return { data: [] }; // Devuelve datos vacíos si la respuesta está vacía
+      return { data: [] }; 
     }
   } catch (error) {
     console.error("Error al obtener la actividad:", error);
-    return { data: [] }; // Devuelve datos vacíos en caso de error
+    return { data: [] }; 
   }
 };

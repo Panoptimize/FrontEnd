@@ -1,11 +1,10 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { IActivityChart } from './types'; // Importa IActivityChart de types.ts
+import { IActivityChart } from './types'; 
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-// Utiliza IActivityChart directamente como las props del componente
 const ActivityChart: React.FC<{ chartData: IActivityChart }> = ({ chartData }) => {
   const data = {
     labels: chartData.data?.map(item => new Date(item.startTime).toLocaleDateString("en-US", {
