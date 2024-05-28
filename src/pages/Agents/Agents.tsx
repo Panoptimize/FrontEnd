@@ -1,6 +1,5 @@
 import React from "react";
 import { Pill } from "../../components/Pill";
-import { Button } from "../../components/Button";
 
 const Agents: React.FC = () => {
   return (
