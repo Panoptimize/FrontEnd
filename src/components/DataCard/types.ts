@@ -8,4 +8,8 @@ export interface IDataCard {
      */
     content: string | number;
     textColor?:'green'|'yellow'|'blue'|'red'|'purple'
+    /**
+     * Value decorator
+     */
+    decorator?: string;
 }
