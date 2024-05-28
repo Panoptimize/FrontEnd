@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../Button";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/constants";
 import myLogo from "../../assets/images/Panoptimize.png";
+import { useAppContext } from "../../store/app-context/app-context";
 
 interface SidebarProps {
   expanded: boolean;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
+  const navigate = useNavigate();
+  const { logOut } = useAppContext();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      navigate(ROUTES.AUTH);
+    } catch (e) {
+      console.log("Logout error");
+    }
+  };
   const width = expanded ? "w-56" : "w-14";
 
   // Get the current location
@@ -130,6 +142,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
               baseColor="transparent"
               image="logout.svg"
               text={expanded ? "Log Out" : ""}
+              onClick={handleLogout}
             ></Button>
           </div>
         </div>
