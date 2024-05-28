@@ -9,11 +9,8 @@ import {
   Title,
   Tooltip,
   Legend,
-  Chart,
-  Ticks,
 } from "chart.js";
-import { IPerformanceChart } from "./types";
-import { IUsersChartData } from "./types";
+import { IPerformanceChart, IUsersChartData } from "./types";
 
 ChartJS.register(
   CategoryScale,
@@ -31,12 +28,12 @@ const PerformanceChart: React.FC<IPerformanceChart> = ({ users }) => {
     maintainAspectRatio: false,
     elements: {
       point: {
-        radius: 0,
+        radius: 5,
       },
     },
     plugins: {
       legend: {
-        display: false,
+        display: true,
         position: "top" as const,
       },
       tooltip: {
@@ -44,86 +41,69 @@ const PerformanceChart: React.FC<IPerformanceChart> = ({ users }) => {
         intersect: false,
       },
     },
-    labels: {
-      display: false,
-    },
     scales: {
       y: {
-        display: false,
+        display: true,
         beginAtZero: true,
         grid: {
-          display: false,
-        },
-        ticks: {
-          font: {
-            size: 10,
-          },
+          display: true,
         },
       },
       x: {
-        display: false,
+        display: true,
         grid: {
-          display: false,
+          display: true,
         },
         ticks: {
-          font: {
-            size: 10,
-          },
+          display: false,
         },
       },
     },
-    onResize: function (chart: Chart) {
-      const canvas = chart.canvas;
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-        gradient.addColorStop(0, "rgba(145, 241, 229, 0.5)");
-        gradient.addColorStop(0.5, "rgba(14, 148, 138, 1)");
-        gradient.addColorStop(1, "rgba(1, 69, 66, 1)");
-        chart.data.datasets[0].borderColor = gradient;
-        chart.update();
-      }
-    },
   };
 
-  // Function to calculate the average of the data
   const calculateAverage = (data: number[]): number => {
     return data.reduce((acc, value) => acc + value, 0) / data.length;
   };
-  ///
 
   return (
-    <div
-      className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"
-      style={{ minWidth: "580px", width: "580px", maxHeight: "250px" }}
-    >
-      <div className="text-md text-left pl-6 pt-3 w-full">
+    <div className="bg-white shadow-md rounded-3xl p-6 flex flex-col justify-center flex-auto max-h-screen">
+      <div className="text-lg text-left pl-6 pt-3 w-full font-semibold">
         Agents Performance
       </div>
       <div className="w-full px-4">
         <hr className="border-gray-300 my-2" />
       </div>
-      <ul className="w-full px-10" style={{ overflowY: "auto", maxHeight: "300px" }}>
-        {users.map((user: any, index: any) => (
-          <li key={index} className="flex justify-between items-center py-2">
-            <div className="flex text-left text-gray-500">{user.username}</div>
+      <ul
+        className="w-full px-10 overflow-y-auto"
+        style={{ maxHeight: "150px" }}
+      >
+        {users.map((user: IUsersChartData, index: number) => (
+          <li key={index} className="flex flex-col py-4">
+            <div className="flex w-full items-center">
+              <div className="flex w-1/2 text-left text-gray-500 break-words">{user.username}</div>
+              <div className="w-1/2 h-20">
+                <Line
+                  data={{
+                    labels: user.data.map(() => ""), 
+                    datasets: [
+                      {
+                        label: 'Performance',
+                        data: user.data,
+                        borderColor: 'rgba(75,192,192,1)',
+                        backgroundColor: 'rgba(75,192,192,0.2)',
+                        fill: false,
+                        tension: 0.4, 
+                        pointRadius: 5,
+                        pointHoverRadius: 7, 
+                      },
+                    ],
+                  }}
+                  options={options}
+                />
+              </div>
+            </div>
             <div className="flex-auto text-right text-sm font-bold px-4">
               {calculateAverage(user.data).toFixed(0)}
-            </div>
-            <div className="w-32 h-8">
-              <Line
-                data={{
-                  labels: Array(user.data.length)
-                    .fill(null)
-                    .map((_, i) => `Label ${i + 1}`),
-                  datasets: [
-                    {
-                      data: user.data,
-                    },
-                  ],
-                }}
-                options={options}
-              />
             </div>
           </li>
         ))}

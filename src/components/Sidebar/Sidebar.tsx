@@ -5,11 +5,11 @@ import { ROUTES } from "../../routes/constants";
 import myLogo from "../../assets/images/Panoptimize.png";
 
 interface SidebarProps {
-  expanded?: boolean;
+  expanded: boolean;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
-  const width = expanded ? "w-48" : "w-14";
+const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
+  const width = expanded ? "w-56" : "w-14";
 
   // Get the current location
   const location = useLocation();
@@ -37,46 +37,70 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
   }, [location.pathname]);
 
   return (
-    <div className={`${width} flex flex-auto px-2 justify-center bg-[#FFFFFF] border-r`} style={{ height: "100vh" }}>
+    <div
+      className={`${width} flex flex-auto h-[calc(100vh-65px)] px-2 justify-center bg-white border-r`}
+    >
       <div className="flex flex-col flex-auto justify-between">
         <div className="flex flex-col my-1 justify-start">
           <div className="flex flex-col">
-            <div className="my-1 flex flex-auto justify-start">
-              <img src={myLogo} alt="logo" className="w-full px-2 pt-6 pb-12"></img>
-            </div>
-
-            <Link to={ROUTES.DASHBOARD} className="w-full" onClick={() => handleButtonClick(ROUTES.DASHBOARD)}>
+            <Link
+              to={ROUTES.DASHBOARD}
+              className="w-full"
+              onClick={() => handleButtonClick(ROUTES.DASHBOARD)}
+            >
               <div className="my-1 flex flex-grow justify-center">
                 <Button
-                  baseColor={activeButton === ROUTES.DASHBOARD ? "teal" : "transparent"}
+                  baseColor={
+                    activeButton === ROUTES.DASHBOARD ? "teal" : "transparent"
+                  }
                   image="Dashboard.svg"
                   text={expanded ? "Dashboard" : ""}
                 ></Button>
               </div>
             </Link>
-            <Link to={ROUTES.ACTION_CENTER} className="w-full" onClick={() => handleButtonClick(ROUTES.ACTION_CENTER)}>
+            <Link
+              to={ROUTES.ACTION_CENTER}
+              className="w-full"
+              onClick={() => handleButtonClick(ROUTES.ACTION_CENTER)}
+            >
               <div className="my-1 flex flex-auto">
                 <Button
-                  baseColor={activeButton === ROUTES.ACTION_CENTER ? "teal" : "transparent"}
+                  baseColor={
+                    activeButton === ROUTES.ACTION_CENTER
+                      ? "teal"
+                      : "transparent"
+                  }
                   image="ActionCenter.svg"
                   text={expanded ? "Action Center" : ""}
                 ></Button>
               </div>
             </Link>
-            <Link to={ROUTES.AGENTS} className="w-full" onClick={() => handleButtonClick(ROUTES.AGENTS)}>
+            <Link
+              to={ROUTES.AGENTS}
+              className="w-full"
+              onClick={() => handleButtonClick(ROUTES.AGENTS)}
+            >
               <div className="my-1 flex flex-auto">
                 <Button
-                  baseColor={activeButton === ROUTES.AGENTS ? "teal" : "transparent"}
+                  baseColor={
+                    activeButton === ROUTES.AGENTS ? "teal" : "transparent"
+                  }
                   image="Agents.svg"
                   text={expanded ? "Agents" : ""}
                 ></Button>
               </div>
             </Link>
 
-            <Link to={ROUTES.HISTORY} className="w-full" onClick={() => handleButtonClick(ROUTES.HISTORY)}>
+            <Link
+              to={ROUTES.HISTORY}
+              className="w-full"
+              onClick={() => handleButtonClick(ROUTES.HISTORY)}
+            >
               <div className="my-1 flex flex-auto">
                 <Button
-                  baseColor={activeButton === ROUTES.HISTORY ? "teal" : "transparent"}
+                  baseColor={
+                    activeButton === ROUTES.HISTORY ? "teal" : "transparent"
+                  }
                   image="History.svg"
                   text={expanded ? "History" : ""}
                 ></Button>
@@ -86,10 +110,16 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded = true }) => {
         </div>
 
         <div className="flex flex-col justify-end my-4">
-          <Link to={ROUTES.SETTINGS} className="w-full" onClick={() => handleButtonClick(ROUTES.SETTINGS)}>
+          <Link
+            to={ROUTES.SETTINGS}
+            className="w-full"
+            onClick={() => handleButtonClick(ROUTES.SETTINGS)}
+          >
             <div className="my-1 flex flex-auto">
               <Button
-                baseColor={activeButton === ROUTES.SETTINGS ? "teal" : "transparent"}
+                baseColor={
+                  activeButton === ROUTES.SETTINGS ? "teal" : "transparent"
+                }
                 image="Gear.svg"
                 text={expanded ? "Settings" : ""}
               ></Button>
