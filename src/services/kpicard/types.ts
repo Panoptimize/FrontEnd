@@ -31,4 +31,19 @@ export interface MetricResponse {
      * Average Speed Answer KPI
      */
     avgSpeedOfAnswer: number;
+    /**
+     * Voice contacts
+     */
+    voice: number;
+    /**
+     * Chat contacts
+     */
+    chat: number
+    /**
+     * Overall activity
+     */
+    activities: {
+        value: number;
+        startTime: string;
+      }[];
 }
