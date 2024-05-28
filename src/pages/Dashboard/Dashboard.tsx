@@ -88,20 +88,6 @@ export const Dashboard: React.FC = () => {
       console.error("Error al obtener datos de actividad mensual:", error);
     }
   };
-  const getPerformanceData = async () => {
-    try {
-      const response = await getPerformance();
-      if (response.success) {
-         // Set the performance data
-         //setPerformance(response.data?.users);
-        } else {
-            // Handle the error message
-            console.error("Error obtaining the performance data:", response.error);
-        }
-    } catch (error) {
-        console.error("Error al obtener el performance de los agentes:", error);
-    }
-};
 
   useEffect(() => {
     getAgentsStatus();
@@ -110,7 +96,6 @@ export const Dashboard: React.FC = () => {
     getSatisfactionLevels();
     getKpiData();
     fetchActivityData();
-    getPerformanceData();
   }, []);
 
   return (
