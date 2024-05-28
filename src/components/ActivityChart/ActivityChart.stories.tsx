@@ -1,48 +1,40 @@
 import { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 import ActivityChart from './ActivityChart';
-import { IActivityChart } from './types';
+import { IActivityChart } from './types'; // Asegúrate de que esta es la ubicación correcta de tus interfaces.
 
-const meta: Meta<IActivityChart> = {
+const meta: Meta = {
     title: 'Components/Charts/Activity Chart',
     component: ActivityChart,
     parameters: {
         layout: 'centered',
         docs: {
             description: {
-                component: 'Displays yearly activity as a line chart. Use this chart to visualize user engagement metrics across different months.',
+                component: 'Displays activity as a line chart using passed data. Useful for visualizing user engagement over time.',
             },
             iframeHeight: 500,
-        },
-        controls: { expanded: true }
-    },
-    argTypes: {
-        data: {
-            description: 'Array of monthly activity data points.',
-            control: { type: 'object' },
-            table: {
-                type: { summary: 'number[]' },
-                defaultValue: { summary: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]' },
-            },
-        },
+        }
     },
 };
 
 export default meta;
 
-const Template: StoryFn<IActivityChart> = (args) => <ActivityChart {...args} />;
+// Datos de prueba para el story
+const sampleChartData: IActivityChart = {
+    data: [
+        { value: 10, startTime: '2024-06-01T00:00:00Z' },
+        { value: 20, startTime: '2024-06-02T00:00:00Z' },
+        { value: 15, startTime: '2024-06-03T00:00:00Z' },
+        { value: 30, startTime: '2024-06-04T00:00:00Z' },
+        { value: 10, startTime: '2024-06-05T00:00:00Z' },
+    ]
+};
+
+const Template: StoryFn<typeof ActivityChart> = (args) => <ActivityChart {...args} />;
 
 export const Default = Template.bind({});
+// Asigna los datos de prueba al story por defecto
 Default.args = {
-    data: [10, 12, 13, 11, 15, 28, 10, 86, 63, 77, 55, 87],
+    chartData: sampleChartData
 };
 
-export const Empty = Template.bind({});
-Empty.args = {
-    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-};
-
-export const RandomData = Template.bind({});
-RandomData.args = {
-    data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 100)),
-};
