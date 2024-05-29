@@ -1,4 +1,4 @@
-//import httpInstance from "../httpInstance";
+import httpInstance from "../httpInstance";
 //import { AxiosError, AxiosResponse } from "axios";
 
 interface DashboardDTO {
