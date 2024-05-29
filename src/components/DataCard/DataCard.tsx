@@ -25,7 +25,7 @@ const DataCard: React.FC<IDataCard> = ({ title, content, textColor }) => {
 
   return (
     <div className="flex flex-auto bg-white border border-gray-200 rounded-3xl shadow">
-      <div className="flex flex-col space-y-1 py-3 pl-1 mx-3">
+      <div className="flex flex-col space-y-1 py-3 pl-1 mx-3 overflow-clip">
         <div className="font-bold text-sm text-gray-600">{title}</div>
         <div className={`text-2xl font-bold ${colorClass}`}>{content}</div>
       </div>

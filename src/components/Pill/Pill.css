@@ -1,9 +1,9 @@
 .pill{
-    @apply bg-cyan-100 text-center justify-center rounded-xl  h-10 px-1 my-5 grid grid-flow-col min-w-16 font-normal py-2 flex-auto
+    @apply bg-cyan-100 text-center justify-center rounded-xl  h-10 px-1 min-w-16 font-normal py-2 flex-auto
 }
 
 .pill-icon{
-    @apply bg-cyan-100 text-center justify-center rounded-xl  h-10 px-1 py-2  my-5  min-w-16 font-normal 
+    @apply bg-cyan-100 text-center justify-center rounded-xl  h-10 px-1 py-2 min-w-16 font-normal 
 }
 
 .title{

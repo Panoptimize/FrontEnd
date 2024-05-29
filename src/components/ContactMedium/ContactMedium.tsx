@@ -59,6 +59,9 @@ const ContactMedium: React.FC<IContactMedium> = ({ data: customData }) => {
   return (
     <div className="bg-white w-20 shadow-md rounded-3xl p-1 flex flex-col justify-center flex-auto">
       <div className="text-md pt-2 px-3 pb-2 font-semibold">Contact Medium</div>
+      <div className="px-4">
+        <hr className="border-gray-300 my-2" />
+      </div>
       <div className="text-3xl text-left font-semibold px-5">{totalSum}</div>
       <div className="flex-auto pb-6 px-2">
         <Doughnut data={data} options={options} />
