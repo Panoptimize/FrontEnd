@@ -19,7 +19,6 @@ const Agents: React.FC = () => {
         agentImage: '',
         name: agent.name,
         workspace1: agent.workspace,
-        overallScore: agent.score,
         lastActivity: agent.status,
         id: agent.id,
       }));
