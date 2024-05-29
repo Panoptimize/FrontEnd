@@ -2,7 +2,6 @@ import Background from "../../assets/images/AuthBackground.png";
 import Email from "../../assets/images/email.png";
 import Password from "../../assets/images/password.png";
 import Logo from "../../assets/images/PanoptimizeBlue.png";
-import { Button } from "../../components/Button";
 import React, { useState } from "react";
 import { useAppContext } from "../../store/app-context/app-context";
 import { useNavigate } from "react-router-dom";

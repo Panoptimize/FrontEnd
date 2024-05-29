@@ -1,8 +1,5 @@
 
 import React, { useEffect, useState } from 'react'
-import { Pill } from '../../components/Pill'
-import { Button } from '../../components/Button'
-import { Modal } from '../../components/Modal'
 import { UserInfoCard } from '../../components/UserInfoCard'
 import { getDetails } from '../../services';
 import { IUserInfoCard } from "../../components/UserInfoCard/types";
