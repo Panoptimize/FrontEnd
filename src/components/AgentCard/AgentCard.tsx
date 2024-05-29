@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { IHistoryCard } from "./types";
+import { IAgentCard } from "./types";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 import { Pill } from "../Pill";
 import { DataCard } from "../DataCard";
+import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
+import NoteCard from "../NoteCard/NoteCard";
 
-const HistoryCard: React.FC<IHistoryCard> = ({
+const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details",
   title = "Contact Details",
   name = "Dave",
@@ -93,57 +95,62 @@ const HistoryCard: React.FC<IHistoryCard> = ({
           </div>
         </div>
         <div className="flex flex-auto flex-row space-x-5">
-          <div className="flex flex-auto bg-white">
-            <div className="grid grid-rows-3 place-items-center space-y-5">
-              <Avatar size="large"></Avatar>
-              <div className="flex flex-auto flex-col my-3">
-                <h4 className="my-3 font-bold text-xl">Agent Details</h4>
+          <div className="w-60 overflow-clip">
+            <div className="flex flex-col w-full place-items-center my-2">
+              <div className="flex flex-col place-items-center space-y-3 mb-5">
+                <Avatar size="large"></Avatar>
+                <Pill title="Areas"></Pill>
+              </div>
+              <div className="flex flex-col h-full w-full">
+                <h4 className="my-3 font-bold text-xl">Agent Metrics</h4>
                 <h4>{name}</h4>
                 <h4>{email}</h4>
                 <h4>{username}</h4>
               </div>
-              <Pill title="Areas"></Pill>
-              <div></div>
             </div>
           </div>
-          <div className=" flex flex-auto ">
-            <div className="flex flex-col space-y-5">
-              <div className="grid grid-rows-2 space-y-3">
-                <div className="grid grid-cols-4 space-x-3">
-                  <DataCard
-                    title="Call Time"
-                    content={20}
-                    textColor="green"
-                  ></DataCard>
-                  <DataCard
-                    title="After Call Work Time"
-                    content={"asdf"}
-                    textColor="red"
-                  ></DataCard>
-                  <DataCard
-                    title="Answer Speed"
-                    content={"aasf"}
-                    textColor="yellow"
-                  ></DataCard>
-                  <DataCard
-                    title="Status"
-                    content={10}
-                    textColor="purple"
-                  ></DataCard>
+          <div className="flex flex-col space-y-5 w-full">
+            <div className="grid grid-cols-4 space-x-3">
+              <DataCard
+                title="Call Time"
+                content={20}
+                textColor="green"
+              ></DataCard>
+              <DataCard
+                title="After Call Time"
+                content={"asdf"}
+                textColor="red"
+              ></DataCard>
+              <DataCard
+                title="Hold Time"
+                content={"aasf"}
+                textColor="yellow"
+              ></DataCard>
+              <DataCard
+                title="Abandon Time"
+                content={10}
+                textColor="purple"
+              ></DataCard>
+            </div>
+            <div>
+              <div className="flex flex-row items-center justify-between">
+                <div className="flex flex-row items-center justify-between space-x-2">
+                  <h2 className="text-xl font-bold">Notes:</h2>
                 </div>
-                <div className="grid grid-cols-4 space-x-3">
-                  <DataCard
-                    title="Date"
-                    content={10}
-                    textColor="blue"
-                  ></DataCard>
-                  <DataCard title="Time of Day" content={10}></DataCard>
-                  <DataCard title="Satisfaction" content={10}></DataCard>
-                  <DataCard title="First Contact" content={10}></DataCard>
+                <div>
+                  <NoteCard></NoteCard>
                 </div>
               </div>
-              <h5 className="my-3 font-bold text-xl">Insights</h5>
-              <div className="overflow-y-scroll p-2 h-36 flex-auto  rounded-md border-2 my-2">
+            </div>
+            <div className="flex flex-auto flex-col">
+              <div className="flex flex-row items-center justify-between">
+                <h1 className="ml-3 font-bold">Title</h1>
+                <div className="flex flex-row space-x-10 mr-24">
+                  <h1 className="ml-3 font-bold">Priority</h1>
+                  <h1 className="ml-3 font-bold">Last Update</h1>
+                </div>
+              </div>
+              <div className="overflow-y-scroll p-2 flex-auto h-36 rounded-md border-2 my-2">
                 <div>Insight 1</div>
                 <div>Insight 1</div>
                 <div>Insight 1</div>
@@ -166,4 +173,4 @@ const HistoryCard: React.FC<IHistoryCard> = ({
   );
 };
 
-export default HistoryCard;
+export default AgentCard;

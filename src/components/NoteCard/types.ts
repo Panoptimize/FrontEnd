@@ -1,4 +1,4 @@
-export interface IHistoryCard {
+export interface INoteCard {
     /**
      * Title of the user information card
      */

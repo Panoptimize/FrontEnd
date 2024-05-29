@@ -5,18 +5,28 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
+import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
+import { SearchBox } from "../../components/SearchBox";
 
-import { getContactMedium, getStatus, getPerformance, getSatisfaction, getMonthlyActivity } from "../../services";
+import {
+  getContactMedium,
+  getStatus,
+  getPerformance,
+  getSatisfaction,
+  getMonthlyActivity,
+} from "../../services";
 import getKpis from "../../services/kpicard/getKpis";
 import { KpiData } from "./kpitypes";
 import { IStatusCard } from "../../components/StatusCard/types";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
+import { Button } from "../../components/Button";
 
 export const Dashboard: React.FC = () => {
   const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
   const [contactMediumData, setContactMediumData] = useState<number[]>([]);
   const [activityData, setActivityData] = useState<number[]>([]);
-  const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
+  const [performanceData, setPerformanceData] =
+    useState<IPerformanceChart | null>(null);
   const [status, setStatus] = useState<IStatusCard[]>([]);
   const [kpiData, setKpiData] = useState<KpiData>();
   const [error, setError] = useState<string | null>(null);
@@ -25,17 +35,17 @@ export const Dashboard: React.FC = () => {
   const fetchContactMedium = async () => {
     try {
       const response = await getContactMedium();
-      if (response && 'voice' in response && 'chat' in response) {
+      if (response && "voice" in response && "chat" in response) {
         const valuesArray = [response.voice, response.chat];
         setContactMediumData(valuesArray);
       } else if (response && response.message) {
         setError(response.message);
       } else {
-        setError('An unknown error occurred');
+        setError("An unknown error occurred");
       }
     } catch (error) {
       console.error("Error al obtener datos de medios de contacto:", error);
-      setError((error as Error).message || 'An unknown error occurred');
+      setError((error as Error).message || "An unknown error occurred");
     }
   };
 
@@ -51,10 +61,10 @@ export const Dashboard: React.FC = () => {
   const fetchPerformanceData = async () => {
     try {
       const performanceData: IPerformanceChart = await getPerformance();
-      console.log('Performance Data:', performanceData);
+      console.log("Performance Data:", performanceData);
       setPerformanceData(performanceData);
     } catch (error) {
-      console.error('Error fetching performance data:', error);
+      console.error("Error fetching performance data:", error);
     }
   };
 
@@ -111,6 +121,44 @@ export const Dashboard: React.FC = () => {
               numUsers={item.numUsers}
             />
           ))}
+        </div>
+      </div>
+      <div className="flex flex-row items-center justify-between mx-5 py-4 space-x-2">
+        <div className="flex flex-row space-x-5">
+          <h1 className="text-xl font-semibold mx-5">Filters:</h1>
+          <ChoiceBox
+            boxText="Timeframe:"
+            options={[
+              { value: "option1", label: "Yesterday" },
+              { value: "option2", label: "Last Week" },
+              { value: "option3", label: "Last Month" },
+              { value: "option4", label: "Last 3 Months" },
+              { value: "option5", label: "Last Year" },
+            ]}
+          ></ChoiceBox>
+          <ChoiceBox
+            boxText="Workspace:"
+            options={[
+              { value: "option1", label: "Sales" },
+              { value: "option2", label: "Data" },
+              { value: "option3", label: "Marketing" },
+            ]}
+          ></ChoiceBox>
+          <ChoiceBox
+            boxText="Agents:"
+            options={[
+              { value: "option1", label: "Sales" },
+              { value: "option2", label: "Data" },
+              { value: "option3", label: "Marketing" },
+            ]}
+          ></ChoiceBox>
+        </div>
+        <div>
+          <Button
+            baseColor="transparent"
+            image="Download.svg"
+            text="Download"
+          ></Button>
         </div>
       </div>
       <div className="font-poppins px-6">
