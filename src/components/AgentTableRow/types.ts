@@ -3,7 +3,7 @@ export interface IAgentTableRow {
   name: string;
   workspace1: string;
   workspace2?: string;
-  overallScore: number;
+  overallScore?: number;
   lastActivity: string;
   details?: string /* TEMPORARY */;
   id: string;

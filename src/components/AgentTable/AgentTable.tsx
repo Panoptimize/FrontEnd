@@ -11,7 +11,6 @@ const AgentTable: React.FC<IAgentTable> = ({ rows }) => {
           <tr className="btn-headerrow">
             <th className="py-2 px-4">Name</th>
             <th className="py-2 px-4">Workspace</th>
-            <th className="py-2 px-4">Overall Score</th>
             <th className="py-2 px-4">Last Activity</th>
             <th className="py-2 px-4">Feedback</th>
             <th className="py-2 px-4 ">Details</th>

@@ -36,7 +36,6 @@ const AgentTableRow: React.FC<IAgentTableRow> = ({
         <button className="workspace-pill">{workspace1}</button>
         {workspace2 && <button className="workspace-pill">{workspace2}</button>}
       </td>
-      <td>{overallScore} / 100</td>
       <td>
         <p>{lastActivity}</p>
       </td>
