@@ -1,69 +1,65 @@
+import React from "react";
+import { Pill } from "../../components/Pill";
+import { Button } from "../../components/Button";
+import { AgentTable } from "../../components/AgentTable";
+import { IAgentTableRow } from "./../../components/AgentTableRow/types";
+import { IAgent } from "./../../components/AgentTable/types";
+import { getAgentsList } from "../../services";
+import { useEffect, useState } from "react";
 
-import React, { useEffect, useState } from 'react'
-import { UserInfoCard } from '../../components/UserInfoCard'
-import { getDetails } from '../../services';
-import { IUserInfoCard } from "../../components/UserInfoCard/types";
-import './Agents.css';
+const Agents: React.FC = () => {
+  const [rows, setRows] = useState<IAgentTableRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingDots, setLoadingDots] = useState(".");
 
-const Agents:React.FC = () => {
-  /**
-   * Constants
-  */
-  const [details, setDetails] = useState<IUserInfoCard[]>([]);
-  
-  /**Functions */
+  const getAgents = async () => {
+    try {
+      const agents: IAgent[] = await getAgentsList();
+      const agentRows = agents.map(agent => ({
+        agentImage: '',
+        name: agent.name,
+        workspace1: agent.workspace,
+        lastActivity: agent.status,
+        id: agent.id,
+      }));
 
-  const getAgentDetails = async () => {
-    const result = await getDetails();
-    console.log('Results:', result);
-    if (result.error) {
-        console.error(result.error);
-    } else {
-        console.log("Details have been stored");
-        setDetails(result.data); 
+      setRows(agentRows);
+    } catch (error) {
+      console.error('Error fetching agents:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getAgentDetails();
+    getAgents();
   }, []);
 
-  /**Return */
+  useEffect(() => {
+    if (loading) {
+      const interval = setInterval(() => {
+        setLoadingDots(prev => (prev.length < 3 ? prev + "." : "."));
+      }, 500); // Cambia los puntos cada 500ms
+
+      return () => clearInterval(interval);
+    }
+  }, [loading]);
 
   return (
     <div>
-            {/* Title */}
-            <div className="font-poppins pt-6 pb-0 px-6">
-                <h1 className="font-semibold text-3xl">
-                    Agents
-                </h1>
-            <div>
-              {(details && details.length > 0) ? (
-                details.map((item, index) => (
-                  <UserInfoCard
-                    name={item.name}
-                    email={item.email}
-                    profileImage={item.profileImage}
-                    username={item.username}
-                    selectedWorkspaces={item.selectedWorkspaces}
-                  />
-                ))
-              ) : (
-                <UserInfoCard
-                  name="Default Name"
-                  email="default.email@example.com"
-                  profileImage="path/to/default-profile-image.jpg"
-                  username="defaultusername"
-                  selectedWorkspaces="Default Workspace"
-                />
-              )}
-            </div>
-                    
-            </div>
-            
-            {/* List of Agents */}
+      {/* Title */}
+      <div className="font-poppins pt-6 pb-0 px-6">
+        <h1 className="font-semibold text-3xl">Agents</h1>
+        {loading ? (
+          <p className="mt-8 text-xl">Loading{loadingDots}</p> // Indicador de carga dinámico
+        ) : (
+          <AgentTable rows={rows} />
+        )}
+      </div>
+
+      {/* List of Agents */}
     </div>
-  )
-}
+  );
+};
 
 export default Agents;

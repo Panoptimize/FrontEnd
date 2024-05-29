@@ -7,7 +7,7 @@
 }
 
 .btn-header{
-    @apply p-4 bg-white !rounded-full !overflow-hidden shadow-md;
+    @apply p-4 bg-[#F3F6F9] !rounded-full !overflow-hidden shadow-md;
 }
 
 .btn-headerrow{
