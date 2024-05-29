@@ -6,7 +6,7 @@ import {
   ArcElement,
   Tooltip,
   Legend,
-  Colors,
+  //Colors,
 } from "chart.js";
 import { IContactMedium } from "./types";
 

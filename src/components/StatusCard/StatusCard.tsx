@@ -14,13 +14,13 @@ const StatusCard: React.FC<IStatusCard> = ({ status, numUsers }) => {
   };
 
   const getColor = (status: string): string => {
-    if (status == "AGENTS_AVAILABLE") {
+    if (status === "AGENTS_AVAILABLE") {
       return "bg-green-600";
-    } else if (status == "AGENTS_ON_CONTACT") {
+    } else if (status === "AGENTS_ON_CONTACT") {
       return "bg-amber-500";
-    } else if (status == "AGENTS_AFTER_CONTACT_WORK") {
+    } else if (status === "AGENTS_AFTER_CONTACT_WORK") {
       return "bg-fuchsia-600";
-    } else if (status == "AGENTS_ONLINE") {
+    } else if (status === "AGENTS_ONLINE") {
       return "bg-gray-600";
     }
     return "";

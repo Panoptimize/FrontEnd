@@ -5,36 +5,25 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
-
 import { IActivityChart } from "../../components/ActivityChart/types";
-import { getStatus, getPerformance} from "../../services";
+import { getStatus, getPerformance, getContactMedium, getSatisfaction, getMonthlyActivity} from "../../services";
 import getKpis from "../../services/kpicard/getKpis";
-import { getSatisfaction } from "../../services";
+//import { getSatisfaction } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
 import { MetricResponse } from "../../services/kpicard/types";
 
-import { UserInfoCard } from "../../components/UserInfoCard";
-import { Modal } from "../../components/Modal";
-
-import { getContactMedium, getStatus, getPerformance, getSatisfaction, getMonthlyActivity } from "../../services";
-import getKpis from "../../services/kpicard/getKpis";
-import { KpiData } from "./kpitypes";
-import { IStatusCard } from "../../components/StatusCard/types";
-import { IPerformanceChart } from "../../components/PerformanceChart/types";
 
 export const Dashboard: React.FC = () => {
-  const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
-  const [contactMediumData, setContactMediumData] = useState<number[]>([]);
-  const [activityData, setActivityData] = useState<number[]>([]);
-  //const [activityData, setActivityData] = useState<IActivityChart>({data: []});
-  const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
-  const [status, setStatus] = useState<IStatusCard[]>([]);
-  //const [kpiData, setKpiData] = useState<KpiData>();
-  const [kpiData, setKpiData] = useState<MetricResponse>();
-  const [error, setError] = useState<string | null>(null);
 
-  const users = [
+    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
+    const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
+    const [activityData, setActivityData] = useState<IActivityChart>({data: []});
+    const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
+    const [status, setStatus] = useState<IStatusCard[]>([]);
+    const [kpiData, setKpiData] = useState<MetricResponse>();
+
+    const users = [
         { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
@@ -45,33 +34,32 @@ export const Dashboard: React.FC = () => {
         { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
         { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
     ];
-  // Fetches the contact medium data from the server
-  const fetchContactMedium = async () => {
-    try {
-      const response = await getContactMedium();
-      if (response && 'voice' in response && 'chat' in response) {
-        const valuesArray = [response.voice, response.chat];
-        setContactMediumData(valuesArray);
-      } else if (response && response.message) {
-        setError(response.message);
-      } else {
-        setError('An unknown error occurred');
+
+    const fetchContactMedium = async () => {
+      try {
+        const response = await getContactMedium();
+        if (response && 'voice' in response && 'chat' in response) {
+          const valuesArray = [response.voice, response.chat];
+          setContactMediumData(valuesArray);
+        } else if (response && response.message) {
+          setError(response.message);
+        } else {
+          setError('An unknown error occurred');
+        }
+      } catch (error) {
+        console.error("Error al obtener datos de medios de contacto:", error);
+        setError((error as Error).message || 'An unknown error occurred');
       }
-    } catch (error) {
-      console.error("Error al obtener datos de medios de contacto:", error);
-      setError((error as Error).message || 'An unknown error occurred');
-    }
-  };
+    };
 
-  const getAgentsStatus = async () => {
-    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-    if (result.error) {
-      console.error(result.error);
-    } else {
-      setStatus(result.data);
-    }
-  };
-
+    const getAgentsStatus = async () => {
+        const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
+        if (result.error) {
+            console.error(result.error);
+        } else {
+            setStatus(result.data); 
+        }
+    };
 
     const fetchPerformanceData = async () => {
       try {
@@ -96,15 +84,35 @@ export const Dashboard: React.FC = () => {
       setActivityData({ data: result.data.activities });
     };
 
+    const getSatisfactionLevels = async () => {
+      try {
+        const data = await getSatisfaction();
+        if (data) {
+          setSatisfactionLevels(data);
+        }
+      } catch (error) {
+        console.error("Error al obtener los niveles de satisfacción:", error);
+      }
+    };
 
-  useEffect(() => {
-    getAgentsStatus();
-    fetchPerformanceData();
-    fetchContactMedium();
-    getSatisfactionLevels();
-    getKpiData();
-    fetchActivityData();
-  }, []);
+    const fetchActivityData = async () => {
+      try {
+        const data = await getMonthlyActivity();
+        setActivityData(data);
+      } catch (error) {
+        console.error("Error al obtener datos de actividad mensual:", error);
+      }
+    };
+
+    useEffect(() => {
+      getAgentsStatus();
+      fetchPerformanceData();
+      fetchContactMedium();
+      getSatisfactionLevels();
+      getKpiData();
+      fetchActivityData();
+    }, []);
+  
 
     return (
       <div className="flex w-full h-fit flex-col">
@@ -121,7 +129,6 @@ export const Dashboard: React.FC = () => {
             ))}
           </div>
         </div>
-
         <div className="font-poppins px-6">
           <p className="text-gray-600 pt-2 text-lg">Overall Performance</p>
         </div>
@@ -136,7 +143,6 @@ export const Dashboard: React.FC = () => {
                       (kpiData?.chat ?? 0), // Add chat data if available
                   ]} />
             </div>
-
           </div>
           <div className="flex flex-auto">
             {kpiData && (
@@ -182,3 +188,7 @@ export const Dashboard: React.FC = () => {
   };
   
   export default Dashboard;
+
+function setError(message: any) {
+  throw new Error("Function not implemented.");
+}

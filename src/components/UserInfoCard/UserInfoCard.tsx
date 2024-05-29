@@ -41,9 +41,9 @@ const UserInfoCard: React.FC<IUserInfoCard> = ({
     setIsVisible(true);
   };
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
+  // const handleEdit = () => {
+  //   setIsEditing(true);
+  // };
 
   const handleCancelEdit = () => {
     setIsEditing(false);

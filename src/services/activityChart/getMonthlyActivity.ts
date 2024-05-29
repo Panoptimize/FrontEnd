@@ -8,7 +8,7 @@ interface IActivityChart {
   }>;
 }
 
-export const getActivityData = async (): Promise<IActivityChart> => {
+export const getMonthlyActivity = async (): Promise<IActivityChart> => {
   try {
     const response = await httpInstance.post('dashboard/activity', {
       instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",

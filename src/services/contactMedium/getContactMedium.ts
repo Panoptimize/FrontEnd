@@ -1,5 +1,5 @@
-import httpInstance from "../httpInstance";
-import { AxiosError, AxiosResponse } from "axios";
+//import httpInstance from "../httpInstance";
+//import { AxiosError, AxiosResponse } from "axios";
 
 interface DashboardDTO {
   instanceId: string;
