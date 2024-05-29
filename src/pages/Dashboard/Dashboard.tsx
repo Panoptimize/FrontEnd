@@ -6,6 +6,7 @@ import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
 
+
 import { getContactMedium, getStatus, getPerformance, getSatisfaction, getMonthlyActivity } from "../../services";
 import getKpis from "../../services/kpicard/getKpis";
 import { KpiData } from "./kpitypes";
@@ -164,6 +165,8 @@ export const Dashboard: React.FC = () => {
         {performanceData && <PerformanceChart users={performanceData.users} />}
         <ActivityChart data={activityData} />
       </div>
+
+
     </div>
   );
 };
