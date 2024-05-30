@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ITextInput } from "./types";
 
 export const TextInput: React.FC<ITextInput> = ({
   placeholder,
   icon,
   size,
+  text, // Default value for the text prop
 }) => {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(text);
+
   const iconSizeClass = size === "big" ? "w-8 h-8" : "w-6 h-6";
   const inputHeightClass = size === "big" ? "h-full" : "h-12";
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value);
   };
+
+  useEffect(() => {
+    setInputValue(text);
+  }, [text]);
 
   return (
     <div className="relative flex-auto h-full">
@@ -29,7 +35,7 @@ export const TextInput: React.FC<ITextInput> = ({
           placeholder={placeholder}
           value={inputValue}
           onChange={handleInputChange}
-          className={`flex flex-auto rounded-xl resize-none p-4 border border-[#D1D5DB] py-2 ${icon ? "pl-12" : "pl-2"} pr-4 bg-white outline-teal-300 text-gray-700 placeholder-gray-400 w-full ${inputHeightClass} `}
+          className={`flex flex-auto rounded-xl resize-none p-4 border border-[#D1D5DB] py-2 ${icon ? "pl-12" : "pl-2"} pr-4 bg-white outline-teal-300 text-gray-700 placeholder-gray-400 w-full ${inputHeightClass}`}
         />
       </div>
     </div>

@@ -9,7 +9,9 @@ import { NoteInputs } from "../NoteInputs";
 
 const NoteCard: React.FC<INoteCard> = ({
   bttnTitle = "Add note",
-  title = "Contact Note",
+  title,
+  text,
+  priority,
   name = "Dave",
   email = "dave_chapelle@gmail.com",
   username = "chap",
@@ -86,7 +88,7 @@ const NoteCard: React.FC<INoteCard> = ({
         }}
       >
         <div className="flex flex-row items-center justify-between mb-3">
-          <h2 className="text-3xl font-bold mb-2">{title}</h2>
+          <h2 className="text-3xl font-bold mb-2">Contact Note</h2>
           <div>
             <Button
               baseColor="transparent"
@@ -111,7 +113,11 @@ const NoteCard: React.FC<INoteCard> = ({
               </div>
             </div>
           </div>
-          <NoteInputs></NoteInputs>
+          <NoteInputs
+            title={title}
+            text={text}
+            priority={priority}
+          ></NoteInputs>
         </div>
       </div>
     </div>

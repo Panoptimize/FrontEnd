@@ -33,4 +33,6 @@ export interface INoteCard {
     availableWorkspaces?: string[]; 
 
     bttn_color?: 'teal' | 'rose' | 'gray' | 'transparent' | 'mint';
+    text?: string;
+    priority?: 1|2|3|4|5;
 }

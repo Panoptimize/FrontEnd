@@ -76,8 +76,17 @@ const AgentCard: React.FC<IAgentCard> = ({
     );
 
   const notesData = [
-    { title: "Attend better your clients", priority: "1", updateDate: "24/05/2024" },
-    { title: "There was an incident, please dont yell harsh words at the clients.", priority: "2", updateDate: "20/05/2024" },
+    {
+      title: "Attend better your clients",
+      priority: "1",
+      updateDate: "24/05/2024",
+    },
+    {
+      title:
+        "There was an incident, please dont yell harsh words at the clients.",
+      priority: "2",
+      updateDate: "20/05/2024",
+    },
     { title: "Recieve better", priority: "3", updateDate: "10/05/2024" },
     { title: "Slow attendance rate", priority: "1", updateDate: "2024/05/30" },
     { title: "Bad work environment", priority: "2", updateDate: "2024/05/29" },

@@ -1,7 +1,6 @@
 import React from "react";
 import { INotesRow } from "./types";
 import NoteCard from "../NoteCard/NoteCard";
-import { Button } from "../Button";
 
 const NotesRow: React.FC<INotesRow> = ({ title, priority, updateDate }) => {
   return (
@@ -19,7 +18,12 @@ const NotesRow: React.FC<INotesRow> = ({ title, priority, updateDate }) => {
             </div>
             <p>{updateDate}</p>
             <div>
-              <NoteCard bttn_color="transparent" bttnTitle="Edit"></NoteCard>
+              <NoteCard
+                bttn_color="transparent"
+                bttnTitle="Edit"
+                title={title}
+                text="Aquí agrega ejemplos de donde está leyendo la row, y sustituye esto por {text} en NotesRow.tsx"
+              ></NoteCard>
             </div>
           </div>
         </td>

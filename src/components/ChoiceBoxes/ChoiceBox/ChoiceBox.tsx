@@ -2,7 +2,7 @@ import React from "react";
 import "./index.css";
 import { IChoiceBox } from "./types";
 
-const ChoiceBox: React.FC<IChoiceBox> = ({ boxText, options }) => {
+const ChoiceBox: React.FC<IChoiceBox> = ({ boxText, options, chosen }) => {
   return (
     <div className="flex flex-auto starterChoice space-x-2">
       <label htmlFor="labelChoice">{boxText}</label>

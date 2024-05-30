@@ -3,12 +3,16 @@ import { Button } from "../Button";
 import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
 import { TextInput } from "../TextInput";
 
-const NoteInputs: React.FC<INoteInputs> = () => {
+const NoteInputs: React.FC<INoteInputs> = ({ priority, title, text }) => {
   return (
     <div className="flex flex-auto flex-col w-full h-full p-2 space-y-4">
       <div className="flex flex-row space-x-2">
         <div className="w-full">
-          <TextInput placeholder="Add Title" size="small"></TextInput>
+          <TextInput
+            placeholder="Add Title"
+            size="small"
+            text={title}
+          ></TextInput>
         </div>
         <ChoiceBox
           boxText="Priority:"
@@ -22,7 +26,7 @@ const NoteInputs: React.FC<INoteInputs> = () => {
         ></ChoiceBox>
       </div>
       <div className="h-full">
-        <TextInput placeholder="Add Text" size="big"></TextInput>
+        <TextInput placeholder="Add Text" size="big" text={text}></TextInput>
       </div>
       <div className="grid grid-cols-3">
         <div></div>
