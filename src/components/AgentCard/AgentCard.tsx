@@ -158,7 +158,6 @@ const AgentCard: React.FC<IAgentCard> = ({
               <div>
                 <NotesTable notesData={notesData} />
               </div>
-
               {/* 1. cambiar con NotesRow, checar si flexea, probar con los placeholders de figma */}
             </div>
           </div>
