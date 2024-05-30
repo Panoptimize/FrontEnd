@@ -6,7 +6,9 @@ import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
 import { IActivityChart } from "../../components/ActivityChart/types";
-import { getStatus, getPerformance, getContactMedium, getSatisfaction, getMonthlyActivity} from "../../services";
+import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
+import { Button } from "../../components/Button";
+import { getStatus, getPerformance, getContactMedium, getSatisfaction, getMonthlyActivity, getDownload} from "../../services";
 import getKpis from "../../services/kpicard/getKpis";
 //import { getSatisfaction } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
@@ -104,6 +106,16 @@ export const Dashboard: React.FC = () => {
       }
     };
 
+    const fetchDownload = async () => {
+      try {
+        console.log("entro")
+        const data = await getDownload();
+        console.log(data);
+      }catch (error) {
+        console.error("Error al obtener datos de descarga:", error);
+      }
+    }
+
     useEffect(() => {
       getAgentsStatus();
       fetchPerformanceData();
@@ -132,6 +144,45 @@ export const Dashboard: React.FC = () => {
         <div className="font-poppins px-6">
           <p className="text-gray-600 pt-2 text-lg">Overall Performance</p>
         </div>
+        <div className="flex flex-row items-center justify-between mx-5 py-4 space-x-2">
+        <div className="flex flex-row space-x-5">
+          <h1 className="text-xl font-semibold mx-5">Filters:</h1>
+          <ChoiceBox
+            boxText="Timeframe:"
+            options={[
+              { value: "option1", label: "Yesterday" },
+              { value: "option2", label: "Last Week" },
+              { value: "option3", label: "Last Month" },
+              { value: "option4", label: "Last 3 Months" },
+              { value: "option5", label: "Last Year" },
+            ]}
+          ></ChoiceBox>
+          <ChoiceBox
+            boxText="Workspace:"
+            options={[
+              { value: "option1", label: "Sales" },
+              { value: "option2", label: "Data" },
+              { value: "option3", label: "Marketing" },
+            ]}
+          ></ChoiceBox>
+          <ChoiceBox
+            boxText="Agents:"
+            options={[
+              { value: "option1", label: "Sales" },
+              { value: "option2", label: "Data" },
+              { value: "option3", label: "Marketing" },
+            ]}
+          ></ChoiceBox>
+        </div>
+        <div>
+          <Button
+            baseColor="transparent"
+            image="Download.svg"
+            text="Download"
+            onClick={() => fetchDownload()}
+          ></Button>
+        </div>
+      </div>        
         <div className="grid grid-cols-2 my-2 mx-10 h-72 space-x-5 place-content-evenly">
           <div className="flex flex-auto space-x-5 place-content-evenly">
             <div className="flex flex-auto">
