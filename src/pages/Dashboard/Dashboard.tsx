@@ -12,12 +12,13 @@ import getKpis from "../../services/kpicard/getKpis";
 import { IStatusCard } from '../../components/StatusCard/types';
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
 import { MetricResponse } from "../../services/kpicard/types";
+import { ICustomerSatisfaction } from "../types";
 
 
 export const Dashboard: React.FC = () => {
 
     const [contactMediumData, setContactMediumData] = useState<number[]>([]);
-    const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
+    const [satisfactionLevels, setSatisfactionLevels] = useState<ICustomerSatisfaction>();
     const [activityData, setActivityData] = useState<IActivityChart>({data: []});
     const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
     const [status, setStatus] = useState<IStatusCard[]>([]);
@@ -85,14 +86,14 @@ export const Dashboard: React.FC = () => {
     };
 
     const getSatisfactionLevels = async () => {
-      try {
-        const data = await getSatisfaction();
-        if (data) {
-          setSatisfactionLevels(data);
-        }
-      } catch (error) {
+      await getSatisfaction().then((data) => {
+        if(data && data.data)
+          console.log(data.data.results);
+          setSatisfactionLevels(data.data.results)
+      })
+      .catch ((error) => {
         console.error("Error al obtener los niveles de satisfacción:", error);
-      }
+      });
     };
 
     const fetchActivityData = async () => {
@@ -135,7 +136,7 @@ export const Dashboard: React.FC = () => {
         <div className="grid grid-cols-2 my-2 mx-10 h-72 space-x-5 place-content-evenly">
           <div className="flex flex-auto space-x-5 place-content-evenly">
             <div className="flex flex-auto">
-              <SatisfactionChart data={satisfactionLevels} />
+              <SatisfactionChart data={satisfactionLevels?.satisfaction_levels} />
             </div>
             <div className="flex flex-auto">
               <ContactMedium data={[

@@ -1,6 +1,7 @@
 import httpInstance from "../httpInstance";
 
 export const getSatisfaction = async () => {
+    /*
     try {
         const endpoint = '/customer-satisfaction';
         const response = await httpInstance.get(endpoint);
@@ -15,4 +16,14 @@ export const getSatisfaction = async () => {
         // Devuelve datos predeterminados en caso de error
         return [1, 1, 1, 1, 1];
     }
+    */
+    let res: any;
+    const endpoint = '/customer-satisfaction';
+    await httpInstance.get(endpoint).then((data) => {
+        res = data;
+    }).catch((err) => {
+        res = err.response;
+    });
+    
+    return res;
 };
