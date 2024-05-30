@@ -1,4 +1,5 @@
 export interface INoteCard {
+    image_only?: boolean,
     /**
      * Title of the user information card
      */
@@ -31,4 +32,6 @@ export interface INoteCard {
      * Array of names of workspaces available to the user
      */
     availableWorkspaces?: string[]; 
+
+    bttn_color?: 'teal' | 'rose' | 'gray' | 'transparent' | 'mint';
 }

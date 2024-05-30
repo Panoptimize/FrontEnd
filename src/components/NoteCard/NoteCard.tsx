@@ -8,6 +8,7 @@ import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
 import { TextInput } from "../TextInput";
 
 const NoteCard: React.FC<INoteCard> = ({
+  image_only = false,
   bttnTitle = "Add note",
   title = "Contact Note",
   name = "Dave",
@@ -16,6 +17,7 @@ const NoteCard: React.FC<INoteCard> = ({
   selectedWorkspaces: initialSelectedWorkspaces = [],
   availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
   profileImage,
+  bttn_color = "transparent",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -64,9 +66,15 @@ const NoteCard: React.FC<INoteCard> = ({
   };
 
   if (!isVisible)
-    return (
+    return image_only ? (
       <Button
-        baseColor="teal"
+        baseColor={bttn_color}
+        image="Edit.svg"
+        onClick={handleOpen}
+      ></Button>
+    ) : (
+      <Button
+        baseColor={bttn_color}
         image="Edit.svg"
         text={bttnTitle}
         onClick={handleOpen}
