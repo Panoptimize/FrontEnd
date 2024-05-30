@@ -79,6 +79,7 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
             title={note.title}
             priority={note.priority}
             updateDate={note.updateDate}
+            description={note.description}
           />
         ))}
       </div>

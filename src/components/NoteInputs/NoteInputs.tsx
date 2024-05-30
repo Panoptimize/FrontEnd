@@ -3,6 +3,9 @@ import { Button } from "../Button";
 import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
 import { TextInput } from "../TextInput";
 
+/* Ahorita se esta simulando lo del backend, ya despues seria con un backend ya implementado */
+
+
 const NoteInputs: React.FC<INoteInputs> = ({ priority, title, text }) => {
   return (
     <div className="flex flex-auto flex-col w-full h-full p-2 space-y-4">

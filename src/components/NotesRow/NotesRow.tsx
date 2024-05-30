@@ -2,7 +2,8 @@ import React from "react";
 import { INotesRow } from "./types";
 import NoteCard from "../NoteCard/NoteCard";
 
-const NotesRow: React.FC<INotesRow> = ({ title, priority, updateDate }) => {
+const NotesRow: React.FC<INotesRow> = ({ title, priority, updateDate, description }) => {
+  console.log("Description in NotesRow: ", description); // Verificar el valor de description
   return (
     <div>
       <table className="w-full table-auto">
@@ -22,7 +23,7 @@ const NotesRow: React.FC<INotesRow> = ({ title, priority, updateDate }) => {
                 bttn_color="transparent"
                 bttnTitle="Edit"
                 title={title}
-                text="Aquí agrega ejemplos de donde está leyendo la row, y sustituye esto por {text} en NotesRow.tsx"
+                text={description}
               ></NoteCard>
             </div>
           </div>

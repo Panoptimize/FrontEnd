@@ -3,4 +3,5 @@ export interface INotesRow {
     title?: string;
     priority?: string;
     updateDate?: string; 
+    description?: string;
 }
