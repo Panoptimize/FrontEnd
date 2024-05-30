@@ -84,7 +84,7 @@ const NoteCard: React.FC<INoteCard> = ({
   return (
     <div className="fixed inset-0 flex justify-center items-center">
       <div
-        className="flex flex-auto flex-col bg-white rounded-3xl  p-8"
+        className="flex flex-auto flex-col bg-white rounded-3xl p-8"
         style={{
           maxWidth: "900px",
           width: "100%",
