@@ -57,7 +57,7 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
         >
           Title
         </h1>
-        <div className="flex flex-row space-x-5 mr-20">
+        <div className="flex flex-row space-x-5 mr-24">
           <h1
             className=" font-bold cursor-pointer hover:underline"
             onClick={() => requestSort("priority")}
@@ -65,7 +65,7 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
             Priority
           </h1>
           <h1
-            className="font-bold cursor-pointer hover:underline mr-20"
+            className="font-bold cursor-pointer hover:underline"
             onClick={() => requestSort("updateDate")}
           >
             Last Update

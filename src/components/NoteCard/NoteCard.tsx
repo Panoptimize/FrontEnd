@@ -3,12 +3,11 @@ import { INoteCard } from "./types";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 import { Pill } from "../Pill";
-import { DataCard } from "../DataCard";
 import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
 import { TextInput } from "../TextInput";
+import { NoteInputs } from "../NoteInputs";
 
 const NoteCard: React.FC<INoteCard> = ({
-  image_only = false,
   bttnTitle = "Add note",
   title = "Contact Note",
   name = "Dave",
@@ -30,6 +29,7 @@ const NoteCard: React.FC<INoteCard> = ({
   const [selectedWorkspaces, setSelectedWorkspaces] = useState<string[]>(
     initialSelectedWorkspaces || []
   );
+
   const [availableWorkspaces, setAvailableWorkspaces] = useState<string[]>(
     initialAvailableWorkspaces || []
   );
@@ -66,16 +66,9 @@ const NoteCard: React.FC<INoteCard> = ({
   };
 
   if (!isVisible)
-    return image_only ? (
+    return (
       <Button
         baseColor={bttn_color}
-        image="Edit.svg"
-        onClick={handleOpen}
-      ></Button>
-    ) : (
-      <Button
-        baseColor={bttn_color}
-        image="Edit.svg"
         text={bttnTitle}
         onClick={handleOpen}
       ></Button>
@@ -118,42 +111,7 @@ const NoteCard: React.FC<INoteCard> = ({
               </div>
             </div>
           </div>
-          <div className="flex flex-auto flex-col w-full h-full p-2 space-y-4">
-            <div className="flex flex-row space-x-2">
-              <div className="w-full">
-                <TextInput placeholder="Add Title" size="small"></TextInput>
-              </div>
-              <ChoiceBox
-                boxText="Priority:"
-                options={[
-                  { value: "option1", label: "1" },
-                  { value: "option2", label: "2" },
-                  { value: "option3", label: "3" },
-                  { value: "option4", label: "4" },
-                  { value: "option5", label: "5" },
-                ]}
-              ></ChoiceBox>
-            </div>
-            <div className="h-full">
-              <TextInput placeholder="Add Text" size="big"></TextInput>
-            </div>
-            <div className="grid grid-cols-3">
-              <div></div>
-              <div></div>
-              <div className="flex flex-row space-x-4">
-                <Button
-                  baseColor="rose"
-                  image="Cross.svg"
-                  text="Delete"
-                ></Button>
-                <Button
-                  baseColor="teal"
-                  image="Download.svg"
-                  text="Save"
-                ></Button>
-              </div>
-            </div>
-          </div>
+          <NoteInputs></NoteInputs>
         </div>
       </div>
     </div>

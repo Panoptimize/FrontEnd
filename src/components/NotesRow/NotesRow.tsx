@@ -1,6 +1,7 @@
 import React from "react";
 import { INotesRow } from "./types";
 import NoteCard from "../NoteCard/NoteCard";
+import { Button } from "../Button";
 
 const NotesRow: React.FC<INotesRow> = ({ title, priority, updateDate }) => {
   return (
@@ -18,7 +19,7 @@ const NotesRow: React.FC<INotesRow> = ({ title, priority, updateDate }) => {
             </div>
             <p>{updateDate}</p>
             <div>
-              <NoteCard image_only={true}></NoteCard>
+              <NoteCard bttn_color="transparent" bttnTitle="Edit"></NoteCard>
             </div>
           </div>
         </td>

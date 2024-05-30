@@ -1,5 +1,4 @@
 export interface INoteCard {
-    image_only?: boolean,
     /**
      * Title of the user information card
      */
