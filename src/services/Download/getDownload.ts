@@ -1,30 +1,25 @@
 import httpInstance from "../httpInstance";
-import { IPerformanceChart, IUsersChartData } from "../../components/PerformanceChart/types";
 
 export const getDownload = async () => {
     const endpoint = '/download/getDownload';
+    const date = new Date();
 
     try {
-        const response = await httpInstance.get(endpoint);
+        const response = await httpInstance.get(endpoint, { responseType: 'blob' });
         if (response.data) {
-            console.log("gg")
-            return response.data;
+            // Create a blob from the response data
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            const url = window.URL.createObjectURL(blob);
+            // Create an anchor element and set its href to the blob URL
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'DataReport_' + date.getTime() + '.xlsx'; 
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
         }
     } catch (error) {
         console.error("Error al obtener la descarga:", error);
-        // Devuelve datos predeterminados en caso de error
     }
 }
-
-/*
-        // Handling the response as a blob
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'downloaded-file.xlsx'; // Set the desired file name here
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        window.URL.revokeObjectURL(url);
-*/ 
