@@ -2,20 +2,21 @@ import httpInstance from "../httpInstance";
 import { IPerformanceChart, IUsersChartData } from "../../components/PerformanceChart/types";
 
 export const getDownload = async () => {
-    const endpoint = 'https://localhost:8080/download/getDownload';
+    const endpoint = '/download/getDownload';
 
     try {
-        const response = await fetch(endpoint, {
-            method: 'GET',
-            credentials: 'include'
-        });
-
-        if (!response.ok) {
-            const errorResponse = await response.json();
-            console.error('Error response from server:', errorResponse);
-            return { message: errorResponse };
+        const response = await httpInstance.get(endpoint);
+        if (response.data) {
+            console.log("gg")
+            return response.data;
         }
+    } catch (error) {
+        console.error("Error al obtener la descarga:", error);
+        // Devuelve datos predeterminados en caso de error
+    }
+}
 
+/*
         // Handling the response as a blob
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
@@ -26,10 +27,4 @@ export const getDownload = async () => {
         a.click();
         a.remove();
         window.URL.revokeObjectURL(url);
-
-        return { message: 'File downloaded successfully' };
-    } catch (error) {
-        console.error('Error while fetching data:', error);
-        return { message: 'Error while fetching data' };
-    }
-}
+*/ 
