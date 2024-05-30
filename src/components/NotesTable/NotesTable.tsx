@@ -4,7 +4,6 @@ import { SortConfig, INotesTable } from './types';
 
 
 
-
 const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
     const [notes, setNotes] = useState(notesData);
     const [sortConfig, setSortConfig] = useState<SortConfig>(null);
@@ -45,11 +44,7 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
 
         setSortConfig({ key, direction });
       };
-    
-      const resetSort = () => {
-        setSortConfig(null);
-      };
-    
+
       return (
         <div className="flex flex-auto flex-col">
           <div className="flex flex-row items-center justify-between">
