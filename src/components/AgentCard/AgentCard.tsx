@@ -79,9 +79,9 @@ const AgentCard: React.FC<IAgentCard> = ({
     { title: "Get better", priority: "1", updateDate: "24/05/2024" },
     { title: "Get good", priority: "2", updateDate: "20/05/2024" },
     { title: "Recieve better", priority: "3", updateDate: "10/05/2024" },
-    { title: "Hola", priority: "1", updateDate: "2024-05-30" },
-    { title: "Pepe", priority: "2", updateDate: "2024-05-29" },
-    { title: "Adios", priority: "3", updateDate: "2024-05-28" },
+    { title: "Slow attendance rate", priority: "1", updateDate: "2024/05/30" },
+    { title: "Bad work environment", priority: "2", updateDate: "2024/05/29" },
+    { title: "Respond more nicely", priority: "3", updateDate: "2024/05/28" },
   ];
 
   return (
