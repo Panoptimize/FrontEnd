@@ -11,7 +11,6 @@ export const useCachedAgents = () => {
   useEffect(() => {
     const cachedAgents = sessionStorage.getItem(AGENTS_CACHE_KEY);
     if (cachedAgents) {
-      console.log('Datos recuperados de sessionStorage:', JSON.parse(cachedAgents));
       setAgents(JSON.parse(cachedAgents));
       setLoading(false);
     } else {
