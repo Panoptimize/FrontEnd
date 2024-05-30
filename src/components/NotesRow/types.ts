@@ -1,5 +1,6 @@
 export interface INotesRow {
+    id? : number;
     title?: string;
-    priority?: number;
+    priority?: string;
     updateDate?: string; 
 }

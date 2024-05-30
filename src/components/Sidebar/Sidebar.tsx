@@ -115,7 +115,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
             className="w-full"
             onClick={() => handleButtonClick(ROUTES.SETTINGS)}
           >
-            <div className="my-1 flex flex-auto">
+            {/* <div className="my-1 flex flex-auto">
               <Button
                 baseColor={
                   activeButton === ROUTES.SETTINGS ? "teal" : "transparent"
@@ -123,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
                 image="Gear.svg"
                 text={expanded ? "Settings" : ""}
               ></Button>
-            </div>
+            </div> */}
           </Link>
           <div className="my-1  flex flex-auto">
             <Button

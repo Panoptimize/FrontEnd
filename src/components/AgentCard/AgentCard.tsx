@@ -5,7 +5,9 @@ import { Avatar } from "../Avatar";
 import { Pill } from "../Pill";
 import { DataCard } from "../DataCard";
 import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
+import { NotesRow } from "../NotesRow";
 import NoteCard from "../NoteCard/NoteCard";
+import { NotesTable } from "../NotesTable";
 
 const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details",
@@ -17,6 +19,8 @@ const AgentCard: React.FC<IAgentCard> = ({
   availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
   profileImage,
 }) => {
+
+
   const [isVisible, setIsVisible] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -72,6 +76,15 @@ const AgentCard: React.FC<IAgentCard> = ({
         {bttnTitle}
       </button>
     );
+
+    const notesData = [
+      {title: "Get better", priority:"1" ,updateDate:"24/05/2024"},
+      {title: "Get good" ,priority: "2" ,updateDate: "20/05/2024"},
+      {title:"Recieve better", priority:"3", updateDate:"10/05/2024"},
+      { title: 'Hola', priority: '1', updateDate: '2024-05-30' },
+      { title: 'Pepe', priority: '2', updateDate: '2024-05-29' },
+      { title: 'Adios', priority: '3', updateDate: '2024-05-28' },
+    ]
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black/[0.3]">
@@ -143,28 +156,13 @@ const AgentCard: React.FC<IAgentCard> = ({
               </div>
             </div>
             <div className="flex flex-auto flex-col">
-              <div className="flex flex-row items-center justify-between">
-                <h1 className="ml-3 font-bold">Title</h1>
-                <div className="flex flex-row space-x-10 mr-24">
-                  <h1 className="ml-3 font-bold">Priority</h1>
-                  <h1 className="ml-3 font-bold">Last Update</h1>
-                </div>
+              {/* cambiar para ordenar: title, priority, last update */}
+              <div>
+              <NotesTable notesData={notesData} /> 
               </div>
-              <div className="overflow-y-scroll p-2 flex-auto h-36 rounded-md border-2 my-2">
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-                <div>Insight 1</div>
-              </div>
+              
+              {/* 1. cambiar con NotesRow, checar si flexea, probar con los placeholders de figma */}
+
             </div>
           </div>
         </div>

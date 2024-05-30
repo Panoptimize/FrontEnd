@@ -5,6 +5,7 @@ import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
+import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
 
 
 import { getContactMedium, getStatus, getPerformance, getSatisfaction, getMonthlyActivity } from "../../services";

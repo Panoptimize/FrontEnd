@@ -1,9 +1,6 @@
 import React from "react";
 import "./index.css";
 import { IChoiceBox } from "./types";
-import Select from 'react-select';
-
-
 
 const ChoiceBox: React.FC<IChoiceBox> = ({ boxText, options }) => {
   return (
