@@ -53,14 +53,14 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
       return (
         <div className="flex flex-auto flex-col">
           <div className="flex flex-row items-center justify-between">
-            <h1 className="ml-3 font-bold cursor-pointer" onClick={() => requestSort('title')}>
+            <h1 className="ml-3 font-bold cursor-pointer underline decoration-solid hover:bg-slate-100" onClick={() => requestSort('title')}>
               Title
             </h1>
             <div className="flex flex-row space-x-10 mr-24">
-              <h1 className="ml-3 font-bold cursor-pointer" onClick={() => requestSort('priority')}>
+              <h1 className="ml-3 font-bold cursor-pointer underline decoration-solid hover:bg-slate-100" onClick={() => requestSort('priority')}>
                 Priority
               </h1>
-              <h1 className="ml-3 font-bold cursor-pointer" onClick={() => requestSort('updateDate')}>
+              <h1 className="ml-3 font-bold cursor-pointer underline decoration-solid hover:bg-slate-100" onClick={() => requestSort('updateDate')}>
                 Last Update
               </h1>
             </div>
