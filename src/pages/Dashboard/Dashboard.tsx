@@ -88,10 +88,10 @@ export const Dashboard: React.FC = () => {
   };
 
   const getSatisfactionLevels = async () => {
-    await getSatisfaction().then((data) => {
+    await getSatisfaction().then((data) => { 
       if (data && data.data)
-        console.log(data.data.results);
-      setSatisfactionLevels(data.data.results)
+        setSatisfactionLevels(data.data)
+        console.log(satisfactionLevels);
     })
       .catch((error) => {
         console.error("Error al obtener los niveles de satisfacción:", error);
