@@ -22,6 +22,7 @@ export const Dashboard: React.FC = () => {
     const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
     const [status, setStatus] = useState<IStatusCard[]>([]);
     const [kpiData, setKpiData] = useState<MetricResponse>();
+    const [error, setError] = useState<string | null>(null);
 
     const users = [
         { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
@@ -189,6 +190,3 @@ export const Dashboard: React.FC = () => {
   
   export default Dashboard;
 
-function setError(message: any) {
-  throw new Error("Function not implemented.");
-}
