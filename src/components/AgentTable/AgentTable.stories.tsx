@@ -37,14 +37,14 @@ Default.args = {
   rows: [
     {
       agentImage:
-        "https://saki.ichoria.org/f/y3gml/Mark_Hamill_by_Gage_Skidmore_2.jpg",
+        "ProfileIcon.svg",
       name: "Mark Hamill",
       workspace1: "Sales",
       workspace2: "Delivery",
       overallScore: 90,
       lastActivity: "3 days ago",
       details: "View Details",
-      id: 1
+      id: "1"
     },
   ],
 };

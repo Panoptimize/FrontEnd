@@ -59,7 +59,7 @@ CreateNewAgent.args = {
   email: "Email",
   username: "Username",
   profileImage: profilePicture,
-  selectedWorkspaces: [],
+  selectedWorkspaces: 'workspace',
   availableWorkspaces: ['Sales', 'Marketing', 'Development', 'Customer Support'],
 };
 
@@ -72,6 +72,6 @@ EditAgentDetails.args = {
   email: "johndoe@example.com",
   username: "johndoe",
   profileImage: profilePicture,
-  selectedWorkspaces: ['Sales', 'Marketing'],
+  selectedWorkspaces: 'Sales',
   availableWorkspaces: ['Sales', 'Marketing', 'Development', 'Customer Support'],
 };

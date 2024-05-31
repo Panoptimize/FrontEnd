@@ -19,9 +19,9 @@
 }
 
 .workspace-pill {
-  @apply bg-[#C9F7F5] text-black py-1 px-4 rounded-md mx-3;
+  @apply bg-[#C9F7F5] text-black py-1 px-4 rounded-md mx-3 text-sm;
 }
 
 .agent-details-button {
-  @apply bg-[#008F89] text-white font-semibold py-1 px-4 rounded-md;
+  @apply bg-[#008F89] text-white font-semibold py-1 px-4 rounded-md mr-2 ml-8 ;
 }
