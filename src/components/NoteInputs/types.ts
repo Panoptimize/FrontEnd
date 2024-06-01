@@ -1,5 +1,5 @@
 export interface INoteInputs {
-    priority?: 1|2|3|4|5;
+    priority?: 'Low'|'Medium'|'High';
     title?: string;
     text?:string;
 }

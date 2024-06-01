@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IAgentCard } from "./types";
+import { IAgentCard, INotesRow } from "./types";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 import { Pill } from "../Pill";
@@ -75,53 +75,51 @@ const AgentCard: React.FC<IAgentCard> = ({
       </button>
     );
 
-  const notesData = [
-    {
-      id: 1,
-      title: "Attend better your clients",
-      priority: "5",
-      updateDate: "24/05/2024",
-      description: "Please attend your clients in a more efficient and polite way.",
-    },
-
-    {
-      id: 2,
-      title:"There was an incident, please dont yell harsh words at the clients.",
-      priority: "1",
-      updateDate: "20/05/2024",
-      description: "This is unacceptable. You screamed an F-bomb to a client, we will talk to head management to see what proceeds with your employment rights.",
-    },
-
-    { 
-      id: 3,
-      title: "Recieve better", 
-      priority: "4", 
-      updateDate: "10/05/2024",
-      description: "Recieve your clients better",
-    },
-
-    { 
-    id: 4,  
-    title: "Slow attendance rate", 
-    priority: "2", 
-    updateDate: "30/05/2024" ,
-    description: "Attend your calls faster, don't procastinate.",
-  },
-    {
-    id: 5, 
-    title: "Bad work environment", 
-    priority: "1", 
-    updateDate: "10/05/2024" ,
-    description: "We have recieved testimonies from some of your coworkers that your anger problems lead to you lashing out and screaming at your coworkers. This tenses up the work environment, please try to get some anger management sessions with HR.",
-  },
-    { 
-      id: 6,
-      title: "Respond more nicely", 
-    priority: "3", 
-    updateDate: "20/04/2024",
-    description: "We need you to respond in a more comfortable and polite way to your clients.",
-   },
-  ];
+    const notesData: INotesRow[] = [
+      {
+        id: 1,
+        title: "Attend better your clients",
+        priority: 'High',
+        updateDate: "24/05/2024",
+        description: "Please attend your clients in a more efficient and polite way.",
+      },
+      {
+        id: 2,
+        title: "There was an incident, please dont yell harsh words at the clients.",
+        priority: 'Low',
+        updateDate: "20/05/2024",
+        description: "This is unacceptable. You screamed an F-bomb to a client, we will talk to head management to see what proceeds with your employment rights.",
+      },
+      { 
+        id: 3,
+        title: "Recieve better", 
+        priority: 'High', 
+        updateDate: "10/05/2024",
+        description: "Recieve your clients better",
+      },
+      { 
+        id: 4,  
+        title: "Slow attendance rate", 
+        priority: 'Low', 
+        updateDate: "30/05/2024",
+        description: "Attend your calls faster, don't procastinate.",
+      },
+      {
+        id: 5, 
+        title: "Bad work environment", 
+        priority: 'Low', 
+        updateDate: "10/05/2024",
+        description: "We have recieved testimonies from some of your coworkers that your anger problems lead to you lashing out and screaming at your coworkers. This tenses up the work environment, please try to get some anger management sessions with HR.",
+      },
+      { 
+        id: 6,
+        title: "Respond more nicely", 
+        priority: 'Medium', 
+        updateDate: "20/04/2024",
+        description: "We need you to respond in a more comfortable and polite way to your clients.",
+      },
+    ];
+    
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black/[0.3]">

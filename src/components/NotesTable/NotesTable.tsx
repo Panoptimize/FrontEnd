@@ -6,6 +6,14 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
   const [notes, setNotes] = useState(notesData);
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
 
+   //Order for the sort methods to order priority from low to high and vicecersa. 
+   const priorityOrder: Record<'Low' | 'Medium' | 'High', number> = {
+    Low: 1,
+    Medium: 2,
+    High: 3
+  };
+ 
+
   const sortedNotes = useMemo(() => {
     if (!sortConfig) {
       return notes;
@@ -20,13 +28,19 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
         return 0;
       }
 
-      if (aValue < bValue) {
-        return sortConfig.direction === "ascending" ? -1 : 1;
+      if (sortConfig.key === 'priority') {
+        return sortConfig.direction === 'ascending' 
+          ? priorityOrder[aValue as 'Low' | 'Medium' | 'High'] - priorityOrder[bValue as 'Low' | 'Medium' | 'High']
+          : priorityOrder[bValue as 'Low' | 'Medium' | 'High'] - priorityOrder[aValue as 'Low' | 'Medium' | 'High'];
+      } else {
+        if (aValue < bValue) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
       }
-      if (aValue > bValue) {
-        return sortConfig.direction === "ascending" ? 1 : -1;
-      }
-      return 0;
     });
     return sortableNotes;
   }, [notes, sortConfig]);
@@ -34,19 +48,17 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
   const requestSort = (key: "title" | "priority" | "updateDate") => {
     let direction: "ascending" | "descending" = "ascending";
     if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === "ascending"
-    ) {
+      sortConfig && sortConfig.key === key && sortConfig.direction === "ascending") {
       direction = "descending";
+    } else if (sortConfig && sortConfig.key === key && sortConfig.direction === 'descending') {
+      setSortConfig(null); 
+      return;
     }
+
 
     setSortConfig({ key, direction });
   };
 
-  const resetSort = () => {
-    setSortConfig(null);
-  };
 
   return (
     <div className="flex flex-auto flex-col">

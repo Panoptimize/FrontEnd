@@ -20,12 +20,11 @@ const NoteInputs: React.FC<INoteInputs> = ({ priority, title, text }) => {
         <ChoiceBox
           boxText="Priority:"
           options={[
-            { value: "option1", label: "1" },
-            { value: "option2", label: "2" },
-            { value: "option3", label: "3" },
-            { value: "option4", label: "4" },
-            { value: "option5", label: "5" },
+            { value: "optionLow", label: "Low" },
+            { value: "optionMed", label: "Medium" },
+            { value: "optionHigh", label: "High" },
           ]}
+          chosen = {priority}
         ></ChoiceBox>
       </div>
       <div className="h-full">
