@@ -14,88 +14,91 @@ import getKpis from "../../services/kpicard/getKpis";
 import { IStatusCard } from '../../components/StatusCard/types';
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
 import { MetricResponse } from "../../services/kpicard/types";
+import { ICustomerSatisfaction } from "../types";
 
 
 export const Dashboard: React.FC = () => {
 
-    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
-    const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
-    const [activityData, setActivityData] = useState<IActivityChart>({data: []});
-    const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
-    const [status, setStatus] = useState<IStatusCard[]>([]);
-    const [kpiData, setKpiData] = useState<MetricResponse>();
 
-    const users = [
-        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
-        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
-        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
-        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
-        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
-        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
-        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
-        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
-        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
-    ];
+  const [contactMediumData, setContactMediumData] = useState<number[]>([]);
+  const [satisfactionLevels, setSatisfactionLevels] = useState<ICustomerSatisfaction>();
+  const [activityData, setActivityData] = useState<IActivityChart>({ data: [] });
+  const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
+  const [status, setStatus] = useState<IStatusCard[]>([]);
+  const [kpiData, setKpiData] = useState<MetricResponse>();
+  const [error, setError] = useState<string | null>(null);
 
-    const fetchContactMedium = async () => {
-      try {
-        const response = await getContactMedium();
-        if (response && 'voice' in response && 'chat' in response) {
-          const valuesArray = [response.voice, response.chat];
-          setContactMediumData(valuesArray);
-        } else if (response && response.message) {
-          setError(response.message);
-        } else {
-          setError('An unknown error occurred');
-        }
-      } catch (error) {
-        console.error("Error al obtener datos de medios de contacto:", error);
-        setError((error as Error).message || 'An unknown error occurred');
+  const users = [
+    { username: "Mariah Carey", data: [0, 10, 5, 2, 20, 30, 45] },
+    { username: "Will Smith", data: [0, 5, 10, 15, 20, 25, 30] },
+    { username: "Tom Cruise", data: [0, 10, 15, 20, 25, 30, 35] },
+    { username: "Mariah Carey", data: [0, 10, 5, 2, 20, 30, 45] },
+    { username: "Will Smith", data: [0, 5, 10, 15, 20, 25, 30] },
+    { username: "Tom Cruise", data: [0, 10, 15, 20, 25, 30, 35] },
+    { username: "Mariah Carey", data: [0, 10, 5, 2, 20, 30, 45] },
+    { username: "Will Smith", data: [0, 5, 10, 15, 20, 25, 30] },
+    { username: "Tom Cruise", data: [0, 10, 15, 20, 25, 30, 35] },
+  ];
+
+  const fetchContactMedium = async () => {
+    try {
+      const response = await getContactMedium();
+      if (response && 'voice' in response && 'chat' in response) {
+        const valuesArray = [response.voice, response.chat];
+        setContactMediumData(valuesArray);
+      } else if (response && response.message) {
+        setError(response.message);
+      } else {
+        setError('An unknown error occurred');
       }
-    };
+    } catch (error) {
+      console.error("Error al obtener datos de medios de contacto:", error);
+      setError((error as Error).message || 'An unknown error occurred');
+    }
+  };
 
-    const getAgentsStatus = async () => {
-        const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-        if (result.error) {
-            console.error(result.error);
-        } else {
-            setStatus(result.data); 
-        }
-    };
+  const getAgentsStatus = async () => {
+    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
+    if (result.error) {
+      console.error(result.error);
+    } else {
+      setStatus(result.data);
+    }
+  };
 
-    const fetchPerformanceData = async () => {
-      try {
-        const performanceData: IPerformanceChart = await getPerformance();
-        console.log('Performance Data:', performanceData);
-        setPerformanceData(performanceData);
-      } catch (error) {
-        console.error('Error fetching performance data:', error);
-      }
-    };
+  const fetchPerformanceData = async () => {
+    try {
+      const performanceData: IPerformanceChart = await getPerformance();
+      console.log('Performance Data:', performanceData);
+      setPerformanceData(performanceData);
+    } catch (error) {
+      console.error('Error fetching performance data:', error);
+    }
+  };
 
-    const getKpiData = async () => {
-      const result = await getKpis({
-          instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",
-          startDate: "2024-05-01",
-          endDate: "2024-05-22",
-          routingProfiles: ["4896ae34-a93e-41bc-8231-bf189e7628b1"],
-          agents: []
-      });
-      
-      setKpiData(result.data)
-      setActivityData({ data: result.data.activities });
-    };
+  const getKpiData = async () => {
+    const result = await getKpis({
+      instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",
+      startDate: "2024-05-01",
+      endDate: "2024-05-22",
+      routingProfiles: ["4896ae34-a93e-41bc-8231-bf189e7628b1"],
+      agents: []
+    });
 
-    const getSatisfactionLevels = async () => {
-      try {
-        const data = await getSatisfaction();
-        if (data) {
-          setSatisfactionLevels(data);
-        }
-      } catch (error) {
+    setKpiData(result.data)
+    setActivityData({ data: result.data.activities });
+  };
+
+  const getSatisfactionLevels = async () => {
+    await getSatisfaction().then((data) => { 
+      if (data && data.data)
+        setSatisfactionLevels(data.data)
+        console.log(satisfactionLevels);
+    })
+      .catch((error) => {
         console.error("Error al obtener los niveles de satisfacción:", error);
-      }
-    };
+      });
+  };
 
     const fetchActivityData = async () => {
       try {
@@ -116,15 +119,15 @@ export const Dashboard: React.FC = () => {
       }
     }
 
-    useEffect(() => {
-      getAgentsStatus();
-      fetchPerformanceData();
-      fetchContactMedium();
-      getSatisfactionLevels();
-      getKpiData();
-      fetchActivityData();
-    }, []);
-  
+  useEffect(() => {
+    getAgentsStatus();
+    fetchPerformanceData();
+    fetchContactMedium();
+    getSatisfactionLevels();
+    getKpiData();
+    fetchActivityData();
+  }, []);
+
 
     return (
       <div className="flex w-full h-fit flex-col">
@@ -186,7 +189,7 @@ export const Dashboard: React.FC = () => {
         <div className="grid grid-cols-2 my-2 mx-10 h-72 space-x-5 place-content-evenly">
           <div className="flex flex-auto space-x-5 place-content-evenly">
             <div className="flex flex-auto">
-              <SatisfactionChart data={satisfactionLevels} />
+              <SatisfactionChart data={satisfactionLevels?.satisfaction_levels} />
             </div>
             <div className="flex flex-auto">
               <ContactMedium data={[
