@@ -1,39 +1,39 @@
-// RowAC.tsx
 import React from 'react';
-import './RowAC.css';
 import { IRowAC } from './types';
 import { UserInfoCard } from '../UserInfoCard'; // Asegúrate de ajustar la ruta según sea necesario
 
-const RowAC: React.FC<IRowAC> = ({ currentTime, agentImage, name, status, agentId, temperature, channel }) => { // Añade channel aquí
+const RowAC: React.FC<IRowAC> = ({ date, initiationHour, currentTime, agentImage, name, status, agentId, temperature, channel }) => { // Añadimos los nuevos atributos aquí
 
     const alarm = temperature === 'Negative';
 
-    const rowClass = alarm ? 'btn-row-alarm' : 'btn-row';
-    const leftRowClass = alarm ? 'btn-leftcell-alarm' : 'btn-leftcell';
-    const rightRowClass = alarm ? 'btn-rightcell-alarm' : 'btn-rightcell';
-    const callStatusClass = alarm ? 'btn-callstatus-alarm' : 'btn-callstatus';
+    const rowClass = alarm ? 'bg-red-100 p-4 rounded-lg' : 'bg-gray-100 p-4 rounded-lg';
+    const callStatusClass = 'text-black';
 
     const getTemperatureClass = (temperature: string) => {
         switch (temperature) {
             case 'Negative':
-                return 'temperature-high';
+                return 'text-red-500';
             case 'Neutral':
-                return 'temperature-medium';
+                return 'text-yellow-500';
             case 'Positive':
-                return 'temperature-low';
+                return 'text-green-500';
             default:
                 return '';
         }
     };
 
-    const temperatureClass = getTemperatureClass(temperature || 'Low');
+    const temperatureClass = getTemperatureClass(temperature || 'Neutral');
 
     return (
         <tr className={rowClass}>
-            <td className={leftRowClass}>
-                <div className={callStatusClass}>
-                    {currentTime}
-                </div>
+            <td className={callStatusClass}>
+                {date}
+            </td>
+            <td className={callStatusClass}>
+                {initiationHour}
+            </td>
+            <td className={callStatusClass}>
+                {currentTime}
             </td>
             <td>
                 <div className='flex items-center gap-2'>
@@ -47,12 +47,12 @@ const RowAC: React.FC<IRowAC> = ({ currentTime, agentImage, name, status, agentI
                 </div>
             </td>
             <td>
-                <span className="bg-[#C9F7F5] text-black py-1 px-4 rounded-md mx-1">
+                <span className="bg-cyan-100 text-black py-1 px-4 rounded-md mx-1">
                     {agentId}
                 </span>
             </td>
             <td className={temperatureClass}>{temperature || 'Neutral'}</td>
-            <td>{channel}</td> {/* Nueva columna para el canal */}
+            <td>{channel}</td>
         </tr>
     );
 };

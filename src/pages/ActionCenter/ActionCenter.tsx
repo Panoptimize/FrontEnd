@@ -20,24 +20,31 @@ const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
     }));
 };
 
+const formatTime = (totalSeconds: number): string => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor(totalSeconds % 3600 / 60);
+    const seconds = totalSeconds % 60;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+};
+
 const ActionCenter: React.FC = () => {
     const [status, setStatus] = useState<IStatusCard[]>([]);
     const [rows, setRows] = useState<IRowAC[]>([]);
     const [agents, setAgents] = useState<IAgent[]>([]);
 
-
     const getAgentsStatus = async () => {
-      const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-      if (result.error) {
-          console.error(result.error);
-      } else {
-          setStatus(result.data); 
-      }
-  };
+        const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
+        if (result.error) {
+            console.error(result.error);
+        } else {
+            setStatus(result.data); 
+        }
+    };
 
     const fetchAgents = async () => {
         try {
             const agentsData = await getAgentsList();
+            console.log("AgentList JSON Response:", JSON.stringify(agentsData, null, 2)); // Imprimir el JSON en la consola
             setAgents(agentsData);
         } catch (error) {
             console.error("Error fetching agents:", error);
@@ -50,14 +57,21 @@ const ActionCenter: React.FC = () => {
             timeRange: {
                 startTime: "2024-05-01",
                 endTime: "2024-05-31",
-                type: "DISCONNECT_TIMESTAMP"
+                type: "CONNECTED_TO_AGENT_TIMESTAMP"
             }
         };
         const contacts = await getActionCenter(searchContactsDTO);
         const rowsData = contacts.map((contact: any) => {
             const agent = agents.find(agent => agent.id === contact.agentId);
+            const initiationDate = new Date(contact.initiationTimestamp);
+            const date = initiationDate.toLocaleDateString();
+            const initiationHour = initiationDate.toLocaleTimeString();
+            const currentTime = "00:00:00"; // Set initial value to 00:00:00
+
             return {
-                currentTime: new Date(contact.initiationTimestamp).toLocaleString(),
+                date,
+                initiationHour,
+                currentTime,
                 agentImage: `https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 100)}.jpg`, // Imagen aleatoria para el agente
                 name: agent ? agent.name : "Unknown Agent", // Nombre del agente
                 status: "Online", // Estado por defecto del agente
@@ -82,8 +96,23 @@ const ActionCenter: React.FC = () => {
 
     useEffect(() => {
         const interval = setInterval(() => {
+            setRows(prevRows => prevRows.map(row => {
+                const [hours, minutes, seconds] = (row.currentTime || '00:00:00').split(':').map(Number);
+                const totalSeconds = (hours * 3600) + (minutes * 60) + seconds + 1;
+                return {
+                    ...row,
+                    currentTime: formatTime(totalSeconds),
+                };
+            }));
+        }, 1000);
+
+        return () => clearInterval(interval); // Cleanup on unmount
+    }, []);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
             setRows(prevRows => updateTemperatures(prevRows));
-        }, 5000);
+        }, 15000);
 
         return () => clearInterval(interval); // Cleanup on unmount
     }, []);
@@ -93,8 +122,6 @@ const ActionCenter: React.FC = () => {
 
     return (
         <div className="flex">
-            <div className="flex">
-            </div>
             <div className="flex flex-col flex-auto">
                 <div className="font-poppins pt-6 pb-0 px-6">
                     <h1 className="font-semibold text-3xl">Action Center</h1>

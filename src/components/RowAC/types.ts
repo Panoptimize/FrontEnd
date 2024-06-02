@@ -1,8 +1,18 @@
 export interface IRowAC {
     /**
-     * Current time of the call status update
+     * Current time counter
      */
     currentTime?: string;
+
+    /**
+     * Date of the call status update
+     */
+    date?: string;
+
+    /**
+     * Time of the call status update
+     */
+    initiationHour?: string;
 
     /**
      * Image of the agent
