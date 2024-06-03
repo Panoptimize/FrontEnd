@@ -4,7 +4,7 @@ import Avatar from './Avatar';
 import React from 'react';
 
 const meta ={
-    title: 'Component/Avatar',
+    title: 'Components/Avatar',
     component: Avatar,
     parameters: {
         layout: "centered",

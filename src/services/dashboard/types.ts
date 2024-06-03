@@ -2,7 +2,6 @@ export interface GetKpisRequest {
     instanceId: string;
     startDate: string;
     endDate: string;
-    agents: string[];
     routingProfiles: string[];
 }
 

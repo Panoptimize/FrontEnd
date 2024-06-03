@@ -103,12 +103,12 @@ const HistoryCard: React.FC<IHistoryCard> = ({
               ></DataCard>
               <DataCard
                 title="After Call Work Time"
-                content={"asdf"}
+                content={0}
                 textColor="red"
               ></DataCard>
               <DataCard
                 title="Answer Speed"
-                content={"aasf asdf asd asdf"}
+                content={1}
                 textColor="yellow"
               ></DataCard>
               <DataCard
