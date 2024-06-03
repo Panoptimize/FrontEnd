@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { INotesRow } from "./types";
 import NoteCard from "../NoteCard/NoteCard";
 
 const NotesRow: React.FC<INotesRow> = ({ title, priority, updateDate, description }) => {
+
   return (
     <div>
       <table className="w-full table-auto">

@@ -10,6 +10,9 @@ import NoteCard from "../NoteCard/NoteCard";
 import { NotesTable } from "../NotesTable";
 import { INoteCard } from "../NoteCard/types";
 import { INotesTable } from "../NotesTable/types";
+import { getAgentNotes } from "../../services/notes/getAgentNotes";
+import { INoteData } from "../../pages/types";
+import { getAgentId } from "../../services/agentsList/getAgentId";
 
 const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details", //recibe nombre, email, username. Faltan metricas y como jalar 	Workspace	Last Activity y agent id	desde BE (Agent Row)
@@ -20,6 +23,7 @@ const AgentCard: React.FC<IAgentCard> = ({
   selectedWorkspaces: initialSelectedWorkspaces = [],
   availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
   profileImage,
+  id,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -36,8 +40,7 @@ const AgentCard: React.FC<IAgentCard> = ({
     initialAvailableWorkspaces || []
   );
 
-
-  
+  const [notesData, setNotesData] = useState<INoteData[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -66,8 +69,46 @@ const AgentCard: React.FC<IAgentCard> = ({
     setIsVisible(false);
   };
 
-  const handleOpen = () => {
+  const handleOpen = async () => {
     setIsVisible(true);
+    try {
+      const agentId = await getId(id);
+      if(agentId) {
+        console.log("agentId: ", agentId)
+        await getNotes(agentId);
+      }
+      else {
+        console.log("No entro")
+      }
+    } catch (error){
+      console.error(error);
+    }
+  };
+
+
+  const getId = async (id:string) => {
+    try {
+      const data = await getAgentId(id);
+      if(data && data.data){
+        const agentId = data.data.id;
+        console.log(agentId)
+        return agentId
+      }
+    } catch(error) {
+        console.error(error);
+    }
+  };
+
+  const getNotes = async (agentId: number) => {
+    await getAgentNotes(agentId).then((data) => {
+      console.log("I GOT IN")
+      if(data && data.data) {
+        console.log(data.data.content)
+        setNotesData(data.data.content)
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
   };
 
   if (!isVisible)
@@ -80,6 +121,7 @@ const AgentCard: React.FC<IAgentCard> = ({
       </button>
     );
 
+    /*
     const notesData: INotesRow[] = [
       {
         id: 1,
@@ -123,7 +165,7 @@ const AgentCard: React.FC<IAgentCard> = ({
         updateDate: "20/04/2024",
         description: "We need you to respond in a more comfortable and polite way to your clients.",
       },
-    ];
+    ];*/
     
 
   return (

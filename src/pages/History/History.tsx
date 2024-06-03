@@ -15,7 +15,7 @@ const History: React.FC = () => {
       <h1 className="font-poppins font-semibold text-3xl mb-5">History</h1>
 
       <div>
-        <AgentCard/>
+        <AgentCard id={"1"}/>
       </div>
     </div>
 

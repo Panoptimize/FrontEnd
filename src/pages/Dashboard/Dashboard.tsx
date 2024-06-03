@@ -14,7 +14,8 @@ import getKpis from "../../services/kpicard/getKpis";
 import { IStatusCard } from '../../components/StatusCard/types';
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
 import { MetricResponse } from "../../services/kpicard/types";
-import { ICustomerSatisfaction } from "../types";
+import { ICustomerSatisfaction, INoteData } from "../types";
+import { getAgentNotes } from "../../services/notes/getAgentNotes";
 
 
 export const Dashboard: React.FC = () => {
@@ -27,6 +28,8 @@ export const Dashboard: React.FC = () => {
   const [status, setStatus] = useState<IStatusCard[]>([]);
   const [kpiData, setKpiData] = useState<MetricResponse>();
   const [error, setError] = useState<string | null>(null);
+
+  const [notes, setNotes] = useState<INoteData[]>([]);
 
   const users = [
     { username: "Mariah Carey", data: [0, 10, 5, 2, 20, 30, 45] },
@@ -69,7 +72,7 @@ export const Dashboard: React.FC = () => {
   const fetchPerformanceData = async () => {
     try {
       const performanceData: IPerformanceChart = await getPerformance();
-      console.log('Performance Data:', performanceData);
+      //console.log('Performance Data:', performanceData);
       setPerformanceData(performanceData);
     } catch (error) {
       console.error('Error fetching performance data:', error);
@@ -93,7 +96,6 @@ export const Dashboard: React.FC = () => {
     await getSatisfaction().then((data) => { 
       if (data && data.data)
         setSatisfactionLevels(data.data)
-        console.log(satisfactionLevels);
     })
       .catch((error) => {
         console.error("Error al obtener los niveles de satisfacción:", error);

@@ -1,5 +1,7 @@
+import { INoteData } from "../../pages/types";
+
 export type SortConfig = {
-    key: 'title' | 'priority' | 'updateDate';
+    key: 'name' | 'priority' | 'updatedAt';
     direction: 'ascending' | 'descending';
   } | null;
   
@@ -12,5 +14,5 @@ export interface INotesRow {
 }
   
 export interface INotesTable {
-    notesData: INotesRow[];
+    notesData: INoteData[];
   }

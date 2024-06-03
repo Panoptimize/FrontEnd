@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import NotesRow from "../NotesRow/NotesRow";
 import { SortConfig, INotesTable } from "./types";
 
@@ -12,7 +12,11 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
     Medium: 2,
     High: 3
   };
- 
+
+
+  useEffect(() => {
+    console.log(notesData);
+  })
 
   const sortedNotes = useMemo(() => {
     if (!sortConfig) {
@@ -45,7 +49,7 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
     return sortableNotes;
   }, [notes, sortConfig]);
 
-  const requestSort = (key: "title" | "priority" | "updateDate") => {
+  const requestSort = (key: "name" | "priority" | "updatedAt") => {
     let direction: "ascending" | "descending" = "ascending";
     if (
       sortConfig && sortConfig.key === key && sortConfig.direction === "ascending") {
@@ -65,7 +69,7 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
       <div className="flex flex-row items-center justify-between pr-3">
         <h1
           className="ml-2 font-bold cursor-pointer hover:underline"
-          onClick={() => requestSort("title")}
+          onClick={() => requestSort("name")}
         >
           Title
         </h1>
@@ -78,22 +82,30 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
           </h1>
           <h1
             className="font-bold cursor-pointer hover:underline"
-            onClick={() => requestSort("updateDate")}
+            onClick={() => requestSort("updatedAt")}
           >
             Last Update
           </h1>
         </div>
       </div>
       <div className="overflow-y-scroll p-2 flex-auto h-64 rounded-md border-2 my-2">
-        {sortedNotes.map((note, index) => (
+        {notesData.map((note, index) =>  {
+          const date = new Date(note.updatedAt);
+          const formattedDate = date.toLocaleDateString('en-GB', {
+            day:'2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          });
+          return (
           <NotesRow
             key={index}
-            title={note.title}
+            title={note.name}
             priority={note.priority}
-            updateDate={note.updateDate}
+            updateDate={formattedDate}
             description={note.description}
           />
-        ))}
+          );
+        })}
       </div>
     </div>
   );

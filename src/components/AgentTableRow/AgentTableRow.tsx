@@ -41,7 +41,7 @@ const AgentTableRow: React.FC<IAgentTableRow> = ({
       <NoteCard></NoteCard>
       </td>
       <td className="btn-rightcell">
-         <AgentCard></AgentCard>
+         <AgentCard id={id}></AgentCard>
 
       </td>
     </tr>

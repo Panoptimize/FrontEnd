@@ -31,11 +31,12 @@ export interface IAgentCard {
      * Array of names of workspaces available to the user
      */
     availableWorkspaces?: string[]; 
+    id:string;
 }
 
 
 export interface INotesRow {
-    id? : number;
+    id? : string;
     title?: string;
     priority?: 'Low' | 'Medium' | 'High';
     updateDate?: string; 
