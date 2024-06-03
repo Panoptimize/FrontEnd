@@ -1,4 +1,4 @@
-export interface IHistoryCard {
+export interface INoteCard {
     /**
      * Title of the user information card
      */
@@ -31,4 +31,8 @@ export interface IHistoryCard {
      * Array of names of workspaces available to the user
      */
     availableWorkspaces?: string[]; 
+
+    bttn_color?: 'teal' | 'rose' | 'gray' | 'transparent' | 'mint';
+    text?: string;
+    priority?: 'Low'|'Medium'|'High';
 }
