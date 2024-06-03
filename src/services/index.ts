@@ -1,9 +1,6 @@
 export { getDetails } from './agentDetails/getDetails';
-export {getStatus} from './status/getStatus';
-export {getContactMedium} from './contactMedium/getContactMedium'
-export {getSatisfaction} from './satisfactionChart/getSatisfaction'
-export { getMonthlyActivity } from './activityChart/getMonthlyActivity'
-//export {getMonthlyActivity} from './activityChart/getMonthlyActivity'
-export {getPerformance} from './performance/getPerformance'
-export {getAgentsList} from './agentsList/getAgentsList'
-export {getDownload} from './Download/getDownload'
+export { getStatus } from './status/getStatus';
+export { getSatisfaction } from './dashboard/getSatisfaction'
+export { getPerformance } from './dashboard/getPerformance'
+export { getAgentsList } from './agentsList/getAgentsList'
+export { getDownload } from './dashboard/getDownload'
