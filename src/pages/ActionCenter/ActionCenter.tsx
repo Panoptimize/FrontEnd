@@ -5,7 +5,7 @@ import { StatusCard } from "../../components/StatusCard";
 import { getStatus } from '../../services';
 import { IStatusCard } from '../../components/StatusCard/types';
 import { IRowAC } from "../../components/RowAC/types";
-import { TableAC } from "../../components/TableAC"; // Asegúrate de que la ruta de importación es correcta
+import { TableAC } from "../../components/TableAC";
 import { getActionCenter } from '../../services/actionCenter/getActionCenter';
 import { getAgentsList } from '../../services/agentsList/getAgentsList';
 import { IAgent } from "../../components/AgentTable/types";
@@ -44,7 +44,7 @@ const ActionCenter: React.FC = () => {
     const fetchAgents = async () => {
         try {
             const agentsData = await getAgentsList();
-            console.log("AgentList JSON Response:", JSON.stringify(agentsData, null, 2)); // Imprimir el JSON en la consola
+            console.log("AgentList JSON Response:", JSON.stringify(agentsData, null, 2)); // Print JSON on console
             setAgents(agentsData);
         } catch (error) {
             console.error("Error fetching agents:", error);
@@ -58,7 +58,7 @@ const ActionCenter: React.FC = () => {
                 startTime: "2024-05-01",
                 endTime: "2024-05-31",
                 type: "CONNECTED_TO_AGENT_TIMESTAMP"
-            }
+            }     
         };
         const contacts = await getActionCenter(searchContactsDTO);
         const rowsData = contacts.map((contact: any) => {
@@ -72,10 +72,10 @@ const ActionCenter: React.FC = () => {
                 date,
                 initiationHour,
                 currentTime,
-                agentImage: `https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 100)}.jpg`, // Imagen aleatoria para el agente
-                name: agent ? agent.name : "Unknown Agent", // Nombre del agente
-                status: "Online", // Estado por defecto del agente
-                agentId: agent ? agent.workspace : "Unknown Workspace", // Workspace del agente
+                agentImage: `https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 100)}.jpg`, // Random image for the agent
+                name: agent ? agent.name : "Unknown Agent",               // Agent's name
+                status: "Online",                                         // Default status
+                agentId: agent ? agent.workspace : "Unknown Workspace",   // Agent's workspace
                 temperature: contact.sentiment,
                 channel: contact.channel
             };
