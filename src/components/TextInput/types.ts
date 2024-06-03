@@ -4,3 +4,7 @@ export interface ITextInput {
     size: 'big' | 'small';
     text?: string;
   }
+
+export interface TextInputRef {
+    getValue: () => string | undefined;
+}

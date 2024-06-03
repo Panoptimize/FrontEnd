@@ -35,4 +35,5 @@ export interface INoteCard {
     bttn_color?: 'teal' | 'rose' | 'gray' | 'transparent' | 'mint';
     text?: string;
     priority?: 'low'|'medium'|'high';
+    id?:number;
 }

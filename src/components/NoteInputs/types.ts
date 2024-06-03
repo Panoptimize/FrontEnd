@@ -3,9 +3,4 @@ export interface INoteInputs {
     priority?: 'low'|'medium'|'high';
     title?: string;
     text?:string;
-    ref?:TextInputRef;
-}
-
-export interface TextInputRef {
-    getValue: () => string;
 }
