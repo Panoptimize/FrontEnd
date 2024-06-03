@@ -14,7 +14,12 @@ export interface INote {
     description: string;
     priority: Priority;
     solved: boolean;
-    agent_performance_id?: number;
+}
+
+export interface INoteData extends INote {
+    id: number;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface IAgentPerformance {
