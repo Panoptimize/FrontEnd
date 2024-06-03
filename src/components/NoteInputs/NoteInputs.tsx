@@ -25,9 +25,10 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, priority, title, text }) => {
     const desc = descriptionRef.current?.getValue ? descriptionRef.current.getValue() : "";
 
     const updatedNote:INote = {
-      name: name,
-      description: desc,
-      priority: Priority.high
+      name: name ? name : "",
+      description: desc ? desc : "",
+      priority: Priority.high,
+      solved: false,
     }
 
     {id && (
