@@ -1,9 +1,9 @@
 import httpInstance from "../httpInstance";
-import { INote } from "../../pages/types";
+import { ICreateNote, INote } from "../../pages/types";
 
-export const createNote = async (note: INote) => {
+export const createNote = async (note: ICreateNote) => {
     let res: any;
-    const endpoint = "/note";
+    const endpoint = "/note/";
     await httpInstance.post(endpoint, note).then((data) => {
         res = data;
     }).catch((err) => {
