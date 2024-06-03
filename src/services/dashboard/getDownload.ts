@@ -6,18 +6,18 @@ interface DownloadDTO {
     endDate: string;
     routingProfiles: string[];
     queues: string[];
-    agents: string[];
   }
-export const getDownload = async () => {
+
+export const getDownload = async (instanceId: string, sDate: string, eDate: string, workspace: string[]) => {
     const endpoint = '/download/getDownload';
     const date = new Date();
+
     const downloadDTO: DownloadDTO = {
-        instanceId: '7c78bd60-4a9f-40e5-b461-b7a0dfaad848',
-        startDate: '2024-05-01',
-        endDate: '2024-05-31',
-        routingProfiles: ['4896ae34-a93e-41bc-8231-bf189e7628b1'],
+        instanceId,
+        startDate: sDate,
+        endDate: eDate,
+        routingProfiles: workspace,
         queues: [],
-        agents: []
     };
 
     try {

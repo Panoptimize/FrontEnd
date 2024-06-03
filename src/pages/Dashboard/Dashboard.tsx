@@ -105,8 +105,16 @@ export const Dashboard: React.FC = () => {
   };
 
   const fetchDownload = async () => {
+    const instanceId = "7c78bd60-4a9f-40e5-b461-b7a0dfaad848";
+    const routingProfiles = workspaces?.map((workspace) => workspace.value) ?? [];
+    
     try {
-      const data = await getDownload();
+      const data = await getDownload(
+        instanceId,
+        startDate,
+        endDate,
+        routingProfiles
+      );
       console.log(data);
     } catch (error) {
       console.error("Error al obtener datos de descarga:", error);
