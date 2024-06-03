@@ -20,10 +20,10 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
 
   const sortedNotes = useMemo(() => {
     if (!sortConfig) {
-      return notes;
+      return notesData;
     }
 
-    let sortableNotes = [...notes];
+    let sortableNotes = [...notesData];
     sortableNotes.sort((a, b) => {
       const aValue = a[sortConfig.key];
       const bValue = b[sortConfig.key];
@@ -47,7 +47,7 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
       }
     });
     return sortableNotes;
-  }, [notes, sortConfig]);
+  }, [notesData, sortConfig]);
 
   const requestSort = (key: "name" | "priority" | "updatedAt") => {
     let direction: "ascending" | "descending" = "ascending";
@@ -89,7 +89,7 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
         </div>
       </div>
       <div className="overflow-y-scroll p-2 flex-auto h-64 rounded-md border-2 my-2">
-        {notesData.map((note, index) =>  {
+        {sortedNotes.map((note, index) =>  {
           const date = new Date(note.updatedAt);
           const formattedDate = date.toLocaleDateString('en-GB', {
             day:'2-digit',
