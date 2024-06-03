@@ -8,6 +8,9 @@ import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
 import { NotesRow } from "../NotesRow";
 import NoteCard from "../NoteCard/NoteCard";
 import { NotesTable } from "../NotesTable";
+import { INoteCard } from "../NoteCard/types";
+import { getNotes } from "../../services/note/getNotesList";
+import { INotesTable } from "../NotesTable/types";
 
 const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details",
@@ -33,6 +36,9 @@ const AgentCard: React.FC<IAgentCard> = ({
   const [availableWorkspaces, setAvailableWorkspaces] = useState<string[]>(
     initialAvailableWorkspaces || []
   );
+
+
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
