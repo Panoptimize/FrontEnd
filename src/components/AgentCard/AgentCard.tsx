@@ -12,7 +12,7 @@ import { INoteCard } from "../NoteCard/types";
 import { INotesTable } from "../NotesTable/types";
 
 const AgentCard: React.FC<IAgentCard> = ({
-  bttnTitle = "View Details",
+  bttnTitle = "View Details", //recibe nombre, email, username. Faltan metricas y como jalar 	Workspace	Last Activity y agent id	desde BE (Agent Row)
   title = "Contact Details",
   name = "Dave",
   email = "dave_chapelle@gmail.com",

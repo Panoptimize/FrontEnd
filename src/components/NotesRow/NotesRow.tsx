@@ -23,6 +23,7 @@ const NotesRow: React.FC<INotesRow> = ({ title, priority, updateDate, descriptio
                 bttnTitle="Edit"
                 title={title}
                 text={description}
+                priority={priority}
               ></NoteCard>
             </div>
           </div>
