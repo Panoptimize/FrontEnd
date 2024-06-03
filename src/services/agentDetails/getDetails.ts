@@ -7,7 +7,6 @@ export const getDetails = async () => {
         const response = await httpInstance.get(`agent/detail/7c78bd60-4a9f-40e5-b461-b7a0dfaad848/d7b861ea-6996-4b90-8b31-9129a1720567`);
         console.log(response.data)
         const processedData = processMetrics(response.data);
-        console.log('Processed Data:',processedData);
         return { data: processedData, error: null };
     } catch (err) {
         return { data: [], error: (err as any).response || { message: 'An unknown error occurred' } };
