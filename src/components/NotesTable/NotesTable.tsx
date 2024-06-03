@@ -99,6 +99,7 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
           return (
           <NotesRow
             key={index}
+            id={note.id}
             title={note.name}
             priority={note.priority}
             updateDate={formattedDate}

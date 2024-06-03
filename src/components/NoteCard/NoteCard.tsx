@@ -12,6 +12,7 @@ const NoteCard: React.FC<INoteCard> = ({
   title,
   text,
   priority,
+  id,
   name = "Dave",
   email = "dave_chapelle@gmail.com",
   username = "chap",
@@ -114,6 +115,7 @@ const NoteCard: React.FC<INoteCard> = ({
             </div>
           </div>
           <NoteInputs
+            id={id}
             title={title}
             text={text}
             priority={priority}

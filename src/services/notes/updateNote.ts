@@ -1,7 +1,7 @@
 import httpInstance from "../httpInstance";
 import { INote } from "../../pages/types";
 
-export const createNote = async (note: INote, noteId: number) => {
+export const updateNote = async (note: INote, noteId: number) => {
     let res: any;
     const endpoint = `/note/${noteId}`;
     await httpInstance.put(endpoint, note).then((data) => {

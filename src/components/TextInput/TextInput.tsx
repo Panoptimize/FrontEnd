@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { ITextInput } from "./types";
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import { ITextInput, TextInputRef } from "./types";
 
-export const TextInput: React.FC<ITextInput> = ({
+
+export const TextInput = forwardRef<TextInputRef, ITextInput>(({
   placeholder,
   icon,
   size,
   text, // Default value for the text prop
-}) => {
+}, ref) => {
   const [inputValue, setInputValue] = useState(text);
 
   const iconSizeClass = size === "big" ? "w-8 h-8" : "w-6 h-6";
@@ -19,6 +20,10 @@ export const TextInput: React.FC<ITextInput> = ({
   useEffect(() => {
     setInputValue(text);
   }, [text]);
+
+  useImperativeHandle(ref, () => ({
+    getValue: () => inputValue,
+  }));
 
   return (
     <div className="relative flex-auto h-full">
@@ -40,6 +45,6 @@ export const TextInput: React.FC<ITextInput> = ({
       </div>
     </div>
   );
-};
+});
 
 export default TextInput;

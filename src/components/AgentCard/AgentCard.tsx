@@ -77,9 +77,6 @@ const AgentCard: React.FC<IAgentCard> = ({
         console.log("agentId: ", agentId)
         await getNotes(agentId);
       }
-      else {
-        console.log("No entro")
-      }
     } catch (error){
       console.error(error);
     }
@@ -101,7 +98,6 @@ const AgentCard: React.FC<IAgentCard> = ({
 
   const getNotes = async (agentId: number) => {
     await getAgentNotes(agentId).then((data) => {
-      console.log("I GOT IN")
       if(data && data.data) {
         console.log(data.data.content)
         setNotesData(data.data.content)
