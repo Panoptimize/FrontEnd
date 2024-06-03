@@ -9,7 +9,6 @@ import { NotesRow } from "../NotesRow";
 import NoteCard from "../NoteCard/NoteCard";
 import { NotesTable } from "../NotesTable";
 import { INoteCard } from "../NoteCard/types";
-import { getNotes } from "../../services/note/getNotesList";
 import { INotesTable } from "../NotesTable/types";
 
 const AgentCard: React.FC<IAgentCard> = ({
