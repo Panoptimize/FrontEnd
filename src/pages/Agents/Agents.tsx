@@ -26,6 +26,7 @@ const Agents: React.FC = () => {
       overallScore: agent.score,
       lastActivity: agent.status,
       id: agent.id,
+      email: agent.email,
     }));
 
     sortableRows.sort((a, b) => {
