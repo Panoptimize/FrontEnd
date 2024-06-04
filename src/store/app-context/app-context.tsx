@@ -16,6 +16,7 @@ const AppContext = createContext<AppState | undefined>(undefined);
 
 export const AppContextProvider = ({ children }: AppContextProps) => {
   const [user, setUser] = useState<User | null>(null);
+  const [email, setEmail] = useState<String | null | undefined>(null);
   const [loadingContext, setLoadingContext] = useState<boolean>(true);
   const [accountType, setAccountType] = useState<string>("");
   const [tokens, setTokens] = useState<Tokens | undefined>(undefined);
@@ -36,9 +37,14 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     return signOut(auth);
   };
 
+  const getEmail = () =>{
+    return  email;
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       console.log(currentUser);
+      setEmail(currentUser?.providerData[0].email)
       setUser(currentUser);
       setLoadingContext(false);
       if (currentUser) {
@@ -66,6 +72,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
     <AppContext.Provider
       value={{
         user,
+        email,
         setUser,
         accountType,
         setAccountType,

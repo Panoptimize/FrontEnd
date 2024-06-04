@@ -15,6 +15,7 @@ export interface Tokens {
 
 export type AppState = {
   user: User | null;
+  email: String | null | undefined;
   setUser: (user: User) => void;
   accountType: string;
   setAccountType: (accountType: string) => void;
