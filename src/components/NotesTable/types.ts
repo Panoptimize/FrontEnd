@@ -15,4 +15,5 @@ export interface INotesRow {
   
 export interface INotesTable {
     notesData: INoteData[];
+    signalToAgentCard?: () => void;
   }

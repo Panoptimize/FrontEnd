@@ -2,7 +2,14 @@ import React, { useEffect } from "react";
 import { INotesRow } from "./types";
 import NoteCard from "../NoteCard/NoteCard";
 
-const NotesRow: React.FC<INotesRow> = ({ id, title, priority, updateDate, description }) => {
+const NotesRow: React.FC<INotesRow> = ({ id, title, priority, updateDate, description, signalToNotesTable }) => {
+
+  const receivedSignal = () => {
+    console.log("SIGNAL RECEIVED FROM NOTECARD")
+    if(signalToNotesTable){
+      signalToNotesTable();
+    }
+  }
 
   return (
     <div>
@@ -26,6 +33,7 @@ const NotesRow: React.FC<INotesRow> = ({ id, title, priority, updateDate, descri
                 title={title}
                 text={description}
                 priority={priority}
+                signalNotesRow={receivedSignal}
               ></NoteCard>
             </div>
           </div>

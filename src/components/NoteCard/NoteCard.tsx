@@ -20,6 +20,7 @@ const NoteCard: React.FC<INoteCard> = ({
   availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
   profileImage,
   bttn_color = "transparent",
+  signalNotesRow,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -61,12 +62,20 @@ const NoteCard: React.FC<INoteCard> = ({
   };
 
   const handleClose = () => {
+    console.log("Signal received from NoteInputs");
+    sendSignalToRow();
     setIsVisible(false);
   };
 
   const handleOpen = () => {
     setIsVisible(true);
   };
+
+  const sendSignalToRow = () => {
+    if(signalNotesRow){
+      signalNotesRow();
+    }
+  }
 
   if (!isVisible)
     return (
@@ -119,6 +128,7 @@ const NoteCard: React.FC<INoteCard> = ({
             title={title}
             text={text}
             priority={priority}
+            closeWindow={handleClose}
           ></NoteInputs>
         </div>
       </div>

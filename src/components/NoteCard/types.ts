@@ -36,4 +36,5 @@ export interface INoteCard {
     text?: string;
     priority?: 'low'|'medium'|'high';
     id?:number;
+    signalNotesRow?: () => void;
 }

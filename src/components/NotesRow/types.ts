@@ -4,4 +4,5 @@ export interface INotesRow {
     priority?: 'low' | 'medium' | 'high';
     updateDate?: string; 
     description?: string;
+    signalToNotesTable?: () => void;
 }
