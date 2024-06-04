@@ -8,6 +8,7 @@ import { getActionCenter } from '../../services/actionCenter/getActionCenter';
 import { getAgentsList } from '../../services/agentsList/getAgentsList';
 import { IAgent } from "../../components/AgentTable/types";
 
+// Function to update temperatures simulating real-time data from contact lens
 const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
     const temperatures = ['Positive', 'Neutral', 'Negative'];
     const getRandomElement = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
@@ -18,6 +19,7 @@ const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
     }));
 };
 
+// Function to format time in HH:MM:SS format
 const formatTime = (totalSeconds: number): string => {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor(totalSeconds % 3600 / 60);
@@ -25,12 +27,20 @@ const formatTime = (totalSeconds: number): string => {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 };
 
+// Main component
 const ActionCenter: React.FC = () => {
+  // State variables
     const [status, setStatus] = useState<IStatusCard[]>([]);
-    const [rows, setRows] = useState<IRowAC[]>([]);
+    const [rows, setRows] = useState<IRowAC[]>(() => {
+      // Load rows from session storage or set to default if not available
+      const savedRows = sessionStorage.getItem('rows');
+      return savedRows ? JSON.parse(savedRows) : [];
+    });
     const [agents, setAgents] = useState<IAgent[]>([]);
     const [contactsFetched, setContactsFetched] = useState(false);
-
+  
+  // Functions
+    // Fetch agents status
     const getAgentsStatus = async () => {
         const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
         if (result.error) {
@@ -40,6 +50,7 @@ const ActionCenter: React.FC = () => {
         }
     };
 
+    // Fetch agents list
     const fetchAgents = async () => {
         try {
             const agentsData = await getAgentsList();
@@ -50,16 +61,41 @@ const ActionCenter: React.FC = () => {
         }
     }; 
 
+    // Update Timer
+    const updateTimer = () => {
+      setRows(prevRows => prevRows.map(row => {
+        const startTime = sessionStorage.getItem(`startTime-${row.agentId}`);
+        const start = startTime ? new Date(parseInt(startTime, 10)).getTime() : new Date().getTime();
+        const now = new Date().getTime();
+        const totalSeconds = Math.floor((now - start) / 1000);
+        return {
+          ...row,
+          currentTime: formatTime(totalSeconds),
+        };
+      }));
+    };
+
+    // Add contacts with delay using historical data from amazon Connect
     const addContactsWithDelay = (contacts: IRowAC[], index: number = 0) => {
       if (index < contacts.length) {
-          setRows(prevRows => [...prevRows, {
+        setRows(prevRows => {
+          // Check if the contact already exists in the current rows
+          const exists = prevRows.some(row => row.initiationHour === contacts[index].agentId);
+          if (!exists) {
+            const now = new Date();
+            sessionStorage.setItem(`startTime-${contacts[index].agentId}`, now.getTime().toString());
+            return [...prevRows, {
               ...contacts[index],
               currentTime: formatTime(0) // Starting time from 0
-          }]);
-          setTimeout(() => addContactsWithDelay(contacts, index + 1), 5000); // Delay between each contact
+            }];
+          }
+          return prevRows;
+        });
+        setTimeout(() => addContactsWithDelay(contacts, index + 1), 5000); // Delay between each contact
       }
     };
 
+    // Fetch contacts from Amazon Connect
     const fetchContacts = async () => {
         const searchContactsDTO = {
             instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",
@@ -89,53 +125,51 @@ const ActionCenter: React.FC = () => {
                 channel: contact.channel
             };
         });
-        //setRows(rowsData);
         addContactsWithDelay(rowsData);
     };
 
         // Fetch status and agents only once
-        useEffect(() => {
-          const fetchInitialData = async () => {
-              await getAgentsStatus();
-              await fetchAgents();
-          };
-          fetchInitialData();
-      }, []);
+          useEffect(() => {
+            const fetchInitialData = async () => {
+                await getAgentsStatus();
+                await fetchAgents();
+            };
+            fetchInitialData();
+        }, []);
+
+        // Save rows to session storage whenever it changes
+          useEffect(() => {
+            // Save rows to session storage whenever it changes
+            sessionStorage.setItem('rows', JSON.stringify(rows));
+        }, [rows]);
   
       // Fetch contacts once after agents are loaded
+          useEffect(() => {
+              if (agents.length > 0 && !contactsFetched) {
+                  fetchContacts();
+                  setContactsFetched(true); // Ensure contacts are fetched only once
+              }
+          }, [agents]);
+
+      // Use useEffect to start the timer when the component mounts
       useEffect(() => {
-          if (agents.length > 0 && !contactsFetched) {
-              fetchContacts();
-              setContactsFetched(true); // Ensure contacts are fetched only once
-          }
-      }, [agents]);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setRows(prevRows => prevRows.map(row => {
-                const [hours, minutes, seconds] = (row.currentTime || '00:00:00').split(':').map(Number);
-                const totalSeconds = (hours * 3600) + (minutes * 60) + seconds + 1;
-                return {
-                    ...row,
-                    currentTime: formatTime(totalSeconds),
-                };
-            }));
-        }, 1000);
-
+        const interval = setInterval(updateTimer, 1000);
         return () => clearInterval(interval); // Cleanup on unmount
-    }, []);
+      }, []);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setRows(prevRows => updateTemperatures(prevRows));
-        }, 15000);
+      // Update temperatures every 15 seconds
+        useEffect(() => {
+            const interval = setInterval(() => {
+                setRows(prevRows => updateTemperatures(prevRows));
+            }, 15000);
+          return () => clearInterval(interval); // Cleanup on unmount
+      }, []);
 
-        return () => clearInterval(interval); // Cleanup on unmount
-    }, []);
-
+    // Filter rows based on temperature
     const highTemperatureRows = rows.filter(row => row.temperature === 'Negative');
     const otherTemperatureRows = rows.filter(row => row.temperature !== 'Negative');
 
+    // Render component
     return (
         <div className="flex">
             <div className="flex flex-col flex-auto">
@@ -143,7 +177,7 @@ const ActionCenter: React.FC = () => {
                     <h1 className="font-semibold text-3xl">Action Center</h1>
                     <p className="text-gray-600 pt-4 px-4 text-lg">Agents</p>
                 </div>
-                <div className="flex flex-row justify-between items-stretch w-full px-20">
+                <div className="flex flex-row justify-between place-content-evenly space-x-10 mx-6 my-4">
                     {status.map((item, index) => (
                         <StatusCard key={index} status={item.status} numUsers={item.numUsers} />
                     ))}
