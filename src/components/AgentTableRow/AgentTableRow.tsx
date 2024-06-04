@@ -5,6 +5,7 @@ import { Avatar } from "../Avatar";
 import { UserInfoCard } from "../UserInfoCard";
 import {NoteCard} from '../NoteCard';
 import { AgentCard } from "../AgentCard";
+import { Pill } from "../Pill";
 const AgentTableRow: React.FC<IAgentTableRow> = ({
   agentImage,
   name,
@@ -31,7 +32,7 @@ const AgentTableRow: React.FC<IAgentTableRow> = ({
         </div>
       </td>
       <td>
-        <button className="workspace-pill">{workspace1}</button>
+        <Pill title={workspace1}></Pill>
         {workspace2 && <button className="workspace-pill">{workspace2}</button>}
       </td>
       <td>
@@ -41,7 +42,7 @@ const AgentTableRow: React.FC<IAgentTableRow> = ({
       <NoteCard></NoteCard>
       </td>
       <td className="btn-rightcell">
-         <AgentCard id={id} name={name}  ></AgentCard>
+         <AgentCard id={id} name={name} workspace={workspace1} ></AgentCard>
       </td>
     </tr>
   );

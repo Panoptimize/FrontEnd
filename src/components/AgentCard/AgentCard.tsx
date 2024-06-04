@@ -20,8 +20,7 @@ const AgentCard: React.FC<IAgentCard> = ({
   name = "Dave",
   email = "dave_chapelle@gmail.com",
   username = "chap",
-  selectedWorkspaces: initialSelectedWorkspaces = [],
-  availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
+  workspace,
   profileImage,
   id,
 }) => {
@@ -33,12 +32,6 @@ const AgentCard: React.FC<IAgentCard> = ({
     username: "",
   });
 
-  const [selectedWorkspaces, setSelectedWorkspaces] = useState<string[]>(
-    initialSelectedWorkspaces || []
-  );
-  const [availableWorkspaces, setAvailableWorkspaces] = useState<string[]>(
-    initialAvailableWorkspaces || []
-  );
 
   const [notesData, setNotesData] = useState<INoteData[]>([]);
 
@@ -47,21 +40,10 @@ const AgentCard: React.FC<IAgentCard> = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectWorkspace = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newWorkspace = e.target.value;
-    if (!selectedWorkspaces.includes(newWorkspace)) {
-      setSelectedWorkspaces((prev) => [...prev, newWorkspace]);
-    }
-  };
 
-  const handleRemoveWorkspace = (workspaceToRemove: string) => {
-    setSelectedWorkspaces((prev) =>
-      prev.filter((ws) => ws !== workspaceToRemove)
-    );
-  };
 
   const handleSave = () => {
-    console.log("Guardando datos:", formData, selectedWorkspaces);
+    console.log("Guardando datos:", formData, workspace);
     setIsVisible(false); // Cerrar el modal después de guardar
   };
 
@@ -190,7 +172,7 @@ const AgentCard: React.FC<IAgentCard> = ({
             <div className="flex flex-col w-full place-items-center my-2">
               <div className="flex flex-col place-items-center space-y-3 mb-5">
                 <Avatar size="large"></Avatar>
-                <Pill title="Areas"></Pill>
+                <Pill title={workspace}></Pill>
               </div>
               <div className="flex flex-col h-full w-full">
                 <h4 className="my-3 font-bold text-xl">Agent Details</h4>

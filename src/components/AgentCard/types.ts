@@ -25,12 +25,8 @@ export interface IAgentCard {
     profileImage?: string;
     /**
      * Array of names of workspaces selected by the user (optional)
-     */
-    selectedWorkspaces?: string[]; 
-    /**
-     * Array of names of workspaces available to the user
-     */
-    availableWorkspaces?: string[]; 
+    */
+   workspace?:string;
     id:string;
 }
 
@@ -38,7 +34,7 @@ export interface IAgentCard {
 export interface INotesRow {
     id? : string;
     title?: string;
-    priority?: 'Low' | 'Medium' | 'High';
+    priority?: 'low' | 'medium' | 'high';
     updateDate?: string; 
     description?: string;
 }
