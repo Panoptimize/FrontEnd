@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Sidebar } from "../../components/Sidebar";
-import { Topbar } from "../../components/Topbar";
 import { StatusCard } from "../../components/StatusCard";
 import { getStatus } from '../../services';
 import { IStatusCard } from '../../components/StatusCard/types';
@@ -31,6 +29,7 @@ const ActionCenter: React.FC = () => {
     const [status, setStatus] = useState<IStatusCard[]>([]);
     const [rows, setRows] = useState<IRowAC[]>([]);
     const [agents, setAgents] = useState<IAgent[]>([]);
+    const [contactsFetched, setContactsFetched] = useState(false);
 
     const getAgentsStatus = async () => {
         const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
@@ -49,6 +48,16 @@ const ActionCenter: React.FC = () => {
         } catch (error) {
             console.error("Error fetching agents:", error);
         }
+    }; 
+
+    const addContactsWithDelay = (contacts: IRowAC[], index: number = 0) => {
+      if (index < contacts.length) {
+          setRows(prevRows => [...prevRows, {
+              ...contacts[index],
+              currentTime: formatTime(0) // Starting time from 0
+          }]);
+          setTimeout(() => addContactsWithDelay(contacts, index + 1), 5000); // Delay between each contact
+      }
     };
 
     const fetchContacts = async () => {
@@ -80,19 +89,26 @@ const ActionCenter: React.FC = () => {
                 channel: contact.channel
             };
         });
-        setRows(rowsData);
+        //setRows(rowsData);
+        addContactsWithDelay(rowsData);
     };
 
-    useEffect(() => {
-        getAgentsStatus();
-        fetchAgents();
-    }, []);
-
-    useEffect(() => {
-        if (agents.length > 0) {
-            fetchContacts();
-        }
-    }, [agents]);
+        // Fetch status and agents only once
+        useEffect(() => {
+          const fetchInitialData = async () => {
+              await getAgentsStatus();
+              await fetchAgents();
+          };
+          fetchInitialData();
+      }, []);
+  
+      // Fetch contacts once after agents are loaded
+      useEffect(() => {
+          if (agents.length > 0 && !contactsFetched) {
+              fetchContacts();
+              setContactsFetched(true); // Ensure contacts are fetched only once
+          }
+      }, [agents]);
 
     useEffect(() => {
         const interval = setInterval(() => {
