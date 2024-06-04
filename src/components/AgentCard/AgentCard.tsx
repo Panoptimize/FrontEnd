@@ -78,6 +78,10 @@ const AgentCard: React.FC<IAgentCard> = ({
     }
   };
 
+  const receivedSignal = () => {
+    handleOpen();
+  }
+
   const getNotes = async (agentId: number) => {
     await getAgentNotes(agentId).then((data) => {
       if(data && data.data) {
@@ -171,7 +175,7 @@ const AgentCard: React.FC<IAgentCard> = ({
             <div className="flex flex-auto flex-col">
               {/* cambiar para ordenar: title, priority, last update */}
               <div>
-                <NotesTable notesData={notesData} />
+                <NotesTable notesData={notesData} signalToAgentCard={receivedSignal}/>
               </div>
               {/* 1. cambiar con NotesRow, checar si flexea, probar con los placeholders de figma */}
             </div>
