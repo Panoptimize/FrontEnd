@@ -78,7 +78,7 @@ const NoteCard: React.FC<INoteCard> = ({
     );
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center">
+    <div className="fixed inset-0 flex justify-center items-center bg-black/[0.3]">
       <div
         className="flex flex-auto flex-col bg-white rounded-3xl p-8"
         style={{

@@ -56,9 +56,9 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, priority, title, text }) => {
         <ChoiceBox
           boxText="Priority:"
           options={[
-            { value: "Low", label: "Low" },
-            { value: "Medium", label: "Medium" },
-            { value: "High", label: "High" },
+            { value: "low", label: "Low" },
+            { value: "medium", label: "Medium" },
+            { value: "high", label: "High" },
           ]}
           chosen = {priority}
         ></ChoiceBox>
@@ -69,8 +69,10 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, priority, title, text }) => {
       <div className="grid grid-cols-3">
         <div></div>
         <div></div>
-        <div className="flex flex-row space-x-4">
-          <Button baseColor="rose" image="Cross.svg" text="Delete"></Button>
+        <div className="grid grid-cols-2 space-x-4">
+          {title ? (
+    <Button baseColor="rose" image="Cross.svg" text="Delete"></Button>
+) : (<div></div>)}         
           <Button baseColor="teal" image="Download.svg" text="Save"></Button>
         </div>
       </div>

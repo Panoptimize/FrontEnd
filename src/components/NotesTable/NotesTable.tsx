@@ -7,10 +7,10 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
 
    //Order for the sort methods to order priority from low to high and vicecersa. 
-   const priorityOrder: Record<'Low' | 'Medium' | 'High', number> = {
-    Low: 1,
-    Medium: 2,
-    High: 3
+   const priorityOrder: Record<'low' | 'medium' | 'high', number> = {
+    low: 1,
+    medium: 2,
+    high: 3
   };
 
 
@@ -34,8 +34,8 @@ const NotesTable: React.FC<INotesTable> = ({ notesData }) => {
 
       if (sortConfig.key === 'priority') {
         return sortConfig.direction === 'ascending' 
-          ? priorityOrder[aValue as 'Low' | 'Medium' | 'High'] - priorityOrder[bValue as 'Low' | 'Medium' | 'High']
-          : priorityOrder[bValue as 'Low' | 'Medium' | 'High'] - priorityOrder[aValue as 'Low' | 'Medium' | 'High'];
+          ? priorityOrder[aValue as 'low' | 'medium' | 'high'] - priorityOrder[bValue as 'low' | 'medium' | 'high']
+          : priorityOrder[bValue as 'low' | 'medium' | 'high'] - priorityOrder[aValue as 'low' | 'medium' | 'high'];
       } else {
         if (aValue < bValue) {
           return sortConfig.direction === 'ascending' ? -1 : 1;

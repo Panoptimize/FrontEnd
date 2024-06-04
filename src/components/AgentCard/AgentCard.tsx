@@ -193,7 +193,7 @@ const AgentCard: React.FC<IAgentCard> = ({
                 <Pill title="Areas"></Pill>
               </div>
               <div className="flex flex-col h-full w-full">
-                <h4 className="my-3 font-bold text-xl">Agent Metrics</h4>
+                <h4 className="my-3 font-bold text-xl">Agent Details</h4>
                 <h4>{name}</h4>
                 <h4>{email}</h4>
                 <h4>{username}</h4>

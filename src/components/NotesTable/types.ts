@@ -8,7 +8,7 @@ export type SortConfig = {
 export interface INotesRow {
     id? : number;
     title?: string;
-    priority?: 'Low' | 'Medium' | 'High';
+    priority?: 'low' | 'medium' | 'high';
     updateDate?: string; 
     description?: string,
 }
