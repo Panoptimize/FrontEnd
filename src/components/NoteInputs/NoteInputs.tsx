@@ -21,15 +21,17 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, priority, title, text, closeWin
 
   const nameRef = useRef<TextInputRef>(null);
   const descriptionRef = useRef<TextInputRef>(null);
+  const priorityRef = useRef<ChoiceBoxRef>(null);
 
   const createEditNote = () => {
     const name = nameRef.current?.getValue ? nameRef.current.getValue() : "";
     const desc = descriptionRef.current?.getValue ? descriptionRef.current.getValue() : "";
+    const priority = priorityRef.current?.getValue ? priorityRef.current.getValue() : Priority.low;
 
     const updatedNote:INote = {
       name: name ? name : "",
       description: desc ? desc : "",
-      priority: Priority.high,
+      priority: priority,
       solved: false,
     }
 
@@ -58,6 +60,9 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, priority, title, text, closeWin
   const eraseNote = async(id: number) => {
     await deleteNote(id).then((data) => {
       console.log("NOTE DELETED")
+      if(closeWindow){
+        closeWindow();
+      }
     }).catch((error) => {
       console.error(error)
     });
@@ -82,10 +87,11 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, priority, title, text, closeWin
             { value: "high", label: "High" },
           ]}
           chosen = {priority}
+          ref = {priorityRef}
         ></ChoiceBox>
       </div>
       <div className="h-full">
-        <TextInput placeholder="Add Text" size="big" text={text}></TextInput>
+        <TextInput placeholder="Add Text" size="big" text={text} ref={descriptionRef}></TextInput>
       </div>
       <div className="grid grid-cols-3">
         <div></div>
