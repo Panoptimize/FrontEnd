@@ -27,7 +27,11 @@ export interface IAgentCard {
      * Array of names of workspaces selected by the user (optional)
     */
    workspace?:string;
-    id:string;
+   id:string;
+   call_time?:string;
+   after_time?:string;
+   hold_time?:string;
+   abandon_time?:string;
 }
 
 

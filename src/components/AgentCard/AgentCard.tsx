@@ -23,6 +23,10 @@ const AgentCard: React.FC<IAgentCard> = ({
   workspace,
   profileImage,
   id,
+  call_time,
+  after_time,
+  hold_time,
+  abandon_time
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
