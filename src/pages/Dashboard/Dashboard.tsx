@@ -8,7 +8,7 @@ import { ActivityChart } from "../../components/ActivityChart";
 import { IActivityChart } from "../../components/ActivityChart/types";
 import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
 import { Button } from "../../components/Button";
-import { getStatus, getPerformance, getContactMedium, getSatisfaction, getMonthlyActivity} from "../../services";
+import { getStatus, getPerformance, getContactMedium, getSatisfaction, getMonthlyActivity, getDownload} from "../../services";
 import getKpis from "../../services/kpicard/getKpis";
 //import { getSatisfaction } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
@@ -111,6 +111,15 @@ export const Dashboard: React.FC = () => {
       }
     };
 
+    const fetchDownload = async () => {
+      try {
+        console.log("entro")
+        const data = await getDownload();
+        console.log(data);
+      }catch (error) {
+        console.error("Error al obtener datos de descarga:", error);
+      }
+    }
 
   useEffect(() => {
     getAgentsStatus();
@@ -175,6 +184,7 @@ export const Dashboard: React.FC = () => {
             baseColor="transparent"
             image="Download.svg"
             text="Download"
+            onClick={() => fetchDownload()}
           ></Button>
         </div>
       </div>        
