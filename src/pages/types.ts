@@ -23,9 +23,8 @@ export interface INoteData extends INote {
 }
 
 export interface IAgentPerformance {
-    avg_after_contact_work_time: number;
-    avg_handle_time: number;
-    avg_abandon_time: number;
-    avg_hold_time: number;
-    agent_id: number;
+    avgAfterContactWorkTime: number;
+    avgHandleTime: number;
+    avgAbandonTime: number;
+    avgHoldTime: number;
 }

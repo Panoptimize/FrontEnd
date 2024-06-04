@@ -64,7 +64,6 @@ const AgentCard: React.FC<IAgentCard> = ({
     }
   };
 
-
   const getId = async (id:string) => {
     try {
       const data = await getAgentId(id);
