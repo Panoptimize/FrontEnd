@@ -13,15 +13,16 @@ import { INotesTable } from "../NotesTable/types";
 import { getAgentNotes } from "../../services/notes/getAgentNotes";
 import { INoteData } from "../../pages/types";
 import { getAgentId } from "../../services/agentsList/getAgentId";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
 
 const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details", //recibe nombre, email, username. Faltan metricas y como jalar 	Workspace	Last Activity y agent id	desde BE (Agent Row)
   title = "Contact Details",
-  name = "Dave",
+  name,
   email = "dave_chapelle@gmail.com",
   username = "chap",
   workspace,
-  profileImage,
   id,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,6 +33,8 @@ const AgentCard: React.FC<IAgentCard> = ({
     username: "",
   });
 
+  const [user, setUser] = useState<any>();
+
 
   const [notesData, setNotesData] = useState<INoteData[]>([]);
 
@@ -39,8 +42,6 @@ const AgentCard: React.FC<IAgentCard> = ({
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-
 
   const handleSave = () => {
     console.log("Guardando datos:", formData, workspace);
@@ -133,7 +134,7 @@ const AgentCard: React.FC<IAgentCard> = ({
               <div className="flex flex-col h-full w-full">
                 <h4 className="my-3 font-bold text-xl">Agent Details</h4>
                 <h4>{name}</h4>
-                <h4>{email}</h4>
+                <h4 className="text-xs">{email}</h4>
                 <h4>{username}</h4>
               </div>
             </div>
@@ -174,7 +175,7 @@ const AgentCard: React.FC<IAgentCard> = ({
             <div className="flex flex-auto flex-col">
               {/* cambiar para ordenar: title, priority, last update */}
               <div>
-                <NotesTable notesData={notesData} signalToAgentCard={receivedSignal}/>
+                <NotesTable name={name} area={workspace} notesData={notesData} signalToAgentCard={receivedSignal}/>
               </div>
               {/* 1. cambiar con NotesRow, checar si flexea, probar con los placeholders de figma */}
             </div>

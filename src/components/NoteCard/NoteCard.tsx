@@ -18,6 +18,7 @@ const NoteCard: React.FC<INoteCard> = ({
   name,
   email = "dave_chapelle@gmail.com",
   username = "chap",
+  area,
   selectedWorkspaces: initialSelectedWorkspaces = [],
   availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
   profileImage,
@@ -133,16 +134,17 @@ const NoteCard: React.FC<INoteCard> = ({
             <div className="flex flex-col w-full place-items-center my-2">
               <div className="flex flex-col place-items-center space-y-3 mb-5">
                 <Avatar size="large"></Avatar>
-                <Pill title="Areas"></Pill>
+                <Pill title={area}></Pill>
               </div>
               <div className="flex flex-col h-full w-full">
                 <h4 className="my-3 font-bold text-xl">Agent Metrics</h4>
-                <h4 className="mb-2">{name}</h4>
+                <h4 className="mb-4">{name}</h4>
                 {agentPerformance ? (
                   <>
-                    <h4>{agentPerformance.avgAbandonTime}</h4>
-                    <h4>{agentPerformance.avgAfterContactWorkTime}</h4>
-                    <h4>{agentPerformance.avgHandleTime}</h4>
+                    <h4> Avg Abandon Time: <span className="font-bold">{agentPerformance.avgAbandonTime}</span></h4>
+                    <h4> Avg ACWT: <span className="font-bold">{agentPerformance.avgAfterContactWorkTime}</span></h4>
+                    <h4> Avg Handle Time: <span className="font-bold">{agentPerformance.avgHandleTime}</span></h4>
+                    <h4> Avg Hold Time: <span className="font-bold">{agentPerformance.avgHoldTime}</span></h4>
                   </>
                 ) : (
                   <p>Loading metrics...</p>

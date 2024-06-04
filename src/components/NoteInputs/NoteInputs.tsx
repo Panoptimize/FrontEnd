@@ -26,7 +26,7 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, priority, title, text, closeWin
   const createEditNote = () => {
     const name = nameRef.current?.getValue ? nameRef.current.getValue() : "";
     const desc = descriptionRef.current?.getValue ? descriptionRef.current.getValue() : "";
-    const priority = priorityRef.current?.getValue ? priorityRef.current.getValue() : Priority.low;
+    const priority = priorityRef.current?.getValue ? priorityRef.current.getValue() : Priority.LOW;
 
     const updatedNote:INote = {
       name: name ? name : "",
@@ -82,9 +82,9 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, priority, title, text, closeWin
         <ChoiceBox
           boxText="Priority:"
           options={[
-            { value: "low", label: "Low" },
-            { value: "medium", label: "Medium" },
-            { value: "high", label: "High" },
+            { value: "LOW", label: "Low" },
+            { value: "MEDIUM", label: "Medium" },
+            { value: "HIGH", label: "High" },
           ]}
           chosen = {priority}
           ref = {priorityRef}

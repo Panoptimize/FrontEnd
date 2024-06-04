@@ -15,6 +15,7 @@ export interface INoteCard {
      * User's email address
      */
     email?: string;
+    area?:string;
     /**
      * User's username
      */
@@ -34,7 +35,7 @@ export interface INoteCard {
 
     bttn_color?: 'teal' | 'rose' | 'gray' | 'transparent' | 'mint';
     text?: string;
-    priority?: 'low'|'medium'|'high';
+    priority?: 'LOW'|'MEDIUM'|'HIGH';
     id?:number;
     signalNotesRow?: () => void;
 }

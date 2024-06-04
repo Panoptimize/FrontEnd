@@ -1,6 +1,6 @@
 export interface INoteInputs {
     id?:number;
-    priority?: 'low'|'medium'|'high';
+    priority?: 'LOW'|'MEDIUM'|'HIGH';
     title?: string;
     text?:string;
     closeWindow?: () => void;
