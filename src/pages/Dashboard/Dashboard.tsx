@@ -63,8 +63,14 @@ export const Dashboard: React.FC = () => {
 
   const fetchPerformanceData = async () => {
     try {
-      const performanceData: IPerformanceChart = await getPerformance();
+      const performanceData = await getPerformance({
+        instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",
+        startDate,
+        endDate,
+        routingProfileIds: selectedOptions?.map((option) => option.value) ?? [],
+      });
       setPerformanceData(performanceData);
+      console.log(performanceData);
     } catch (error) {
       console.error('Error fetching performance data:', error);
     }
@@ -84,15 +90,16 @@ export const Dashboard: React.FC = () => {
     }
   }
 
+  
   const getKpiData = async () => {
     const result = await getKpis({
       instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",
       startDate,
       endDate,
-      routingProfiles: (selectedOptions?.map((option) => option.label ) || workspaces?.map((workspace) => workspace.value)) ?? [],
+      routingProfiles: selectedOptions?.map((option) => option.label) ?? [],
     });
 
-    setKpiData(result.data)
+    setKpiData(result.data);
     setActivityData({ data: result.data.activities });
   };
 
@@ -116,14 +123,18 @@ export const Dashboard: React.FC = () => {
   }
 
   useEffect(() => {
-    fetchFilters()
+    fetchFilters();
     getAgentsStatus();
+  }, []);
+
+  useEffect(() => {
     if (workspaces) {
       getSatisfactionLevels();
       getKpiData();
       fetchPerformanceData();
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, selectedOptions]);
+
 
 
   return (
@@ -172,8 +183,8 @@ export const Dashboard: React.FC = () => {
           </div>
           <div className="flex flex-auto">
             <ContactMedium data={[
-              (kpiData?.voice ?? 0), // Add voice data if available
-              (kpiData?.chat ?? 0), // Add chat data if available
+              (kpiData?.voice ?? 0), 
+              (kpiData?.chat ?? 0),
             ]} />
           </div>
         </div>
