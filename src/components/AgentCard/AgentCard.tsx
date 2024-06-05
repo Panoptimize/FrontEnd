@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { IAgentCard, IMetrics, INotesRow } from "./types";
+import { IAgentCard, IMetrics } from "./types";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 import { Pill } from "../Pill";
 import { DataCard } from "../DataCard";
-import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
-import { NotesRow } from "../NotesRow";
 import NoteCard from "../NoteCard/NoteCard";
 import { NotesTable } from "../NotesTable";
-import { INoteCard } from "../NoteCard/types";
-import { INotesTable } from "../NotesTable/types";
 import { getAgentNotes } from "../../services/notes/getAgentNotes";
 import { INoteData } from "../../pages/types";
 import { getAgentId } from "../../services/agentsList/getAgentId";
 import { getAgentMetrics } from "../../services/AgentMetrics/getAgentMetrics";
 
 const AgentCard: React.FC<IAgentCard> = ({
-  bttnTitle = "View Details", //recibe nombre, email, username. Faltan metricas y como jalar 	Workspace	Last Activity y agent id	desde BE (Agent Row)
+  bttnTitle = "View Details",
   title = "Contact Details",
   name = "Dave",
   email = "dave_chapelle@gmail.com",
@@ -26,14 +22,11 @@ const AgentCard: React.FC<IAgentCard> = ({
   id,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     username: "",
   });
-
-
   const [notesData, setNotesData] = useState<INoteData[]>([]);
   const [metricsData, setMetricsData] = useState<IMetrics>();
 
@@ -42,11 +35,9 @@ const AgentCard: React.FC<IAgentCard> = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-
-
   const handleSave = () => {
     console.log("Guardando datos:", formData, workspace);
-    setIsVisible(false); // Cerrar el modal después de guardar
+    setIsVisible(false);
   };
 
   const handleClose = () => {
@@ -57,56 +48,64 @@ const AgentCard: React.FC<IAgentCard> = ({
     setIsVisible(true);
     try {
       const agentId = await getId(id);
-      if(agentId) {
-        console.log("agentId: ", agentId)
+      if (agentId) {
+        console.log("agentId: ", agentId);
+        await getMetrics(agentId);
         await getNotes(agentId);
       }
-    } catch (error){
+    } catch (error) {
       console.error(error);
     }
   };
 
-
-  const getId = async (id:string) => {
+  const getId = async (id: string) => {
     try {
       const data = await getAgentId(id);
-      if(data && data.data){
+      if (data && data.data) {
         const agentId = data.data.id;
-        console.log(agentId)
-        return agentId
+        console.log(agentId);
+        return agentId;
       }
-    } catch(error) {
-        console.error(error);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   const receivedSignal = () => {
     handleOpen();
-  }
+  };
 
   const getNotes = async (agentId: number) => {
-    await getAgentNotes(agentId).then((data) => {
-      if(data && data.data) {
-        console.log(data.data.content)
-        setNotesData(data.data.content)
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
+    await getAgentNotes(agentId)
+      .then((data) => {
+        if (data && data.data) {
+          console.log(data.data.content);
+          setNotesData(data.data.content);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  const getMetrics = async(agentId: number) => {
-    await getAgentMetrics(agentId).then((data) => {
-      if(data && data.data) {
-        console.log(data.data.content)
-        setMetricsData(data.data.content)
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
+  const getMetrics = async (agentId: number) => {
+    await getAgentMetrics(agentId)
+      .then((data) => {
+        if (data && data.data) {
+          console.log("METRICS FOUND");
+          console.log(data.data);
+          setMetricsData(data.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  
+  useEffect(() => {
+    console.log(metricsData);
+  }, [metricsData]);
+
   if (!isVisible)
     return (
       <button
@@ -162,18 +161,18 @@ const AgentCard: React.FC<IAgentCard> = ({
               ></DataCard>
               <DataCard
                 title="After Call Time"
-                content={metricsData?.avgAfterContactTime}
-                textColor="red"
+                content={metricsData?.avgAfterContactWorkTime}
+                textColor="purple"
               ></DataCard>
               <DataCard
                 title="Hold Time"
-                content={"aasf"}
+                content={metricsData?.avgHoldTime}
                 textColor="yellow"
               ></DataCard>
               <DataCard
                 title="Abandon Time"
-                content={10}
-                textColor="purple"
+                content={metricsData?.avgAbandonTime}
+                textColor="red"
               ></DataCard>
             </div>
             <div>
@@ -187,11 +186,12 @@ const AgentCard: React.FC<IAgentCard> = ({
               </div>
             </div>
             <div className="flex flex-auto flex-col">
-              {/* cambiar para ordenar: title, priority, last update */}
               <div>
-                <NotesTable notesData={notesData} signalToAgentCard={receivedSignal}/>
+                <NotesTable
+                  notesData={notesData}
+                  signalToAgentCard={receivedSignal}
+                />
               </div>
-              {/* 1. cambiar con NotesRow, checar si flexea, probar con los placeholders de figma */}
             </div>
           </div>
         </div>
