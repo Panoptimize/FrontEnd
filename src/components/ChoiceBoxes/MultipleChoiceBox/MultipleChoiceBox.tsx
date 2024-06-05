@@ -36,8 +36,8 @@ const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({ options, setSelectedO
             <div className="w-full px-4">
                 <div className="flex flex-col items-center relative">
                     <div className="w-full">
-                        <div className="my-2 p-1 flex border border-gray-200 bg-white rounded">
-                            <div className="text-gray-300 py-1 pl-2 pr-1 flex items-center border-r border-gray-200">Workspace: </div>
+                        <div className="flex items-center p-2 border rounded-full cursor-pointer">
+                            <div className="mr-2">Workspace: </div>
                             <div className="flex flex-auto flex-wrap">
                                 {selectedOptions.map((option, index) => (
                                     <ErasablePill key={index} selectedOption={option} onRemove={removeOption} />
