@@ -107,13 +107,18 @@ export const Dashboard: React.FC = () => {
   const fetchDownload = async () => {
     const instanceId = "7c78bd60-4a9f-40e5-b461-b7a0dfaad848";
     const routingProfiles = workspaces?.map((workspace) => workspace.value) ?? [];
+    let routingProfile: string[] = [];
+    routingProfile.push(routingProfiles[4])
+
+    console.log(workspaces);
     
     try {
+      console.log(routingProfile);
       const data = await getDownload(
         instanceId,
         startDate,
         endDate,
-        routingProfiles
+        routingProfile
       );
       console.log(data);
     } catch (error) {
