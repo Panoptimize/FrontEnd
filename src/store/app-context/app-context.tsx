@@ -38,7 +38,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
       setUser(currentUser);
       setLoadingContext(false);
       if (currentUser) {
@@ -50,7 +49,6 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
                 config.headers.Authorization = `Bearer ${token}`;
               }
             });
-            console.log(config);
 
             return config;
           },

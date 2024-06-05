@@ -1,4 +1,3 @@
-import axios from 'axios';
 import httpInstance from '../httpInstance';
 import { IAgent, IAgentResponse } from '../../components/AgentTable/types';
 
@@ -7,7 +6,7 @@ import { IAgent, IAgentResponse } from '../../components/AgentTable/types';
 export const getAgentsList = async (): Promise<IAgent[]> => {
 
 
-  const endpoint = `agent/agentslist?instanceId=7c78bd60-4a9f-40e5-b461-b7a0dfaad848`;
+  const endpoint = `agent/agents-list?instanceId=7c78bd60-4a9f-40e5-b461-b7a0dfaad848`;
 
   try {
     const response = await httpInstance.post<IAgentResponse>(endpoint);

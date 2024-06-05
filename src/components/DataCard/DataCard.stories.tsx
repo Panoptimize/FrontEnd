@@ -48,7 +48,8 @@ export const AbandonRate = Template.bind({});
 
 AbandonRate.args = {
     title: 'Abandon Rate',
-    content: '11%',
+    content: 11,
+    decorator: "%"
 };
 
 /**
