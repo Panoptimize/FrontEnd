@@ -47,9 +47,7 @@ export const AppContextProvider = ({ children }: AppContextProps) => {
             onAuthStateChanged(auth, async (currentUser) => {
               if (currentUser) {
                 const token = await getIdToken(currentUser);
-                const userId = currentUser.uid;
                 config.headers.Authorization = `Bearer ${token}`;
-                config.headers["X-User-ID"] = userId;
               }
             });
             console.log(config);
