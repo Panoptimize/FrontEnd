@@ -11,7 +11,7 @@ import { NotesTable } from "../NotesTable";
 import { INoteCard } from "../NoteCard/types";
 import { INotesTable } from "../NotesTable/types";
 import { getAgentNotes } from "../../services/notes/getAgentNotes";
-import { INoteData } from "../../pages/types";
+import { IAgentPerformance, INoteData } from "../../pages/types";
 import { getAgentId } from "../../services/agentsList/getAgentId";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase";
@@ -26,6 +26,7 @@ const AgentCard: React.FC<IAgentCard> = ({
   id,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [agentMetrics, setAgentMetrics] = useState<IAgentPerformance | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -54,6 +55,13 @@ const AgentCard: React.FC<IAgentCard> = ({
 
   const handleOpen = async () => {
     setIsVisible(true);
+    const testMetrics:IAgentPerformance = {
+      avgAbandonTime: 10,
+      avgAfterContactWorkTime: 15,
+      avgHandleTime: 20,
+      avgHoldTime: 25,
+    };
+    setAgentMetrics(testMetrics);
     try {
       const agentId = await getId(id);
       if(agentId) {
@@ -168,7 +176,7 @@ const AgentCard: React.FC<IAgentCard> = ({
                   <h2 className="text-xl font-bold">Notes:</h2>
                 </div>
                 <div>
-                  <NoteCard bttn_color="teal"></NoteCard>
+                  <NoteCard area={workspace} metrics={agentMetrics ? agentMetrics : undefined} bttn_color="teal"></NoteCard>
                 </div>
               </div>
             </div>

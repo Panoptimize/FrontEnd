@@ -1,3 +1,5 @@
+import { IAgentPerformance } from "../../pages/types";
+
 export interface INoteCard {
     /**
      * Title of the user information card
@@ -38,4 +40,5 @@ export interface INoteCard {
     priority?: 'LOW'|'MEDIUM'|'HIGH';
     id?:number;
     signalNotesRow?: () => void;
+    metrics?: IAgentPerformance;
 }

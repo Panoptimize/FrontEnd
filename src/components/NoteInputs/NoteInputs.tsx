@@ -68,6 +68,10 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, priority, title, text, closeWin
     });
   };
 
+  const createNote = () => {
+    console.log("SE VA A CREAR")
+  }
+
   return (
     <div className="flex flex-auto flex-col w-full h-full p-2 space-y-4">
       <div className="flex flex-row space-x-2">
@@ -100,7 +104,7 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, priority, title, text, closeWin
           {title ? (
     <Button baseColor="rose" image="Cross.svg" text="Delete" onClick={deleteCurrentNote}></Button>
 ) : (<div></div>)}         
-          <Button baseColor="teal" image="Download.svg" text="Save" onClick={createEditNote}></Button>
+          <Button baseColor="teal" image="Download.svg" text="Save" onClick={title ? createEditNote : createNote}></Button>
 
         </div>
       </div>

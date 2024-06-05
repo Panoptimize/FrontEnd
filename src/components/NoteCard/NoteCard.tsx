@@ -18,6 +18,7 @@ const NoteCard: React.FC<INoteCard> = ({
   name,
   email = "dave_chapelle@gmail.com",
   username = "chap",
+  metrics,
   area,
   selectedWorkspaces: initialSelectedWorkspaces = [],
   availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
@@ -73,6 +74,9 @@ const NoteCard: React.FC<INoteCard> = ({
 
   const handleOpen = () => {
     setIsVisible(true);
+    if(metrics){
+      setAgentPerformance(metrics)
+    }
   };
 
   const sendSignalToRow = () => {
@@ -146,7 +150,7 @@ const NoteCard: React.FC<INoteCard> = ({
                     <h4> Avg Handle Time: <span className="font-bold">{agentPerformance.avgHandleTime}</span></h4>
                     <h4> Avg Hold Time: <span className="font-bold">{agentPerformance.avgHoldTime}</span></h4>
                   </>
-                ) : (
+                ) : ( 
                   <p>Loading metrics...</p>
                 )}
               </div>
