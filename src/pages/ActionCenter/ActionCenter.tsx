@@ -75,23 +75,29 @@ const ActionCenter: React.FC = () => {
       }));
     };
 
+    function getRandomDelay(min = 5000, max = 8000) {
+      return Math.random() * (max - min) + min;
+  }
+
     // Add contacts with delay using historical data from amazon Connect
     const addContactsWithDelay = (contacts: IRowAC[], index: number = 0) => {
       if (index < contacts.length) {
         setRows(prevRows => {
+          const currentContact = contacts[index];
           // Check if the contact already exists in the current rows
           const exists = prevRows.some(row => row.initiationHour === contacts[index].agentId);
           if (!exists) {
             const now = new Date();
             sessionStorage.setItem(`startTime-${contacts[index].agentId}`, now.getTime().toString());
             return [...prevRows, {
-              ...contacts[index],
+              ...currentContact,
               currentTime: formatTime(0) // Starting time from 0
             }];
           }
           return prevRows;
         });
-        setTimeout(() => addContactsWithDelay(contacts, index + 1), 5000); // Delay between each contact
+        //setTimeout(() => addContactsWithDelay(contacts, index + 1), 3000); // Delay between each contact
+        setTimeout(() => addContactsWithDelay(contacts, index + 1), getRandomDelay());
       }
     };
 
@@ -127,6 +133,17 @@ const ActionCenter: React.FC = () => {
         });
         addContactsWithDelay(rowsData);
     };
+
+        // Function to handle reset
+          const handleReset = async () => {
+            // Clear session storage for rows
+            sessionStorage.removeItem('rows');
+            // Reset rows and fetched status
+            setRows([]);
+            setContactsFetched(false);
+            // Refetch contacts
+            await fetchContacts();
+          };
 
         // Fetch status and agents only once
           useEffect(() => {
@@ -183,7 +200,13 @@ const ActionCenter: React.FC = () => {
                     ))}
                 </div>
                 <div className="font-poppins px-6">
-                    <p className="text-gray-600 pt-2 px-4 text-lg">Help Needed</p>
+                    <div className="flex justify-between"> 
+                          <p className="text-gray-600 pt-2 px-4 text-lg">Help Needed</p>
+                          <button onClick={handleReset}>
+                              <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Refresh.svg" alt="Reset" className="h-6 w-6 ml-4 text-gray-600 fill-current"/>
+                          </button>
+                    </div>
+                    
                     <TableAC rows={highTemperatureRows} />
                 </div>
                 <div className="font-poppins px-6">

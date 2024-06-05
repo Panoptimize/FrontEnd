@@ -9,7 +9,7 @@ const TableAC: React.FC<ITableAC> = ({ rows }) => {
                 <thead className='p-4 bg-white rounded-full overflow-hidden shadow-md'>
                     <tr className='border-spacing-y-3'>
                         <th className='py-2 px-4 rounded-l-md bg-white'>Date</th>
-                        <th className='py-2 px-4 bg-white'>Initiation Hour</th>
+                        {/* <th className='py-2 px-4 bg-white'>Initiation Hour</th> */}
                         <th className='py-2 px-4 bg-white'>Current Time</th>
                         <th className='py-2 px-4 bg-white'>Agent</th>
                         <th className='py-2 px-4 bg-white'>Workspace</th>

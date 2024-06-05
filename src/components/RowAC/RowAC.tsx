@@ -1,8 +1,7 @@
 import React from 'react';
 import { IRowAC } from './types';
-import { UserInfoCard } from '../UserInfoCard'; // Asegúrate de ajustar la ruta según sea necesario
 
-const RowAC: React.FC<IRowAC> = ({ date, initiationHour, currentTime, agentImage, name, status, agentId, temperature, channel }) => { // Añadimos los nuevos atributos aquí
+const RowAC: React.FC<IRowAC> = ({ date, currentTime, agentImage, name, status, agentId, temperature, channel }) => { // Añadimos los nuevos atributos aquí
 
     const alarm = temperature === 'Negative';
 
@@ -29,9 +28,9 @@ const RowAC: React.FC<IRowAC> = ({ date, initiationHour, currentTime, agentImage
             <td className={callStatusClass}>
                 {date}
             </td>
-            <td className={callStatusClass}>
+            {/* <td className={callStatusClass}>
                 {initiationHour}
-            </td>
+            </td> */}
             <td className={callStatusClass}>
                 {currentTime}
             </td>
