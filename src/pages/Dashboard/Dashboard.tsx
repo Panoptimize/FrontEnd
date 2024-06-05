@@ -6,7 +6,6 @@ import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
 import { IActivityChart } from "../../components/ActivityChart/types";
-import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
 import { Button } from "../../components/Button";
 import { getStatus, getPerformance, getSatisfaction, getDownload } from "../../services";
 import getKpis from "../../services/dashboard/getKpis";
@@ -33,6 +32,7 @@ export const Dashboard: React.FC = () => {
   const [status, setStatus] = useState<IStatusCard[]>([]);
   const [kpiData, setKpiData] = useState<MetricResponse>();
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  const [limit, setLimit] = useState<number>(90);
 
   const validateCreationDate = () => {
     if (creationDate) {
@@ -40,13 +40,14 @@ export const Dashboard: React.FC = () => {
       const threshold = new Date(new Date().setDate(new Date().getDate() - 90));
 
       // Check if the creation day is greater than todays date less than 90 days
-      if (creationDateObj < threshold) {
-        // Get difference in days
-        return 90;
-      } else {
+      if (creationDateObj >= threshold) {
         // Get difference in days
         const differenceTime = new Date().getTime() - creationDateObj.getTime();
-        return Math.ceil(differenceTime / (1000 * 3600 * 24));
+        setLimit(Math.ceil(differenceTime / (1000 * 3600 * 24)));
+        setStartDate(creationDate);
+      } else {
+        threshold.setHours(0, 0, 0, 0);
+        setStartDate(threshold.toISOString());
       }
 
     }
@@ -74,6 +75,7 @@ export const Dashboard: React.FC = () => {
     try {
       const data = await getFilters();
       setCreationDate(data?.instanceCreationDate);
+      validateCreationDate();
       const workspaces = data?.workspaces?.map((workspace) => ({
         value: workspace.id,
         label: workspace.name
@@ -152,7 +154,7 @@ export const Dashboard: React.FC = () => {
             setStartDate={setStartDate}
             endDate={endDate}
             setEndDate={setEndDate}
-            limit={validateCreationDate()}
+            limit={limit}
           />
           <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
         </div>
