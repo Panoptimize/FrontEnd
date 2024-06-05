@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IMultipleChoiceBox } from './types';
 import { ErasablePill } from '../../ErasablePill';
 import { Option } from '../ChoiceBox/types';
 import { SelectorList } from '../../SelectorList';
 
-const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({options, setSelectedOptions, selectedOptions}) => {
+const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({ options, setSelectedOptions, selectedOptions }) => {
     const [showOptions, setShowOptions] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setShowOptions(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const handleSelectedOptions = (newSelectedOptions: Option[]) => {
         setSelectedOptions(newSelectedOptions);
@@ -29,7 +44,7 @@ const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({options, setSelectedOp
                                 ))}
                             </div>
                             <div className="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200">
-                                <button 
+                                <button
                                     className="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none"
                                     onClick={() => setShowOptions(!showOptions)}
                                 >
@@ -41,7 +56,7 @@ const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({options, setSelectedOp
                         </div>
                     </div>
                     {showOptions && (
-                        <div className="absolute shadow top-100 bg-white z-40 w-full left-0 rounded max-h-select overflow-y-auto">
+                        <div ref={dropdownRef} className="absolute shadow top-100 bg-white z-40 w-full left-0 rounded max-h-select overflow-y-auto">
                             <div className="flex flex-col w-full">
                                 <SelectorList items={options} selected={selectedOptions} setSelected={handleSelectedOptions} />
                             </div>
