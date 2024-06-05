@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IAgentCard, INotesRow } from "./types";
+import { IAgentCard, IMetrics, INotesRow } from "./types";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 import { Pill } from "../Pill";
@@ -13,6 +13,7 @@ import { INotesTable } from "../NotesTable/types";
 import { getAgentNotes } from "../../services/notes/getAgentNotes";
 import { INoteData } from "../../pages/types";
 import { getAgentId } from "../../services/agentsList/getAgentId";
+import { getAgentMetrics } from "../../services/AgentMetrics/getAgentMetrics";
 
 const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details", //recibe nombre, email, username. Faltan metricas y como jalar 	Workspace	Last Activity y agent id	desde BE (Agent Row)
@@ -34,6 +35,7 @@ const AgentCard: React.FC<IAgentCard> = ({
 
 
   const [notesData, setNotesData] = useState<INoteData[]>([]);
+  const [metricsData, setMetricsData] = useState<IMetrics>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -93,6 +95,18 @@ const AgentCard: React.FC<IAgentCard> = ({
     });
   };
 
+  const getMetrics = async(agentId: number) => {
+    await getAgentMetrics(agentId).then((data) => {
+      if(data && data.data) {
+        console.log(data.data.content)
+        setMetricsData(data.data.content)
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  };
+
+  
   if (!isVisible)
     return (
       <button
@@ -143,12 +157,12 @@ const AgentCard: React.FC<IAgentCard> = ({
             <div className="grid grid-cols-4 space-x-3">
               <DataCard
                 title="Call Time"
-                content={20}
+                content={metricsData?.avgHandleTime}
                 textColor="green"
               ></DataCard>
               <DataCard
                 title="After Call Time"
-                content={"asdf"}
+                content={metricsData?.avgAfterContactTime}
                 textColor="red"
               ></DataCard>
               <DataCard

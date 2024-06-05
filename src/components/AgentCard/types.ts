@@ -38,3 +38,10 @@ export interface INotesRow {
     updateDate?: string; 
     description?: string;
 }
+
+export interface IMetrics{
+    avgAfterContactTime?: number;
+    avgHandleTime?: number;
+    avgAbandonTime?: number;
+    avgHoldTime?: number;
+}
