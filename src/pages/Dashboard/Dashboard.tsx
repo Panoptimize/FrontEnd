@@ -18,6 +18,7 @@ import { ICustomerSatisfaction } from "./types";
 import { TimeFrameSelector } from "../../components/TimeFrameSelector";
 import { getFilters } from "../../services/dashboard/getFilters";
 import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
+import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 
 
 export const Dashboard: React.FC = () => {
@@ -31,6 +32,7 @@ export const Dashboard: React.FC = () => {
   const [endDate, setEndDate] = useState<string>(new Date().toISOString());
   const [status, setStatus] = useState<IStatusCard[]>([]);
   const [kpiData, setKpiData] = useState<MetricResponse>();
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
 
   const validateCreationDate = () => {
     if (creationDate) {
@@ -87,7 +89,7 @@ export const Dashboard: React.FC = () => {
       instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",
       startDate,
       endDate,
-      routingProfiles: workspaces?.map((workspace) => workspace.value) ?? [],
+      routingProfiles: (selectedOptions?.map((option) => option.label ) || workspaces?.map((workspace) => workspace.value)) ?? [],
     });
 
     setKpiData(result.data)
@@ -115,8 +117,8 @@ export const Dashboard: React.FC = () => {
 
   useEffect(() => {
     fetchFilters()
+    getAgentsStatus();
     if (workspaces) {
-      getAgentsStatus();
       getSatisfactionLevels();
       getKpiData();
       fetchPerformanceData();
@@ -152,10 +154,7 @@ export const Dashboard: React.FC = () => {
             setEndDate={setEndDate}
             limit={validateCreationDate()}
           />
-          <ChoiceBox
-            boxText="Workspace:"
-            options={workspaces ?? []}
-          ></ChoiceBox>
+          <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
         </div>
         <div>
           <Button
