@@ -5,44 +5,32 @@ export interface GetKpisRequest {
     routingProfiles: string[];
 }
 
-export interface MetricResponse {
-    /**
-     * Average Hold Time KPI
-     */
-    avgHoldTime: number;
-    /**
-     * Agent Schedule Adherence KPI
-     */
-    firstContactResolution: number;
-    /**
-     * Abandonment Rate KPI
-     */
-    abandonmentRate: number;
-    /**
-     * Service Level KPI
-     */
-    serviceLevel: number;
-    /**
-     * Occupancy KPI
-     */
-    agentScheduleAdherence: number;
-    /**
-     * Average Speed Answer KPI
-     */
-    avgSpeedOfAnswer: number;
-    /**
-     * Voice contacts
-     */
-    voice: number;
-    /**
-     * Chat contacts
-     */
-    chat: number
-    /**
-     * Overall activity
-     */
+export interface Activity {
+    value: number;
+    startTime: string;
+  }
+  
+  export interface Metrics {
+    avgHoldTime: number | null;
+    firstContactResolution: number | null;
+    abandonmentRate: number | null;
+    serviceLevel: number | null;
+    agentScheduleAdherence: number | null;
+    avgSpeedOfAnswer: number | null;
+  }
+  
+  
+  export interface MetricResponse {
+    metrics: Metrics;
     activities: {
-        value: number;
-        startTime: string;
-      }[];
-}
+      activities: Activity[];
+    };
+    performanceData: PerformanceData[];
+    voice: number;
+    chat: number;
+  }
+  
+  export interface PerformanceData {
+    agentName: string;
+    performances: number[];
+  }

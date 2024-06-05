@@ -8,20 +8,18 @@ import { ActivityChart } from "../../components/ActivityChart";
 import { IActivityChart } from "../../components/ActivityChart/types";
 import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
 import { Button } from "../../components/Button";
-import { getStatus, getPerformance, getSatisfaction, getDownload } from "../../services";
+import { getStatus, getSatisfaction, getDownload } from "../../services";
 import getKpis from "../../services/dashboard/getKpis";
-//import { getSatisfaction } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
-import { IPerformanceChart } from "../../components/PerformanceChart/types";
-import { MetricResponse } from "../../services/dashboard/types";
+import { MetricResponse} from "../../services/dashboard/types";
 import { ICustomerSatisfaction } from "./types";
 import { TimeFrameSelector } from "../../components/TimeFrameSelector";
 import { getFilters } from "../../services/dashboard/getFilters";
 import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
-
+import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
+import { IPerformanceChart } from "../../components/PerformanceChart/types";
 
 export const Dashboard: React.FC = () => {
-
   const [creationDate, setCreationDate] = useState<string>();
   const [workspaces, setWorkspaces] = useState<Option[]>();
   const [satisfactionLevels, setSatisfactionLevels] = useState<ICustomerSatisfaction>();
@@ -30,23 +28,20 @@ export const Dashboard: React.FC = () => {
   const [startDate, setStartDate] = useState<string>(new Date(new Date().setHours(0, 0, 0, 0)).toISOString());
   const [endDate, setEndDate] = useState<string>(new Date().toISOString());
   const [status, setStatus] = useState<IStatusCard[]>([]);
-  const [kpiData, setKpiData] = useState<MetricResponse>();
+  const [kpiData, setKpiData] = useState<MetricResponse | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
 
   const validateCreationDate = () => {
     if (creationDate) {
       const creationDateObj = new Date(creationDate);
       const threshold = new Date(new Date().setDate(new Date().getDate() - 90));
 
-      // Check if the creation day is greater than todays date less than 90 days
       if (creationDateObj < threshold) {
-        // Get difference in days
         return 90;
       } else {
-        // Get difference in days
         const differenceTime = new Date().getTime() - creationDateObj.getTime();
         return Math.ceil(differenceTime / (1000 * 3600 * 24));
       }
-
     }
   }
 
@@ -56,15 +51,6 @@ export const Dashboard: React.FC = () => {
       console.error(result.error);
     } else {
       setStatus(result.data);
-    }
-  };
-
-  const fetchPerformanceData = async () => {
-    try {
-      const performanceData: IPerformanceChart = await getPerformance();
-      setPerformanceData(performanceData);
-    } catch (error) {
-      console.error('Error fetching performance data:', error);
     }
   };
 
@@ -83,25 +69,35 @@ export const Dashboard: React.FC = () => {
   }
 
   const getKpiData = async () => {
-    const result = await getKpis({
-      instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",
-      startDate,
-      endDate,
-      routingProfiles: workspaces?.map((workspace) => workspace.value) ?? [],
-    });
+    console.log(selectedOptions, 'selectedOptions');
+    try {
+        const result = await getKpis({
+            instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",
+            startDate,
+            endDate,
+            routingProfiles: selectedOptions?.map((option) => option.value) ?? [],
+        });
 
-    setKpiData(result.data)
-    setActivityData({ data: result.data.activities });
+        setKpiData(result.data);
+        setActivityData({ data: result.data.activities.activities ?? [] });
+        setPerformanceData({ 
+            users: result.data.performanceData?.map(performance => ({
+                username: performance.agentName,
+                data: performance.performances
+            })) ?? []
+        });
+    } catch (error) {
+        console.error('Error fetching KPI data:', error);
+    }
   };
 
   const getSatisfactionLevels = async () => {
     await getSatisfaction().then((data) => {
       if (data && data.data)
         setSatisfactionLevels(data.data)
-    })
-      .catch((error) => {
-        console.error("Error al obtener los niveles de satisfacción:", error);
-      });
+    }).catch((error) => {
+      console.error("Error al obtener los niveles de satisfacción:", error);
+    });
   };
 
   const fetchDownload = async () => {
@@ -119,10 +115,8 @@ export const Dashboard: React.FC = () => {
       getAgentsStatus();
       getSatisfactionLevels();
       getKpiData();
-      fetchPerformanceData();
     }
-  }, [startDate, endDate]);
-
+  }, [startDate, endDate, selectedOptions]);
 
   return (
     <div className="flex w-full h-fit flex-col">
@@ -142,9 +136,9 @@ export const Dashboard: React.FC = () => {
       <div className="font-poppins px-6">
         <p className="text-gray-600 pt-2 text-lg">Overall Performance</p>
       </div>
-      <div className="flex flex-row items-center justify-between mx-5 py-4 space-x-2">
+      <div className="flex flex-row items-center justify-between mx-5 py-3 space-x-2 ">
         <div className="flex flex-row space-x-5">
-          <h1 className="text-xl font-semibold mx-5">Filters:</h1>
+          <h1 className="text-xl font-semibold">Filters:</h1>
           <TimeFrameSelector
             startDate={startDate}
             setStartDate={setStartDate}
@@ -184,34 +178,34 @@ export const Dashboard: React.FC = () => {
               <div className="grid grid-cols-3 flex-auto space-x-3">
                 <DataCard
                   title="Avg Hold Time"
-                  content={kpiData?.avgHoldTime}
+                  content={kpiData.metrics.avgHoldTime}
                   decorator=" seconds"
                 />
                 <DataCard
                   title="First Contact Resolution"
-                  content={kpiData?.firstContactResolution}
+                  content={kpiData.metrics.firstContactResolution}
                   decorator="%"
                 />
                 <DataCard
                   title="Abandonment Rate"
-                  content={kpiData?.abandonmentRate}
+                  content={kpiData.metrics.abandonmentRate}
                   decorator="%"
                 />
               </div>
               <div className="grid grid-cols-3 flex-auto space-x-3">
                 <DataCard
                   title="Service Level"
-                  content={kpiData?.serviceLevel}
+                  content={kpiData.metrics.serviceLevel}
                   decorator="%"
                 />
                 <DataCard
                   title="Agent Schedule Adherence"
-                  content={kpiData?.agentScheduleAdherence}
+                  content={kpiData.metrics.agentScheduleAdherence}
                   decorator="%"
                 />
                 <DataCard
                   title="Avg Speed Answer"
-                  content={kpiData?.avgSpeedOfAnswer}
+                  content={kpiData.metrics.avgSpeedOfAnswer}
                   decorator=" seconds"
                 />
               </div>
@@ -220,8 +214,8 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
       <div className="grid grid-cols-2 flex-auto my-2 mx-10 space-x-5 place-content-evenly">
-        {performanceData && <PerformanceChart users={performanceData.users} />}
-        <ActivityChart chartData={activityData} />
+          {performanceData && <PerformanceChart users={performanceData.users} />}
+          <ActivityChart chartData={activityData} />
       </div>
     </div>
   );
