@@ -5,6 +5,14 @@ export interface GetKpisRequest {
     routingProfiles: string[];
 }
 
+export interface IGetPerformanceRequest {
+    instanceId: string;
+    startDate: string;
+    endDate: string;
+    routingProfileIds: string[];
+}
+
+
 export interface MetricResponse {
     /**
      * Average Hold Time KPI
@@ -45,4 +53,9 @@ export interface MetricResponse {
         value: number;
         startTime: string;
       }[];
+}
+
+export interface IPerformanceResponse {
+    performances: number[];
+    agentName: string;
 }
