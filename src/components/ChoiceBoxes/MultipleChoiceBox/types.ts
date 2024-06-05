@@ -1,6 +1,7 @@
+import { Option } from "../ChoiceBox/types";
 
 export interface IMultipleChoiceBox{
-    boxText?:string
-    options: {value: string, label: string }[] 
-    selectedOptions:  {value: string, label: string }[]
+    options: Option[]
+    selectedOptions: Option[]
+    setSelectedOptions: (options: Option[]) => void
 }
