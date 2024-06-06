@@ -1,16 +1,33 @@
 import httpInstance from "../httpInstance";
 
-export const getDownload = async () => {
+interface DownloadDTO {
+    instanceId: string;
+    startDate: string;
+    endDate: string;
+    routingProfiles: string[];
+    queues: string[];
+  }
+
+export const getDownload = async (instanceId: string, sDate: string, eDate: string, workspace: string[]) => {
     const endpoint = '/download/getDownload';
     const date = new Date();
 
+    const downloadDTO: DownloadDTO = {
+        instanceId,
+        startDate: sDate,
+        endDate: eDate,
+        routingProfiles: workspace,
+        queues: [],
+    };
+
     try {
-        const response = await httpInstance.get(endpoint, { responseType: 'blob' });
+        const response = await httpInstance.post(endpoint, downloadDTO, { responseType: 'blob' });
+   
         if (response.data) {
-            // Create a blob from the response data
+            
             const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
             const url = window.URL.createObjectURL(blob);
-            // Create an anchor element and set its href to the blob URL
+            
             const link = document.createElement('a');
             link.href = url;
             link.download = 'DataReport_' + date.getTime() + '.xlsx'; 
