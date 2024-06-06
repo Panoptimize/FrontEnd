@@ -3,17 +3,49 @@ import logo from "../../assets/images/Panoptimize.png";
 import { IoIosNotifications } from "react-icons/io";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
+import { useNavigate } from "react-router-dom";
+import { Notification } from "./types";
+import { FaTimes } from "react-icons/fa";
 import { getAuthUser } from "../../services/getAuth/getAuthUser";
 
 interface TopbarProps {
   toggleSidebar: () => void;
-  variant?: number;
+  // Notifications
+  notifications: Notification[];
+  unreadCount: number;
+  resetNotificationCount: () => void;
+  clearNotifications: () => void;
 }
 
-const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, variant = 0 }) => {
-  let numberOfNotifications;
-  let displayOption = "hidden";
+const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, notifications, unreadCount, resetNotificationCount, clearNotifications }) => {
+  const [showNotifications, setShowNotifications] = useState(false);
+  // Clear notifications
+  const navigate = useNavigate();
 
+// Toggle notifications
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
+    resetNotificationCount();
+  };
+
+// Close notifications
+  const closeNotifications = () => {
+    setShowNotifications(false);
+  };
+
+  // Handle notification click
+  const handleNotificationClick = () => {
+    navigate('/action-center');
+    closeNotifications();
+  };
+
+  // Reset notification count when notifications are shown
+  useEffect(() => {
+    if (showNotifications) {
+      resetNotificationCount();
+    }
+  }, [showNotifications, resetNotificationCount]);
+  
   const [name, setName] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -67,15 +99,45 @@ const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, variant = 0 }) => {
       </div>
       <div className="h-16 flex items-center space-x-5">
         <div className="relative">
-          <IoIosNotifications className="h-full text-4xl relative" />
+          <IoIosNotifications 
+              className="h-full text-4xl notification"
+              onClick={toggleNotifications}/>
           <div
-            className={`${displayOption} w-4 h-4 rounded-full bg-red-500 flex justify-center items-center absolute bottom-3 right-0`}
+            className={`${unreadCount > 0 ? "block" : "hidden"} w-4 h-4 rounded-full bg-red-500 flex justify-center items-center absolute bottom-3 right-0`}
           >
             <p className="text-white font-medium text-xs relative">
-              {numberOfNotifications}
+              {unreadCount}
             </p>
           </div>
         </div>
+        {showNotifications && (
+          <div className="absolute top-16 right-0 w-64 bg-white border rounded-lg shadow-lg z-10 p-2 overflow-hidden">
+            <div className="flex justify-between items-center pb-2">
+              <span className="font-semibold text-lg">Notifications</span>
+              <button onClick={clearNotifications}> Clear All </button>
+              <FaTimes
+                className="cursor-pointer text-gray-500"
+                onClick={closeNotifications}
+              />
+            </div>
+            <div className="overflow-y-auto max-h-64">
+            {notifications.length > 0 ? (
+              notifications.map((notification, index) => (
+                <div key={index} className="p-2 border-b cursor-pointer" onClick={handleNotificationClick}>
+                  <p className="text-sm font-normal">
+                      <span className="text-black">⚠️ The agent </span>
+                      <span className="text-[#008F89] font-bold">{notification.agentName}</span>
+                      <span className="text-black"> needs assistance!</span>
+                  </p>
+                  <p className="text-xs text-gray-500">{notification.timestamp}</p>
+                </div>
+              ))
+            ) : (
+              <div className="text-center text-gray-600 p-2">No notifications</div> // Display message when there are no notifications
+            )}
+            </div>
+          </div>
+        )}        
         <div className="h-full flex flex-col justify-center items-center pr-7">
           <div className="h-full flex flex-col justify-center">
             <p className="text-left text-lg">{name}</p>
