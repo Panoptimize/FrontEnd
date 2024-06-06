@@ -13,6 +13,7 @@ const AgentTableRow: React.FC<IAgentTableRow> = ({
   lastActivity,
   details,
   id,
+  email
   //onclick = () => {},
 }) => {
   const isagentImage = agentImage?.endsWith(".svg");
