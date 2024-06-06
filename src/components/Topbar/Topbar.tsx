@@ -29,8 +29,7 @@ const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, variant = 0 }) => {
             onClick={toggleSidebar}
           ></Button>
           <img
-            className="h-full"
-            style={{ paddingTop: 18, paddingBottom: 18 }}
+            className="h-full pt-4 pb-4"
             src={logo}
             alt="Logo"
           />
@@ -42,7 +41,15 @@ const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, variant = 0 }) => {
       </div>
       <div className="h-16 flex items-center space-x-5">
         <div className="relative">
-          <IoIosNotifications className="h-full text-4xl notification" />
+          <IoIosNotifications className="h-full text-4xl 
+            relative 
+            after:absolute 
+            after:top-1/2 after:right-[-5px] after:transform -translate-y-1/2 
+            after:w-[10px] 
+            after:h-[10px] 
+            after:bg-red-500 
+            after:rounded-ful
+            " />
           <div
             className={`${displayOption} w-4 h-4 rounded-full bg-red-500 flex justify-center items-center absolute bottom-3 right-0`}
           >
