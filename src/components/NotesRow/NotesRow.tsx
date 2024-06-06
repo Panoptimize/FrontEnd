@@ -2,14 +2,26 @@ import React, { useEffect } from "react";
 import { INotesRow } from "./types";
 import NoteCard from "../NoteCard/NoteCard";
 
-const NotesRow: React.FC<INotesRow> = ({ id, title, priority, updateDate, description, signalToNotesTable }) => {
+const NotesRow: React.FC<INotesRow> = ({ id, name, area, title, priority, updateDate, description, signalToNotesTable }) => {
 
   const receivedSignal = () => {
-    console.log("SIGNAL RECEIVED FROM NOTECARD")
     if(signalToNotesTable){
       signalToNotesTable();
     }
   }
+
+  const formatPriority = (priority: string | undefined): string => {
+    switch (priority) {
+      case "HIGH":
+        return "High";
+      case "MEDIUM":
+        return "Medium";
+      case "LOW":
+        return "Low";
+      default:
+        return "";
+    }
+  };
 
   return (
     <div>
@@ -22,11 +34,13 @@ const NotesRow: React.FC<INotesRow> = ({ id, title, priority, updateDate, descri
         <td className="align-middle flex flex-auto">
           <div className="flex flex-auto items-center justify-end space-x-5 mx-2 text-nowrap">
             <div className="mr-7">
-              <p>{priority}</p>
+              <p>{formatPriority(priority)}</p>
             </div>
             <p>{updateDate}</p>
             <div>
               <NoteCard
+                name={name}
+                area={area}
                 bttn_color="transparent"
                 bttnTitle="Edit"
                 id={id}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { INoteCard } from "./types";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
@@ -6,6 +6,8 @@ import { Pill } from "../Pill";
 import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
 import { TextInput } from "../TextInput";
 import { NoteInputs } from "../NoteInputs";
+import { IAgentPerformance } from "../../pages/types";
+import { getAgentPerformanceByNote } from "../../services/agentPerformance/getAgentPerformanceByNote";
 
 const NoteCard: React.FC<INoteCard> = ({
   bttnTitle = "Add note",
@@ -13,9 +15,12 @@ const NoteCard: React.FC<INoteCard> = ({
   text,
   priority,
   id,
-  name = "Dave",
+  agentId,
+  name,
   email = "dave_chapelle@gmail.com",
   username = "chap",
+  metrics,
+  area,
   selectedWorkspaces: initialSelectedWorkspaces = [],
   availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
   profileImage,
@@ -23,6 +28,7 @@ const NoteCard: React.FC<INoteCard> = ({
   signalNotesRow,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [agentPerformance, setAgentPerformance] = useState<IAgentPerformance | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -58,7 +64,7 @@ const NoteCard: React.FC<INoteCard> = ({
 
   const handleSave = () => {
     console.log("Guardando datos:", formData, selectedWorkspaces);
-    setIsVisible(false); // Cerrar el modal después de guardar
+    setIsVisible(false);
   };
 
   const handleClose = () => {
@@ -69,6 +75,9 @@ const NoteCard: React.FC<INoteCard> = ({
 
   const handleOpen = () => {
     setIsVisible(true);
+    if(metrics){
+      setAgentPerformance(metrics)
+    }
   };
 
   const sendSignalToRow = () => {
@@ -76,6 +85,24 @@ const NoteCard: React.FC<INoteCard> = ({
       signalNotesRow();
     }
   }
+
+  const getAgentPerformance =  async (noteId: number) => {
+    await getAgentPerformanceByNote(noteId).then((data) =>{
+      if(data && data.data){
+        console.log(data.data)
+        setAgentPerformance(data.data)
+        console.log(agentPerformance)
+      }
+    }).catch((error) => {
+      console.error(error);
+    })
+  };
+
+  useEffect(() => {
+    if (isVisible && id) {
+      getAgentPerformance(id);
+    }
+  }, [isVisible, id]);
 
   if (!isVisible)
     return (
@@ -112,19 +139,28 @@ const NoteCard: React.FC<INoteCard> = ({
             <div className="flex flex-col w-full place-items-center my-2">
               <div className="flex flex-col place-items-center space-y-3 mb-5">
                 <Avatar size="large"></Avatar>
-                <Pill title="Areas"></Pill>
+                <Pill title={area}></Pill>
               </div>
               <div className="flex flex-col h-full w-full">
                 <h4 className="my-3 font-bold text-xl">Agent Metrics</h4>
-                <h4>{name}</h4>
-                <h4>Metric1</h4>
-                <h4>Metric2</h4>
-                <h4>Metric3</h4>
+                <h4 className="mb-4">{name}</h4>
+                {agentPerformance ? (
+                  <>
+                    <h4> Avg Abandon Time: <span className="font-bold">{agentPerformance.avgAbandonTime}</span></h4>
+                    <h4> Avg ACWT: <span className="font-bold">{agentPerformance.avgAfterContactWorkTime}</span></h4>
+                    <h4> Avg Handle Time: <span className="font-bold">{agentPerformance.avgHandleTime}</span></h4>
+                    <h4> Avg Hold Time: <span className="font-bold">{agentPerformance.avgHoldTime}</span></h4>
+                  </>
+                ) : ( 
+                  <p>Loading metrics...</p>
+                )}
               </div>
             </div>
           </div>
           <NoteInputs
             id={id}
+            agentId={agentId}
+            metrics={agentPerformance ? agentPerformance : undefined}
             title={title}
             text={text}
             priority={priority}

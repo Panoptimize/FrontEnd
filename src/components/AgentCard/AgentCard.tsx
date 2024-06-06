@@ -7,26 +7,40 @@ import { DataCard } from "../DataCard";
 import NoteCard from "../NoteCard/NoteCard";
 import { NotesTable } from "../NotesTable";
 import { getAgentNotes } from "../../services/notes/getAgentNotes";
-import { INoteData } from "../../pages/types";
+import { IAgentPerformance, INoteData } from "../../pages/types";
 import { getAgentId } from "../../services/agentsList/getAgentId";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
 import { getAgentMetrics } from "../../services/AgentMetrics/getAgentMetrics";
 
 const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details",
   title = "Contact Details",
-  name = "Dave",
+  name,
   email = "dave_chapelle@gmail.com",
-  username = "chap",
   workspace,
-  profileImage,
   id,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  //const [agentMetrics, setAgentMetrics] = useState<IAgentPerformance | null>(null);
+  const [agentId, setAgentId] = useState<number>();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     username: "",
   });
+
+  const metrics:IAgentPerformance = {
+    avgAbandonTime: 10,
+    avgAfterContactWorkTime: 15,
+    avgHandleTime: 20,
+    avgHoldTime: 25
+  }
+
+  const [user, setUser] = useState<any>();
+
+
   const [notesData, setNotesData] = useState<INoteData[]>([]);
   const [metricsData, setMetricsData] = useState<IMetrics>();
 
@@ -46,6 +60,7 @@ const AgentCard: React.FC<IAgentCard> = ({
 
   const handleOpen = async () => {
     setIsVisible(true);
+    //setAgentMetrics(metrics);
     try {
       const agentId = await getId(id);
       if (agentId) {
@@ -63,8 +78,9 @@ const AgentCard: React.FC<IAgentCard> = ({
       const data = await getAgentId(id);
       if (data && data.data) {
         const agentId = data.data.id;
-        console.log(agentId);
-        return agentId;
+        setAgentId(agentId);
+        console.log(agentId)
+        return agentId
       }
     } catch (error) {
       console.error(error);
@@ -146,9 +162,8 @@ const AgentCard: React.FC<IAgentCard> = ({
               </div>
               <div className="flex flex-col h-full w-full">
                 <h4 className="my-3 font-bold text-xl">Agent Details</h4>
-                <h4>{name}</h4>
-                <h4>{email}</h4>
-                <h4>{username}</h4>
+                <h4 className="mb-2">{name}</h4>
+                <h4 className="text-xs">{email}</h4>
               </div>
             </div>
           </div>
@@ -181,16 +196,13 @@ const AgentCard: React.FC<IAgentCard> = ({
                   <h2 className="text-xl font-bold">Notes:</h2>
                 </div>
                 <div>
-                  <NoteCard bttn_color="teal"></NoteCard>
+                  <NoteCard area={workspace} agentId={agentId} metrics={metrics ? metrics : undefined} signalNotesRow={receivedSignal} bttn_color="teal"></NoteCard>
                 </div>
               </div>
             </div>
             <div className="flex flex-auto flex-col">
               <div>
-                <NotesTable
-                  notesData={notesData}
-                  signalToAgentCard={receivedSignal}
-                />
+                <NotesTable name={name} area={workspace} notesData={notesData} signalToAgentCard={receivedSignal}/>
               </div>
             </div>
           </div>

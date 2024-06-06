@@ -11,6 +11,7 @@ export interface IAgent {
   status: string;
   workspace: string;
   score: number;
+  email: string;
 }
 
 export interface IAgentResponse {

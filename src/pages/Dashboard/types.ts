@@ -8,3 +8,17 @@ export interface IStatus {
      */
     numUsers : number;
 }
+
+export interface ICustomerSatisfaction {
+    satisfaction_levels: number[];
+}
+
+export interface FilterResponse {
+    instanceCreationDate: string;
+    workspaces: AWSObject[];
+}
+
+interface AWSObject {
+    id: string;
+    name: string;
+}
