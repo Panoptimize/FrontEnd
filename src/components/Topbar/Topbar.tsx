@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "../../assets/images/Panoptimize.png";
 import { IoIosNotifications } from "react-icons/io";
-import "./Topbar.css";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 
