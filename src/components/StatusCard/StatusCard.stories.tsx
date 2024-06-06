@@ -36,7 +36,7 @@ const Template: StoryFn<IStatusCard> = (args) => <StatusCard {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-    status: 'AGENTS_AVAILABLE',
+    status: 'AGENTS',
     numUsers : 16
 };
 
@@ -50,11 +50,30 @@ Offline.args = {
 };
 
 /**
+//  * After Call Work story of the StatusCard
+//  */
+// export const AfterCallWork = Template.bind({});
+// AfterCallWork.args = {
+//     status: 'AGENTS_AFTER_CONTACT_WORK',
+//     numUsers: 3
+// };
+
+// /**
+//  * In Contact story of the StatusCard
+//  */
+// export const InContact = Template.bind({});
+// InContact.args = {
+//     status: 'AGENTS_ON_CONTACT',
+//     numUsers: 20
+// }
+
+
+/**
  * After Call Work story of the StatusCard
  */
 export const AfterCallWork = Template.bind({});
 AfterCallWork.args = {
-    status: 'AGENTS_AFTER_CONTACT_WORK',
+    status: 'AGENTS_AVAILABLE',
     numUsers: 3
 };
 
@@ -63,6 +82,6 @@ AfterCallWork.args = {
  */
 export const InContact = Template.bind({});
 InContact.args = {
-    status: 'AGENTS_ON_CONTACT',
+    status: 'AGENTS_OFFLINE',
     numUsers: 20
 }

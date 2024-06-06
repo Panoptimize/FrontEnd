@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { StatusCard } from "../../components/StatusCard";
 import { getStatus } from '../../services';
 import { IStatusCard } from '../../components/StatusCard/types';
+
 import { IRowAC } from "../../components/RowAC/types";
 import { TableAC } from "../../components/TableAC";
 import { getActionCenter } from '../../services/actionCenter/getActionCenter';
@@ -9,6 +10,7 @@ import { getAgentsList } from '../../services/agentsList/getAgentsList';
 import { IAgent } from "../../components/AgentTable/types";
 import { useOutletContext } from "react-router-dom";
 import { Notification } from "../../components/Topbar/types";
+import StatusCardHolder from '../../components/StatusCardHolder/StatusCardHolder';
 
 // Function to update temperatures simulating real-time data from contact lens
 const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
@@ -20,6 +22,7 @@ const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
         temperature: getRandomElement(temperatures),
     }));
 };
+
 
 // Function to format time in HH:MM:SS format
 const formatTime = (totalSeconds: number): string => {
