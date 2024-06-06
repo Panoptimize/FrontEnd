@@ -10,13 +10,13 @@ const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({ boxText, options }) =
   };
 
   return (
-    <div className="starterChoice">
-      <label htmlFor="options" className="labelChoice">
+    <div className="flex flex-auto  border border-gray-300 bg-white px-[15px] p-1 rounded-full space-x-2">
+      <label htmlFor="options" className="text-sm leading-5 font-medium text-gray-900 mr-2 pr-2.5">
         {boxText}
       </label>
       <select
          id="options"
-        className="choiceBox"
+        className="m-1 bg-blue-500 text-white rounded-full px-2 py-1 text-xs font-bold"
         onChange={handleSelect}
       >
         {options.map((option, index) => (

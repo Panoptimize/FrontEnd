@@ -1,18 +1,18 @@
 import { Meta, StoryFn } from "@storybook/react";
 import React from "react";
-import HistoryCard from "./HistoryCard";
-import { IHistoryCard } from "./types";
+import AgentCard from "./AgentCard";
+import { IAgentCard } from "./types";
 import profilePicture from "../../assets/images/Toretto.jpg";
 
 const meta = {
-  title: "Components/HistoryCard",
-  component: HistoryCard,
+  title: "Components/AgentCard",
+  component: AgentCard,
   parameters: {
     layout: "centered",
     docs: {
       description: {
         component:
-          "HistoryCard displays contact information : Based off of another card, pending story",
+          "AgentCard displays contact information : Based off of another card, pending story",
       },
       inlineStories: false,
       iframeHeight: 500,
@@ -50,14 +50,14 @@ const meta = {
     },
   },
   tags: ["UI", "User Management"],
-} as Meta<IHistoryCard>;
+} as Meta<IAgentCard>;
 
 export default meta;
 
-const Template: StoryFn<IHistoryCard> = (args) => <HistoryCard {...args} />;
+const Template: StoryFn<IAgentCard> = (args) => <AgentCard {...args} />;
 
 /**
- * CreateNewAgent story of HistoryCard
+ * CreateNewAgent story of AgentCard
  */
 export const CreateNewAgent = Template.bind({});
 CreateNewAgent.args = {
@@ -66,17 +66,11 @@ CreateNewAgent.args = {
   email: "Email",
   username: "Username",
   profileImage: profilePicture,
-  selectedWorkspaces: [],
-  availableWorkspaces: [
-    "Sales",
-    "Marketing",
-    "Development",
-    "Customer Support",
-  ],
+  workspace: "Sales"
 };
 
 /**
- * EditAgentDetails story of HistoryCard
+ * EditAgentDetails story of AgentCard
  */
 export const EditAgentDetails = Template.bind({});
 EditAgentDetails.args = {
@@ -85,13 +79,7 @@ EditAgentDetails.args = {
   email: "johndoe@example.com",
   username: "johndoe",
   profileImage: profilePicture,
-  selectedWorkspaces: ["Sales", "Marketing"],
-  availableWorkspaces: [
-    "Sales",
-    "Marketing",
-    "Development",
-    "Customer Support",
-  ],
+  workspace: "Sales"
 };
 /*
 

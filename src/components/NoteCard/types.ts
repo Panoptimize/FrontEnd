@@ -1,4 +1,6 @@
-export interface IHistoryCard {
+import { IAgentPerformance } from "../../pages/types";
+
+export interface INoteCard {
     /**
      * Title of the user information card
      */
@@ -15,6 +17,7 @@ export interface IHistoryCard {
      * User's email address
      */
     email?: string;
+    area?:string;
     /**
      * User's username
      */
@@ -31,4 +34,12 @@ export interface IHistoryCard {
      * Array of names of workspaces available to the user
      */
     availableWorkspaces?: string[]; 
+
+    bttn_color?: 'teal' | 'rose' | 'gray' | 'transparent' | 'mint';
+    text?: string;
+    priority?: 'LOW'|'MEDIUM'|'HIGH';
+    id?:number;
+    agentId?:number;
+    signalNotesRow?: () => void;
+    metrics?: IAgentPerformance;
 }

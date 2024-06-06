@@ -3,7 +3,9 @@ import "./AgentTableRow.css";
 import { IAgentTableRow } from "./types";
 import { Avatar } from "../Avatar";
 import { UserInfoCard } from "../UserInfoCard";
-
+import {NoteCard} from '../NoteCard';
+import { AgentCard } from "../AgentCard";
+import { Pill } from "../Pill";
 const AgentTableRow: React.FC<IAgentTableRow> = ({
   agentImage,
   name,
@@ -25,26 +27,23 @@ const AgentTableRow: React.FC<IAgentTableRow> = ({
     <tr className="btn-row" >
       <td className="btn-leftcell">
         <div className="agent-image-container">
-        {
-            <Avatar square_border ></Avatar>
-            }
           <div>
             <p className="font-medium">{name}</p>
           </div>
         </div>
       </td>
       <td>
-        <button className="workspace-pill">{workspace1}</button>
+        <Pill title={workspace1}></Pill>
         {workspace2 && <button className="workspace-pill">{workspace2}</button>}
       </td>
       <td>
         <p>{lastActivity}</p>
       </td>
       <td>
-        <button className="agent-details-button">Feedback</button>
+      <NoteCard></NoteCard>
       </td>
       <td className="btn-rightcell">
-        <UserInfoCard></UserInfoCard>
+         <AgentCard id={id} name={name} workspace={workspace1} ></AgentCard>
       </td>
     </tr>
   );

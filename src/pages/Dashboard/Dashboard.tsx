@@ -193,6 +193,7 @@ export const Dashboard: React.FC = () => {
         </div>
         <div className="flex flex-auto">
           {kpiData && (
+            <>
             <div className="flex flex-col flex-auto place-content-evenly space-y-2">
               <div className="grid grid-cols-3 flex-auto space-x-3">
                 <DataCard
@@ -229,15 +230,60 @@ export const Dashboard: React.FC = () => {
                 />
               </div>
             </div>
+            <div className="flex flex-auto">
+              <ContactMedium data={[
+                      (kpiData?.voice ?? 0), // Add voice data if available
+                      (kpiData?.chat ?? 0), // Add chat data if available
+                  ]} />
+            </div>
+            </>
           )}
+          </div>
+          <div className="flex flex-auto">
+            {kpiData && (
+              <div className="flex flex-col flex-auto place-content-evenly space-y-2">
+                <div className="grid grid-cols-3 flex-auto space-x-3">
+                  <DataCard
+                    title="Avg Hold Time"
+                    content={`${kpiData?.avgHoldTime} seconds`}
+                  />
+                  <DataCard
+                    title="First Contact Resolution"
+                    content={`${kpiData?.firstContactResolution}%`}
+                  />
+                  <DataCard
+                    title="Abandonment Rate"
+                    content={`${kpiData?.abandonmentRate}%`}
+                  />
+                </div>
+                <div className="grid grid-cols-3 flex-auto space-x-3">
+                  <DataCard
+                    title="Service Level"
+                    content={`${kpiData?.serviceLevel}%`}
+                  />
+                  <DataCard
+                    title="Agent Schedule Adherence"
+                    content={`${kpiData?.agentScheduleAdherence}%`}
+                  />
+                  <DataCard
+                    title="Avg Speed Answer"
+                    content={`${kpiData?.avgSpeedOfAnswer} seconds`}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="grid grid-cols-2 flex-auto my-2 mx-10 space-x-5 place-content-evenly">
+          {performanceData && <PerformanceChart users={performanceData.users} />}
+          <ActivityChart chartData={activityData} />
         </div>
       </div>
-      <div className="grid grid-cols-2 flex-auto my-2 mx-10 space-x-5 place-content-evenly">
-        {performanceData && <PerformanceChart users={performanceData.users} />}
-        <ActivityChart chartData={activityData} />
-      </div>
-    </div>
-  );
-};
+    );
+  };
+  
+  export default Dashboard;
 
-export default Dashboard;
+function setError(message: any) {
+  throw new Error("Function not implemented.");
+}
