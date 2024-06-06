@@ -32,13 +32,13 @@ const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({ options, setSelectedO
     };
 
     return (
-        <div className="w-full md:w-1/2 flex flex-col items-center h-64 mx-auto">
+        <div className="w-full md:w-1/2 flex flex-col items-center mx-auto">
             <div className="w-full px-4">
                 <div className="flex flex-col items-center relative">
-                    <div className="w-full">
+                    <div className="w-80">
                         <div className="flex items-center p-2 border rounded-full cursor-pointer">
-                            <div className="mr-2">Workspace: </div>
-                            <div className="flex flex-auto flex-wrap">
+                            <div className="mr-2 self-center">Workspace: </div>
+                            <div className="flex flex-auto flex-wrap max-h-10 overflow-y-auto">
                                 {selectedOptions.map((option, index) => (
                                     <ErasablePill key={index} selectedOption={option} onRemove={removeOption} />
                                 ))}
@@ -58,7 +58,7 @@ const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({ options, setSelectedO
                         </div>
                     </div>
                     {showOptions && (
-                        <div ref={dropdownRef} className="absolute shadow top-100 bg-white z-40 w-full left-0 rounded max-h-select overflow-y-auto">
+                        <div ref={dropdownRef} className="absolute shadow top-100 bg-white z-40 w-full left-0 rounded max-h-60 overflow-y-auto">
                             <div className="flex flex-col w-full">
                                 <SelectorList items={options} selected={selectedOptions} setSelected={handleSelectedOptions} />
                             </div>

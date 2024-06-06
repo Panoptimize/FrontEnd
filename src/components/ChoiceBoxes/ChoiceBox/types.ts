@@ -1,22 +1,18 @@
+import { Priority } from "../../../constants/Priority";
 
 export interface IChoiceBox{
     /**
      * The text to display in the ChoiceBox
      */
     boxText?:string
-    /**
-     * The options to display in the ChoiceBox
-     */
-    title?:string
-
-    /**
-     * 
-     * @param value The value to set as the selected option
-     * @param label The label to display for the selected option
-     * @returns void
-     */
-    options: Option[] 
+    options: Option[] //no puede ser undefined
+    chosen?: any
 }
+
+export interface ChoiceBoxRef{
+    getValue: () => Priority;
+}
+
 
 export interface Option {
     /**
