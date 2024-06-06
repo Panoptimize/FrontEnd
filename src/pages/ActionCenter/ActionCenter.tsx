@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { StatusCard } from "../../components/StatusCard";
 import { getStatus } from '../../services';
 import { IStatusCard } from '../../components/StatusCard/types';
@@ -7,6 +7,8 @@ import { TableAC } from "../../components/TableAC";
 import { getActionCenter } from '../../services/actionCenter/getActionCenter';
 import { getAgentsList } from '../../services/agentsList/getAgentsList';
 import { IAgent } from "../../components/AgentTable/types";
+import { useOutletContext } from "react-router-dom";
+import { Notification } from "../../components/Topbar/types";
 
 // Function to update temperatures simulating real-time data from contact lens
 const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
@@ -30,6 +32,7 @@ const formatTime = (totalSeconds: number): string => {
 // Main component
 const ActionCenter: React.FC = () => {
   // State variables
+  const { setNotifications } = useOutletContext<{ setNotifications: (notifications: Notification[]) => void }>();
     const [status, setStatus] = useState<IStatusCard[]>([]);
     const [rows, setRows] = useState<IRowAC[]>(() => {
       // Load rows from session storage or set to default if not available
@@ -38,15 +41,20 @@ const ActionCenter: React.FC = () => {
     });
     const [agents, setAgents] = useState<IAgent[]>([]);
     const [contactsFetched, setContactsFetched] = useState(false);
+    const prevNegativeRows = useRef<Set<string>>(new Set());
   
   // Functions
     // Fetch agents status
     const getAgentsStatus = async () => {
-        const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-        if (result.error) {
-            console.error(result.error);
-        } else {
-            setStatus(result.data); 
+        try {
+            const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
+            if (result.error) {
+                throw new Error(result.error);
+            } else {
+                setStatus(result.data); 
+            }
+        } catch (err) {
+            console.error(err);
         }
     };
 
@@ -74,7 +82,7 @@ const ActionCenter: React.FC = () => {
         };
       }));
     };
-
+    // Function to get a random delay between contacts
     function getRandomDelay(min = 5000, max = 8000) {
       return Math.random() * (max - min) + min;
   }
@@ -85,7 +93,7 @@ const ActionCenter: React.FC = () => {
         setRows(prevRows => {
           const currentContact = contacts[index];
           // Check if the contact already exists in the current rows
-          const exists = prevRows.some(row => row.initiationHour === contacts[index].agentId);
+          const exists = prevRows.some(row => row.agentId.toString() === contacts[index].agentId.toString() );
           if (!exists) {
             const now = new Date();
             sessionStorage.setItem(`startTime-${contacts[index].agentId}`, now.getTime().toString());
@@ -166,7 +174,7 @@ const ActionCenter: React.FC = () => {
                   fetchContacts();
                   setContactsFetched(true); // Ensure contacts are fetched only once
               }
-          }, [agents]);
+          }, [agents, contactsFetched, fetchContacts]);
 
       // Use useEffect to start the timer when the component mounts
       useEffect(() => {
@@ -174,13 +182,31 @@ const ActionCenter: React.FC = () => {
         return () => clearInterval(interval); // Cleanup on unmount
       }, []);
 
-      // Update temperatures every 15 seconds
-        useEffect(() => {
-            const interval = setInterval(() => {
-                setRows(prevRows => updateTemperatures(prevRows));
-            }, 15000);
-          return () => clearInterval(interval); // Cleanup on unmount
-      }, []);
+      // Update notifications when a new negative temperature is detected
+      useEffect(() => {
+        const interval = setInterval(() => {
+            setRows(prevRows => {
+                const newRows = updateTemperatures(prevRows);
+                const newNegativeRows = new Set(newRows.filter(row => row.temperature === 'Negative').map(row => row.agentId));
+                const prevNegativeRowsSet = prevNegativeRows.current;
+                const newNotifications = Array.from(newNegativeRows)
+                    .filter(agentId => !prevNegativeRowsSet.has(agentId))
+                    .map(agentId => {
+                        const agent = newRows.find(row => row.agentId === agentId)?.name || 'Unknown Agent';
+                        const timestamp = new Date().toLocaleString();
+                        return { agentName: agent, timestamp };
+                    });
+
+                if (newNotifications.length > 0) {
+                    setNotifications(newNotifications);
+                }
+
+                prevNegativeRows.current = newNegativeRows;
+                return newRows;
+            });
+        }, 15000);
+        return () => clearInterval(interval);
+    }, [setNotifications]);
 
     // Filter rows based on temperature
     const highTemperatureRows = rows.filter(row => row.temperature === 'Negative');
