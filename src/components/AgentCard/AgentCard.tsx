@@ -21,7 +21,6 @@ const AgentCard: React.FC<IAgentCard> = ({
   title = "Contact Details",
   name,
   email = "dave_chapelle@gmail.com",
-  username = "chap",
   workspace,
   id,
 }) => {
@@ -144,9 +143,8 @@ const AgentCard: React.FC<IAgentCard> = ({
               </div>
               <div className="flex flex-col h-full w-full">
                 <h4 className="my-3 font-bold text-xl">Agent Details</h4>
-                <h4>{name}</h4>
+                <h4 className="mb-2">{name}</h4>
                 <h4 className="text-xs">{email}</h4>
-                <h4>{username}</h4>
               </div>
             </div>
           </div>
