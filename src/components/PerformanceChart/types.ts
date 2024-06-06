@@ -4,6 +4,5 @@ export interface IUsersChartData {
 }
 
 export interface IPerformanceChart {
-    //Receive Agent Id, Agent global performance, Agent global performance trend
-    users: IUsersChartData[]; // Data array
+    users: IUsersChartData[]; 
   }

@@ -74,8 +74,7 @@ const PerformanceChart: React.FC<IPerformanceChart> = ({ users }) => {
         <hr className="border-gray-300 my-2" />
       </div>
       <ul
-        className="w-full px-10 overflow-y-auto"
-        style={{ maxHeight: "150px" }}
+        className="w-full px-10 overflow-y-auto max-h-40"
       >
         {users.map((user: IUsersChartData, index: number) => (
           <li key={index} className="flex flex-col py-4">
@@ -84,7 +83,7 @@ const PerformanceChart: React.FC<IPerformanceChart> = ({ users }) => {
               <div className="w-1/2 h-20">
                 <Line
                   data={{
-                    labels: user.data.map(() => ""), 
+                    labels: user.data.map(() => ""),
                     datasets: [
                       {
                         label: 'Performance',
@@ -92,9 +91,9 @@ const PerformanceChart: React.FC<IPerformanceChart> = ({ users }) => {
                         borderColor: 'rgba(75,192,192,1)',
                         backgroundColor: 'rgba(75,192,192,0.2)',
                         fill: false,
-                        tension: 0.4, 
+                        tension: 0.4,
                         pointRadius: 5,
-                        pointHoverRadius: 7, 
+                        pointHoverRadius: 7,
                       },
                     ],
                   }}

@@ -6,187 +6,239 @@ import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
 import { IActivityChart } from "../../components/ActivityChart/types";
-import { getStatus, getPerformance, getContactMedium, getSatisfaction, getMonthlyActivity} from "../../services";
-import getKpis from "../../services/kpicard/getKpis";
-//import { getSatisfaction } from "../../services";
+import { Button } from "../../components/Button";
+import { getStatus, getSatisfaction, getDownload } from "../../services";
+import getKpis from "../../services/dashboard/getKpis";
 import { IStatusCard } from '../../components/StatusCard/types';
+import { MetricResponse } from "../../services/dashboard/types";
+import { ICustomerSatisfaction } from "./types";
+import { TimeFrameSelector } from "../../components/TimeFrameSelector";
+import { getFilters } from "../../services/dashboard/getFilters";
+import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
+import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
-import { MetricResponse } from "../../services/kpicard/types";
-
 
 export const Dashboard: React.FC = () => {
+  const [creationDate, setCreationDate] = useState<string>();
+  const [workspaces, setWorkspaces] = useState<Option[]>();
+  const [satisfactionLevels, setSatisfactionLevels] = useState<ICustomerSatisfaction>();
+  const [activityData, setActivityData] = useState<IActivityChart>({ data: [] });
+  const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
+  const [startDate, setStartDate] = useState<string>(new Date(new Date().setHours(0, 0, 0, 0)).toISOString());
+  const [endDate, setEndDate] = useState<string>(new Date().toISOString());
+  const [status, setStatus] = useState<IStatusCard[]>([]);
+  const [kpiData, setKpiData] = useState<MetricResponse | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  const [limit, setLimit] = useState<number>(90);
+  //const [contactMediumData, setContactMediumData] = useState<number[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-    const [contactMediumData, setContactMediumData] = useState<number[]>([]);
-    const [satisfactionLevels, setSatisfactionLevels] = useState<number[]>([]);
-    const [activityData, setActivityData] = useState<IActivityChart>({data: []});
-    const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
-    const [status, setStatus] = useState<IStatusCard[]>([]);
-    const [kpiData, setKpiData] = useState<MetricResponse>();
-    const [error, setError] = useState<string | null>(null);
+  const validateCreationDate = () => {
+    if (creationDate) {
+      const creationDateObj = new Date(creationDate);
+      const threshold = new Date(new Date().setDate(new Date().getDate() - 90));
+      if (creationDateObj >= threshold) {
+        return 90;
+      } else {
+        const differenceTime = new Date().getTime() - creationDateObj.getTime();
+        setLimit(Math.ceil(differenceTime / (1000 * 3600 * 24)));
+        setStartDate(creationDate);
+      } 
+    }
+  }
 
-    const users = [
-        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
-        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
-        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
-        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
-        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
-        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
-        { username: "Mariah Carey",     data: [0, 10, 5, 2, 20, 30, 45] },
-        { username: "Will Smith",       data: [0, 5, 10, 15, 20, 25, 30] },
-        { username: "Tom Cruise",       data: [0, 10, 15, 20, 25, 30, 35] },
-    ];
+  const getAgentsStatus = async () => {
+    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
+    if (result && result.data) {
+      setStatus(result.data);
+    } else {
+      console.error(result?.error);
+    }
+  };
 
-    const fetchContactMedium = async () => {
-      try {
-        const response = await getContactMedium();
-        if (response && 'voice' in response && 'chat' in response) {
-          const valuesArray = [response.voice, response.chat];
-          setContactMediumData(valuesArray);
-        } else if (response && response.message) {
-          setError(response.message);
-        } else {
-          setError('An unknown error occurred');
+  const fetchFilters = async () => {
+    try {
+      const data = await getFilters();
+      setCreationDate(data?.instanceCreationDate);
+      const workspaces = data?.workspaces?.map((workspace) => ({
+        value: workspace.id,
+        label: workspace.name
+      }));
+      setWorkspaces(workspaces);
+    } catch (error) {
+      console.error("Error fetching filters:", error);
+    }
+  }
+
+  const getKpiData = async () => {
+    try {
+        const result = await getKpis({
+            startDate,
+            endDate,
+            routingProfiles: selectedOptions?.map((option) => option.value) ?? [],
+        });
+
+        if (result) {
+          setKpiData(result.data);
+          setActivityData({ data: result.data.activities.activities ?? [] });
+          setPerformanceData({ 
+              users: result.data.performanceData?.map(performance => ({
+                  username: performance.agentName,
+                  data: performance.performances
+              })) ?? []
+          });
         }
-      } catch (error) {
-        console.error("Error al obtener datos de medios de contacto:", error);
-        setError((error as Error).message || 'An unknown error occurred');
+    } catch (error) {
+        console.error('Error fetching KPI data:', error);
+    }
+  };
+
+  const getSatisfactionLevels = async () => {
+    try {
+      const data = await getSatisfaction();
+      if (data && data.data) {
+        setSatisfactionLevels(data.data);
       }
-    };
+    } catch (error) {
+      console.error("Error al obtener los niveles de satisfacción:", error);
+    }
+  };
 
-    const getAgentsStatus = async () => {
-        const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-        if (result.error) {
-            console.error(result.error);
-        } else {
-            setStatus(result.data); 
-        }
-    };
+  const fetchDownload = async () => {
+    const routingProfiles = workspaces?.map((workspace) => workspace.value) ?? [];
+    let routingProfile: string[] = [];
+    routingProfile.push(routingProfiles[4])
 
-    const fetchPerformanceData = async () => {
-      try {
-        const performanceData: IPerformanceChart = await getPerformance();
-        console.log('Performance Data:', performanceData);
-        setPerformanceData(performanceData);
-      } catch (error) {
-        console.error('Error fetching performance data:', error);
-      }
-    };
+    console.log(workspaces);
+    
+    try {
+      console.log(routingProfile);
+      const data = await getDownload(
+        startDate,
+        endDate,
+        routingProfile
+      );
+      console.log(data);
+    } catch (error) {
+      console.error("Error al obtener datos de descarga:", error);
+    }
+  }
 
-    const getKpiData = async () => {
-      const result = await getKpis({
-          instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",
-          startDate: "2024-05-01",
-          endDate: "2024-05-22",
-          routingProfiles: ["4896ae34-a93e-41bc-8231-bf189e7628b1"],
-          agents: []
-      });
-      
-      setKpiData(result.data)
-      setActivityData({ data: result.data.activities });
-    };
+  useEffect(() => {
+    fetchFilters();
+    getAgentsStatus();
+  }, []);
 
-    const getSatisfactionLevels = async () => {
-      try {
-        const data = await getSatisfaction();
-        if (data) {
-          setSatisfactionLevels(data);
-        }
-      } catch (error) {
-        console.error("Error al obtener los niveles de satisfacción:", error);
-      }
-    };
-
-    const fetchActivityData = async () => {
-      try {
-        const data = await getMonthlyActivity();
-        setActivityData(data);
-      } catch (error) {
-        console.error("Error al obtener datos de actividad mensual:", error);
-      }
-    };
-
-    useEffect(() => {
-      getAgentsStatus();
-      fetchPerformanceData();
-      fetchContactMedium();
+  useEffect(() => {
+    if (workspaces) {
       getSatisfactionLevels();
       getKpiData();
-      fetchActivityData();
-    }, []);
-  
+    }
+  }, [startDate, endDate, selectedOptions]);
 
-    return (
-      <div className="flex w-full h-fit flex-col">
-        <div className="font-poppins pt-6 px-6">
-          <h1 className="font-semibold text-3xl"> Dashboard </h1>
-          <p className="text-gray-600 pt-4 text-lg"> Agents </p>
-          <div className="flex flex-row justify-between place-content-evenly space-x-10 mx-6 my-4">
-            {status.map((item, index) => (
-              <StatusCard
-                key={index}
-                status={item.status}
-                numUsers={item.numUsers}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="font-poppins px-6">
-          <p className="text-gray-600 pt-2 text-lg">Overall Performance</p>
-        </div>
-        <div className="grid grid-cols-2 my-2 mx-10 h-72 space-x-5 place-content-evenly">
-          <div className="flex flex-auto space-x-5 place-content-evenly">
-            <div className="flex flex-auto">
-              <SatisfactionChart data={satisfactionLevels} />
-            </div>
-            <div className="flex flex-auto">
-              <ContactMedium data={[
-                      (kpiData?.voice ?? 0), // Add voice data if available
-                      (kpiData?.chat ?? 0), // Add chat data if available
-                  ]} />
-            </div>
-          </div>
-          <div className="flex flex-auto">
-            {kpiData && (
-              <div className="flex flex-col flex-auto place-content-evenly space-y-2">
-                <div className="grid grid-cols-3 flex-auto space-x-3">
-                  <DataCard
-                    title="Avg Hold Time"
-                    content={`${kpiData?.avgHoldTime} seconds`}
-                  />
-                  <DataCard
-                    title="First Contact Resolution"
-                    content={`${kpiData?.firstContactResolution}%`}
-                  />
-                  <DataCard
-                    title="Abandonment Rate"
-                    content={`${kpiData?.abandonmentRate}%`}
-                  />
-                </div>
-                <div className="grid grid-cols-3 flex-auto space-x-3">
-                  <DataCard
-                    title="Service Level"
-                    content={`${kpiData?.serviceLevel}%`}
-                  />
-                  <DataCard
-                    title="Agent Schedule Adherence"
-                    content={`${kpiData?.agentScheduleAdherence}%`}
-                  />
-                  <DataCard
-                    title="Avg Speed Answer"
-                    content={`${kpiData?.avgSpeedOfAnswer} seconds`}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="grid grid-cols-2 flex-auto my-2 mx-10 space-x-5 place-content-evenly">
-          {performanceData && <PerformanceChart users={performanceData.users} />}
-          <ActivityChart chartData={activityData} />
+  return (
+    <div className="flex w-full h-fit flex-col">
+      <div className="font-poppins pt-6 px-6">
+        <h1 className="font-semibold text-3xl">Dashboard</h1>
+        <p className="text-gray-600 pt-2 text-lg">Agents</p>
+        <div className="flex flex-row justify-between place-content-evenly space-x-10 mx-6 mt-2 mb-4">
+          {status.map((item, index) => (
+            <StatusCard
+              key={index}
+              status={item.status}
+              numUsers={item.numUsers}
+            />
+          ))}
         </div>
       </div>
-    );
-  };
-  
-  export default Dashboard;
+      <div className="font-poppins px-6">
+        <p className="text-gray-600 pt-1 text-lg">Overall Performance</p>
+      </div>
+      <div className="flex flex-row justify-between mx-5 py-2 space-x-2">
+        <div className="flex items-stretch max-h-24">
+          <h1 className="self-center text-xl font-semibold px-5">Filters:</h1>
+          <div className="self-center">
+            <TimeFrameSelector
+              startDate={startDate}
+              setStartDate={setStartDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
+              limit={limit}
+            />
+          </div>
+          <div className="self-center mx-20">
+              <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
+            </div>
+          </div>
+        <div className="flex items-center pr-5">
+          <Button
+            baseColor="transparent"
+            image="Download.svg"
+            text="Download"
+            onClick={() => fetchDownload()}
+          ></Button>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 my-2 mx-10 h-72 space-x-5 place-content-evenly">
+        <div className="flex flex-auto space-x-5 place-content-evenly">
+          <div className="flex flex-auto">
+            <SatisfactionChart data={satisfactionLevels?.satisfaction_levels} />
+          </div>
+          <div className="flex flex-auto">
+            <ContactMedium data={[
+              (kpiData?.voice ?? 0), 
+              (kpiData?.chat ?? 0),
+            ]} />
+          </div>
+        </div>
+        <div className="flex flex-auto">
+          {kpiData && (
+            <div className="flex flex-col flex-auto place-content-evenly space-y-2">
+              <div className="grid grid-cols-3 flex-auto space-x-3">
+                <DataCard
+                  title="Avg Hold Time"
+                  content={kpiData.metrics.avgHoldTime}
+                  decorator=" seconds"
+                />
+                <DataCard
+                  title="First Contact Resolution"
+                  content={kpiData.metrics.firstContactResolution}
+                  decorator="%"
+                />
+                <DataCard
+                  title="Abandonment Rate"
+                  content={kpiData.metrics.abandonmentRate}
+                  decorator="%"
+                />
+              </div>
+              <div className="grid grid-cols-3 flex-auto space-x-3">
+                <DataCard
+                  title="Service Level"
+                  content={kpiData.metrics.serviceLevel}
+                  decorator="%"
+                />
+                <DataCard
+                  title="Agent Schedule Adherence"
+                  content={kpiData.metrics.agentScheduleAdherence}
+                  decorator="%"
+                />
+                <DataCard
+                  title="Avg Speed Answer"
+                  content={kpiData.metrics.avgSpeedOfAnswer}
+                  decorator=" seconds"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="grid grid-cols-2 flex-auto my-2 mx-10 space-x-5 place-content-evenly">
+        {performanceData && <PerformanceChart users={performanceData.users} />}
+        <ActivityChart chartData={activityData} />
+      </div>
+    </div>
 
+)}
+
+
+export default Dashboard;

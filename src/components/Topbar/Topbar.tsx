@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/images/Panoptimize.png";
 import { IoIosNotifications } from "react-icons/io";
-import "./Topbar.css";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 import { useNavigate } from "react-router-dom";
 import { Notification } from "./types";
 import { FaTimes } from "react-icons/fa";
+import { getAuthUser } from "../../services/getAuth/getAuthUser";
 
 interface TopbarProps {
   toggleSidebar: () => void;
@@ -45,6 +45,37 @@ const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, notifications, unreadCou
       resetNotificationCount();
     }
   }, [showNotifications, resetNotificationCount]);
+  
+  const [name, setName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+
+  const fetchUserInfo = async () => {
+    try {
+      const result = await getAuthUser();
+      if (result.error) {
+        console.log(result.error);
+      } else {
+        const fullName = result.fullName;
+        const firstName = fullName.split(" ")[0];
+        const email = result.email;
+        setName(fullName);
+        setEmail(email);
+        setFirstName(firstName);
+      }
+    } catch (error) {
+      console.log("Error fetching user info", error);
+    }
+  };
+
+  if (variant > 0) {
+    numberOfNotifications = variant;
+    displayOption = "block";
+  }
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   return (
     <div className="topbar flex flex-auto items-center justify-between bg-white border-b">
@@ -56,15 +87,14 @@ const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, notifications, unreadCou
             onClick={toggleSidebar}
           ></Button>
           <img
-            className="h-full"
-            style={{ paddingTop: 18, paddingBottom: 18 }}
+            className="h-full pt-4 pb-4"
             src={logo}
             alt="Logo"
           />
         </div>
         <div className="flex flex-row space-x-2">
           <p className="text-gray-600 font-medium text-lg ml-1">Welcome</p>
-          <p className="font-medium text-lg">John</p>
+          <p className="font-medium text-lg">{firstName}</p>
         </div>
       </div>
       <div className="h-16 flex items-center space-x-5">
@@ -110,10 +140,8 @@ const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, notifications, unreadCou
         )}        
         <div className="h-full flex flex-col justify-center items-center pr-7">
           <div className="h-full flex flex-col justify-center">
-            <p className="text-left text-lg">John Connor</p>
-            <p className="text-gray-600 text-left text-xs">
-              jconnor28@gmail.com
-            </p>
+            <p className="text-left text-lg">{name}</p>
+            <p className="text-gray-600 text-left text-xs">{email}</p>
           </div>
         </div>
         <div className="items-center flex pr-5">

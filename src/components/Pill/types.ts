@@ -1,4 +1,4 @@
 export interface IPill{
-    title: string;
+    title?: string;
     icon?:string;
 }
