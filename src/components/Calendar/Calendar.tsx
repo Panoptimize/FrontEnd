@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ICalendarView } from './types';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -106,6 +106,13 @@ const Calendar: React.FC<ICalendarView> = (
       clickCount++;
       setStartDate(currentDay.toISOString());
     } else {
+      const todayDate = new Date();
+      if (currentDay.getDate() === todayDate.getDate()
+        && currentMonth === todayDate.getMonth()
+        && currentYear === todayDate.getFullYear()) {
+          setEndDate(todayDate.toISOString());
+      }
+      currentDay.setHours(23, 59, 59, 999);
       setEndDate(currentDay.toISOString());
       clickCount = 0;
     }

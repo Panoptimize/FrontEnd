@@ -5,9 +5,9 @@ const StatusCard: React.FC<IStatusCard> = ({ status, numUsers }) => {
   const getStatusLabel = (status: string): string => {
     const statusLabels: { [key: string]: string } = {
       AGENTS_AVAILABLE: "Available",
-      AGENTS_ON_CONTACT: "On Contact",
-      AGENTS_AFTER_CONTACT_WORK: "After Contact Work",
       AGENTS_ONLINE: "Online",
+      AGENTS: "Agents",
+      AGENTS_OFFLINE: "Offline",
     };
 
     return statusLabels[status] || status;
@@ -15,12 +15,12 @@ const StatusCard: React.FC<IStatusCard> = ({ status, numUsers }) => {
 
   const getColor = (status: string): string => {
     if (status === "AGENTS_AVAILABLE") {
-      return "bg-green-600";
-    } else if (status === "AGENTS_ON_CONTACT") {
       return "bg-amber-500";
-    } else if (status === "AGENTS_AFTER_CONTACT_WORK") {
-      return "bg-fuchsia-600";
     } else if (status === "AGENTS_ONLINE") {
+      return "bg-green-600";
+    } else if (status === "AGENTS") {
+      return "bg-fuchsia-600";
+    } else if (status === "AGENTS_OFFLINE") {
       return "bg-gray-600";
     }
     return "";
