@@ -45,6 +45,15 @@ export const Dashboard: React.FC = () => {
     }
   }
 
+  const fetchPerformanceData = async () => {
+    try {
+      const performanceData: IPerformanceChart = await getPerformance();
+      setPerformanceData(performanceData);
+    } catch (error) {
+      console.error('Error fetching performance data:', error);
+    }
+  };
+    
   const getAgentsStatus = async () => {
     const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
     if (result && result.data) {
@@ -122,6 +131,7 @@ export const Dashboard: React.FC = () => {
     }
   }
 
+
   useEffect(() => {
     fetchFilters();
     getAgentsStatus();
@@ -137,8 +147,9 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="flex w-full h-fit flex-col">
       <div className="font-poppins pt-6 px-6">
+
         <h1 className="font-semibold text-3xl">Dashboard</h1>
-        <p className="text-gray-600 pt-2 text-lg">Agents</p>
+        <p className="text-gray-600 pt-2 text-lg">Agents Status</p>
         <div className="flex flex-row justify-between place-content-evenly space-x-10 mx-6 mt-2 mb-4">
           {status.map((item, index) => (
             <StatusCard
