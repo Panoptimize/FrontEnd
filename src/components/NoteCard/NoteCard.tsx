@@ -15,6 +15,7 @@ const NoteCard: React.FC<INoteCard> = ({
   text,
   priority,
   id,
+  agentId,
   name,
   email = "dave_chapelle@gmail.com",
   username = "chap",
@@ -158,6 +159,8 @@ const NoteCard: React.FC<INoteCard> = ({
           </div>
           <NoteInputs
             id={id}
+            agentId={agentId}
+            metrics={agentPerformance ? agentPerformance : undefined}
             title={title}
             text={text}
             priority={priority}

@@ -39,6 +39,7 @@ export interface INoteCard {
     text?: string;
     priority?: 'LOW'|'MEDIUM'|'HIGH';
     id?:number;
+    agentId?:number;
     signalNotesRow?: () => void;
     metrics?: IAgentPerformance;
 }

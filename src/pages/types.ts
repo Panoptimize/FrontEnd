@@ -28,3 +28,7 @@ export interface IAgentPerformance {
     avgAbandonTime: number;
     avgHoldTime: number;
 }
+
+export interface IAgentPerformanceData extends IAgentPerformance {
+    id: number;
+}

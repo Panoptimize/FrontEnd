@@ -26,13 +26,21 @@ const AgentCard: React.FC<IAgentCard> = ({
   id,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [agentMetrics, setAgentMetrics] = useState<IAgentPerformance | null>(null);
+  //const [agentMetrics, setAgentMetrics] = useState<IAgentPerformance | null>(null);
+  const [agentId, setAgentId] = useState<number>();
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     username: "",
   });
+
+  const metrics:IAgentPerformance = {
+    avgAbandonTime: 10,
+    avgAfterContactWorkTime: 15,
+    avgHandleTime: 20,
+    avgHoldTime: 25
+  }
 
   const [user, setUser] = useState<any>();
 
@@ -55,13 +63,7 @@ const AgentCard: React.FC<IAgentCard> = ({
 
   const handleOpen = async () => {
     setIsVisible(true);
-    const testMetrics:IAgentPerformance = {
-      avgAbandonTime: 10,
-      avgAfterContactWorkTime: 15,
-      avgHandleTime: 20,
-      avgHoldTime: 25,
-    };
-    setAgentMetrics(testMetrics);
+    //setAgentMetrics(metrics);
     try {
       const agentId = await getId(id);
       if(agentId) {
@@ -78,6 +80,7 @@ const AgentCard: React.FC<IAgentCard> = ({
       const data = await getAgentId(id);
       if(data && data.data){
         const agentId = data.data.id;
+        setAgentId(agentId);
         console.log(agentId)
         return agentId
       }
@@ -151,22 +154,22 @@ const AgentCard: React.FC<IAgentCard> = ({
             <div className="grid grid-cols-4 space-x-3">
               <DataCard
                 title="Call Time"
-                content={20}
+                content={metrics.avgHandleTime}
                 textColor="green"
               ></DataCard>
               <DataCard
                 title="After Call Time"
-                content={"asdf"}
+                content={metrics.avgAfterContactWorkTime}
                 textColor="red"
               ></DataCard>
               <DataCard
                 title="Hold Time"
-                content={"aasf"}
+                content={metrics.avgHoldTime}
                 textColor="yellow"
               ></DataCard>
               <DataCard
                 title="Abandon Time"
-                content={10}
+                content={metrics.avgAbandonTime}
                 textColor="purple"
               ></DataCard>
             </div>
@@ -176,7 +179,7 @@ const AgentCard: React.FC<IAgentCard> = ({
                   <h2 className="text-xl font-bold">Notes:</h2>
                 </div>
                 <div>
-                  <NoteCard area={workspace} metrics={agentMetrics ? agentMetrics : undefined} bttn_color="teal"></NoteCard>
+                  <NoteCard area={workspace} agentId={agentId} metrics={metrics ? metrics : undefined} signalNotesRow={receivedSignal} bttn_color="teal"></NoteCard>
                 </div>
               </div>
             </div>
