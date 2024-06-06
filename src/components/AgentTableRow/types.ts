@@ -7,5 +7,6 @@ export interface IAgentTableRow {
   lastActivity: string;
   details?: string /* TEMPORARY */;
   id: string;
+  email: string;
 }
 
