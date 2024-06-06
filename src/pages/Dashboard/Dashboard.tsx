@@ -6,23 +6,19 @@ import { DataCard } from "../../components/DataCard";
 import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
 import { IActivityChart } from "../../components/ActivityChart/types";
-import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
 import { Button } from "../../components/Button";
-import { getStatus, getPerformance, getSatisfaction, getDownload } from "../../services";
+import { getStatus, getSatisfaction, getDownload } from "../../services";
 import getKpis from "../../services/dashboard/getKpis";
-//import { getSatisfaction } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
-import { IPerformanceChart } from "../../components/PerformanceChart/types";
 import { MetricResponse } from "../../services/dashboard/types";
 import { ICustomerSatisfaction } from "./types";
 import { TimeFrameSelector } from "../../components/TimeFrameSelector";
 import { getFilters } from "../../services/dashboard/getFilters";
 import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
-import StatusCardHolder from "../../components/StatusCardHolder/StatusCardHolder";
-
+import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
+import { IPerformanceChart } from "../../components/PerformanceChart/types";
 
 export const Dashboard: React.FC = () => {
-
   const [creationDate, setCreationDate] = useState<string>();
   const [workspaces, setWorkspaces] = useState<Option[]>();
   const [satisfactionLevels, setSatisfactionLevels] = useState<ICustomerSatisfaction>();
@@ -30,23 +26,22 @@ export const Dashboard: React.FC = () => {
   const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
   const [startDate, setStartDate] = useState<string>(new Date(new Date().setHours(0, 0, 0, 0)).toISOString());
   const [endDate, setEndDate] = useState<string>(new Date().toISOString());
-  const [kpiData, setKpiData] = useState<MetricResponse>();
+  const [status, setStatus] = useState<IStatusCard[]>([]);
+  const [kpiData, setKpiData] = useState<MetricResponse | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  const [limit, setLimit] = useState<number>(90);
 
   const validateCreationDate = () => {
     if (creationDate) {
       const creationDateObj = new Date(creationDate);
       const threshold = new Date(new Date().setDate(new Date().getDate() - 90));
-
-      // Check if the creation day is greater than todays date less than 90 days
-      if (creationDateObj < threshold) {
-        // Get difference in days
+      if (creationDateObj >= threshold) {
         return 90;
       } else {
-        // Get difference in days
         const differenceTime = new Date().getTime() - creationDateObj.getTime();
-        return Math.ceil(differenceTime / (1000 * 3600 * 24));
-      }
-
+        setLimit(Math.ceil(differenceTime / (1000 * 3600 * 24)));
+        setStartDate(creationDate);
+      } 
     }
   }
 
@@ -56,6 +51,15 @@ export const Dashboard: React.FC = () => {
       setPerformanceData(performanceData);
     } catch (error) {
       console.error('Error fetching performance data:', error);
+    }
+  };
+    
+  const getAgentsStatus = async () => {
+    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
+    if (result && result.data) {
+      setStatus(result.data);
+    } else {
+      console.error(result?.error);
     }
   };
 
@@ -74,29 +78,40 @@ export const Dashboard: React.FC = () => {
   }
 
   const getKpiData = async () => {
-    const result = await getKpis({
-      instanceId: "7c78bd60-4a9f-40e5-b461-b7a0dfaad848",
-      startDate,
-      endDate,
-      routingProfiles: workspaces?.map((workspace) => workspace.value) ?? [],
-    });
+    try {
+        const result = await getKpis({
+            startDate,
+            endDate,
+            routingProfiles: selectedOptions?.map((option) => option.value) ?? [],
+        });
 
-    setKpiData(result.data)
-    setActivityData({ data: result.data.activities });
+        if (result) {
+          setKpiData(result.data);
+          setActivityData({ data: result.data.activities.activities ?? [] });
+          setPerformanceData({ 
+              users: result.data.performanceData?.map(performance => ({
+                  username: performance.agentName,
+                  data: performance.performances
+              })) ?? []
+          });
+        }
+    } catch (error) {
+        console.error('Error fetching KPI data:', error);
+    }
   };
 
   const getSatisfactionLevels = async () => {
-    await getSatisfaction().then((data) => {
-      if (data && data.data)
-        setSatisfactionLevels(data.data)
-    })
-      .catch((error) => {
-        console.error("Error al obtener los niveles de satisfacción:", error);
-      });
+    try {
+      const data = await getSatisfaction();
+      if (data && data.data) {
+        setSatisfactionLevels(data.data);
+      }
+    } catch (error) {
+      console.error("Error al obtener los niveles de satisfacción:", error);
+    }
   };
 
   const fetchDownload = async () => {
-    const instanceId = "7c78bd60-4a9f-40e5-b461-b7a0dfaad848";
     const routingProfiles = workspaces?.map((workspace) => workspace.value) ?? [];
     let routingProfile: string[] = [];
     routingProfile.push(routingProfiles[4])
@@ -106,7 +121,6 @@ export const Dashboard: React.FC = () => {
     try {
       console.log(routingProfile);
       const data = await getDownload(
-        instanceId,
         startDate,
         endDate,
         routingProfile
@@ -119,41 +133,53 @@ export const Dashboard: React.FC = () => {
 
 
   useEffect(() => {
-    fetchFilters()
+    fetchFilters();
+    getAgentsStatus();
+  }, []);
+
+  useEffect(() => {
     if (workspaces) {
       getSatisfactionLevels();
       getKpiData();
-      fetchPerformanceData();
     }
-  }, [startDate, endDate]);
-
+  }, [startDate, endDate, selectedOptions]);
 
   return (
     <div className="flex w-full h-fit flex-col">
       <div className="font-poppins pt-6 px-6">
-        <h1 className="font-semibold text-3xl"> Dashboard </h1>
-        <p className="text-gray-600 pt-4 text-lg"> Agents Status </p>
-      </div>
-      <div>{ <StatusCardHolder instanceId = "7c78bd60-4a9f-40e5-b461-b7a0dfaad848" /> }</div>
-      <div className="font-poppins px-6">
-        <p className="text-gray-600 pt-2 text-lg">Overall Performance</p>
-      </div>
-      <div className="flex flex-row items-center justify-between mx-5 py-4 space-x-2">
-        <div className="flex flex-row space-x-5">
-          <h1 className="text-xl font-semibold mx-5">Filters:</h1>
-          <TimeFrameSelector
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-            limit={validateCreationDate()}
-          />
-          <ChoiceBox
-            boxText="Workspace:"
-            options={workspaces ?? []}
-          ></ChoiceBox>
+
+        <h1 className="font-semibold text-3xl">Dashboard</h1>
+        <p className="text-gray-600 pt-2 text-lg">Agents Status</p>
+        <div className="flex flex-row justify-between place-content-evenly space-x-10 mx-6 mt-2 mb-4">
+          {status.map((item, index) => (
+            <StatusCard
+              key={index}
+              status={item.status}
+              numUsers={item.numUsers}
+            />
+          ))}
         </div>
-        <div>
+      </div>
+      <div className="font-poppins px-6">
+        <p className="text-gray-600 pt-1 text-lg">Overall Performance</p>
+      </div>
+      <div className="flex flex-row justify-between mx-5 py-2 space-x-2">
+        <div className="flex items-stretch max-h-24">
+          <h1 className="self-center text-xl font-semibold px-5">Filters:</h1>
+          <div className="self-center">
+            <TimeFrameSelector
+              startDate={startDate}
+              setStartDate={setStartDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
+              limit={limit}
+            />
+          </div>
+          <div className="self-center mx-20">
+              <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
+            </div>
+          </div>
+        <div className="flex items-center pr-5">
           <Button
             baseColor="transparent"
             image="Download.svg"
@@ -169,104 +195,58 @@ export const Dashboard: React.FC = () => {
           </div>
           <div className="flex flex-auto">
             <ContactMedium data={[
-              (kpiData?.voice ?? 0), // Add voice data if available
-              (kpiData?.chat ?? 0), // Add chat data if available
+              (kpiData?.voice ?? 0), 
+              (kpiData?.chat ?? 0),
             ]} />
           </div>
         </div>
         <div className="flex flex-auto">
           {kpiData && (
-            <>
             <div className="flex flex-col flex-auto place-content-evenly space-y-2">
               <div className="grid grid-cols-3 flex-auto space-x-3">
                 <DataCard
                   title="Avg Hold Time"
-                  content={kpiData?.avgHoldTime}
+                  content={kpiData.metrics.avgHoldTime}
                   decorator=" seconds"
                 />
                 <DataCard
                   title="First Contact Resolution"
-                  content={kpiData?.firstContactResolution}
+                  content={kpiData.metrics.firstContactResolution}
                   decorator="%"
                 />
                 <DataCard
                   title="Abandonment Rate"
-                  content={kpiData?.abandonmentRate}
+                  content={kpiData.metrics.abandonmentRate}
                   decorator="%"
                 />
               </div>
               <div className="grid grid-cols-3 flex-auto space-x-3">
                 <DataCard
                   title="Service Level"
-                  content={kpiData?.serviceLevel}
+                  content={kpiData.metrics.serviceLevel}
                   decorator="%"
                 />
                 <DataCard
                   title="Agent Schedule Adherence"
-                  content={kpiData?.agentScheduleAdherence}
+                  content={kpiData.metrics.agentScheduleAdherence}
                   decorator="%"
                 />
                 <DataCard
                   title="Avg Speed Answer"
-                  content={kpiData?.avgSpeedOfAnswer}
+                  content={kpiData.metrics.avgSpeedOfAnswer}
                   decorator=" seconds"
                 />
               </div>
             </div>
-            <div className="flex flex-auto">
-              <ContactMedium data={[
-                      (kpiData?.voice ?? 0), // Add voice data if available
-                      (kpiData?.chat ?? 0), // Add chat data if available
-                  ]} />
-            </div>
-            </>
           )}
-          </div>
-          <div className="flex flex-auto">
-            {kpiData && (
-              <div className="flex flex-col flex-auto place-content-evenly space-y-2">
-                <div className="grid grid-cols-3 flex-auto space-x-3">
-                  <DataCard
-                    title="Avg Hold Time"
-                    content={`${kpiData?.avgHoldTime} seconds`}
-                  />
-                  <DataCard
-                    title="First Contact Resolution"
-                    content={`${kpiData?.firstContactResolution}%`}
-                  />
-                  <DataCard
-                    title="Abandonment Rate"
-                    content={`${kpiData?.abandonmentRate}%`}
-                  />
-                </div>
-                <div className="grid grid-cols-3 flex-auto space-x-3">
-                  <DataCard
-                    title="Service Level"
-                    content={`${kpiData?.serviceLevel}%`}
-                  />
-                  <DataCard
-                    title="Agent Schedule Adherence"
-                    content={`${kpiData?.agentScheduleAdherence}%`}
-                  />
-                  <DataCard
-                    title="Avg Speed Answer"
-                    content={`${kpiData?.avgSpeedOfAnswer} seconds`}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="grid grid-cols-2 flex-auto my-2 mx-10 space-x-5 place-content-evenly">
-          {performanceData && <PerformanceChart users={performanceData.users} />}
-          <ActivityChart chartData={activityData} />
         </div>
       </div>
-    );
-  };
-  
-  export default Dashboard;
+      <div className="grid grid-cols-2 flex-auto my-2 mx-10 space-x-5 place-content-evenly">
+        {performanceData && <PerformanceChart users={performanceData.users} />}
+        <ActivityChart chartData={activityData} />
+      </div>
+    </div>
 
-function setError(message: any) {
-  throw new Error("Function not implemented.");
-}
+)}
+
+export default Dashboard;
