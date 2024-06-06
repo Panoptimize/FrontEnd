@@ -9,8 +9,6 @@ import { NotesTable } from "../NotesTable";
 import { getAgentNotes } from "../../services/notes/getAgentNotes";
 import { IAgentPerformance, INoteData } from "../../pages/types";
 import { getAgentId } from "../../services/agentsList/getAgentId";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase";
 import { getAgentMetrics } from "../../services/AgentMetrics/getAgentMetrics";
 
 const AgentCard: React.FC<IAgentCard> = ({
@@ -31,7 +29,7 @@ const AgentCard: React.FC<IAgentCard> = ({
     username: "",
   });
 
-  const metrics:IAgentPerformance = {
+  const metrics: IAgentPerformance = {
     avgAbandonTime: 10,
     avgAfterContactWorkTime: 15,
     avgHandleTime: 20,
@@ -125,6 +123,7 @@ const AgentCard: React.FC<IAgentCard> = ({
   if (!isVisible)
     return (
       <button
+        type="button"
         onClick={handleOpen}
         className="bg-teal-100 hover:bg-teal-600 text-teal-900 font-bold py-2 px-4 rounded"
       >
@@ -135,13 +134,8 @@ const AgentCard: React.FC<IAgentCard> = ({
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black/[0.3]">
       <div
-        className="flex flex-auto flex-col bg-white rounded-3xl shadow-lg p-8"
-        style={{
-          maxWidth: "900px",
-          width: "100%",
-          maxHeight: "600px",
-          height: "600px",
-        }}
+        className="flex flex-auto flex-col bg-white rounded-3xl 
+        shadow-lg p-8 max-w-[900px] w-full max-h-[600px] h-[600px]"
       >
         <div className="flex flex-row items-center justify-between mb-3">
           <h2 className="text-3xl font-bold mb-2">{title}</h2>
@@ -202,7 +196,7 @@ const AgentCard: React.FC<IAgentCard> = ({
             </div>
             <div className="flex flex-auto flex-col">
               <div>
-                <NotesTable name={name} area={workspace} notesData={notesData} signalToAgentCard={receivedSignal}/>
+                <NotesTable name={name} area={workspace} notesData={notesData} signalToAgentCard={receivedSignal} />
               </div>
             </div>
           </div>
