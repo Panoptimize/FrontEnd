@@ -129,12 +129,12 @@ export const Dashboard: React.FC = () => {
 
 
   return (
-    <div className="flex w-full h-fit flex-col">
+    <div className="flex w-full h-fit flex-col" data-testid= "wrapper-Dashboard">
       <div className="font-poppins pt-6 px-6">
         <h1 className="font-semibold text-3xl"> Dashboard </h1>
-        <p className="text-gray-600 pt-4 text-lg"> Agents Status </p>
+        <p className="text-gray-600 pt-4 text-lg" data-testid="txt-agentStatus">Agents Status</p>
       </div>
-      <div>{ <StatusCardHolder instanceId = "7c78bd60-4a9f-40e5-b461-b7a0dfaad848" /> }</div>
+      <div  data-testid="txt-statudCardHolder" >{ <StatusCardHolder instanceId = "7c78bd60-4a9f-40e5-b461-b7a0dfaad848" /> }</div>
       <div className="font-poppins px-6">
         <p className="text-gray-600 pt-2 text-lg">Overall Performance</p>
       </div>
