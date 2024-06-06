@@ -1,5 +1,4 @@
 export interface GetKpisRequest {
-    instanceId: string;
     startDate: string;
     endDate: string;
     routingProfiles: string[];
