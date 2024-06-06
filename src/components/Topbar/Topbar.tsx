@@ -68,10 +68,6 @@ const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, notifications, unreadCou
     }
   };
 
-  if (variant > 0) {
-    numberOfNotifications = variant;
-    displayOption = "block";
-  }
 
   useEffect(() => {
     fetchUserInfo();

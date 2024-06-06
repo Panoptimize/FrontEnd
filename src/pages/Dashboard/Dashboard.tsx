@@ -46,15 +46,6 @@ export const Dashboard: React.FC = () => {
       } 
     }
   }
-
-  const fetchPerformanceData = async () => {
-    try {
-      const performanceData: IPerformanceChart = await getPerformance();
-      setPerformanceData(performanceData);
-    } catch (error) {
-      console.error('Error fetching performance data:', error);
-    }
-  };
     
   const getAgentsStatus = async () => {
     const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
