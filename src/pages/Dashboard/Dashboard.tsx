@@ -18,6 +18,7 @@ import { ICustomerSatisfaction } from "./types";
 import { TimeFrameSelector } from "../../components/TimeFrameSelector";
 import { getFilters } from "../../services/dashboard/getFilters";
 import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
+import StatusCardHolder from "../../components/StatusCardHolder/StatusCardHolder";
 
 
 export const Dashboard: React.FC = () => {
@@ -29,7 +30,6 @@ export const Dashboard: React.FC = () => {
   const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
   const [startDate, setStartDate] = useState<string>(new Date(new Date().setHours(0, 0, 0, 0)).toISOString());
   const [endDate, setEndDate] = useState<string>(new Date().toISOString());
-  const [status, setStatus] = useState<IStatusCard[]>([]);
   const [kpiData, setKpiData] = useState<MetricResponse>();
 
   const validateCreationDate = () => {
@@ -49,15 +49,6 @@ export const Dashboard: React.FC = () => {
 
     }
   }
-
-  const getAgentsStatus = async () => {
-    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-    if (result.error) {
-      console.error(result.error);
-    } else {
-      setStatus(result.data);
-    }
-  };
 
   const fetchPerformanceData = async () => {
     try {
@@ -126,10 +117,10 @@ export const Dashboard: React.FC = () => {
     }
   }
 
+
   useEffect(() => {
     fetchFilters()
     if (workspaces) {
-      getAgentsStatus();
       getSatisfactionLevels();
       getKpiData();
       fetchPerformanceData();
@@ -141,17 +132,9 @@ export const Dashboard: React.FC = () => {
     <div className="flex w-full h-fit flex-col">
       <div className="font-poppins pt-6 px-6">
         <h1 className="font-semibold text-3xl"> Dashboard </h1>
-        <p className="text-gray-600 pt-4 text-lg"> Agents </p>
-        <div className="flex flex-row justify-between place-content-evenly space-x-10 mx-6 my-4">
-          {status.map((item, index) => (
-            <StatusCard
-              key={index}
-              status={item.status}
-              numUsers={item.numUsers}
-            />
-          ))}
-        </div>
+        <p className="text-gray-600 pt-4 text-lg"> Agents Status </p>
       </div>
+      <div>{ <StatusCardHolder instanceId = "7c78bd60-4a9f-40e5-b461-b7a0dfaad848" /> }</div>
       <div className="font-poppins px-6">
         <p className="text-gray-600 pt-2 text-lg">Overall Performance</p>
       </div>

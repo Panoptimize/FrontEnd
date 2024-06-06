@@ -2,24 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { StatusCard } from '../../components/StatusCard'
 import { getStatus } from '../../services';
 import { IStatusCard } from '../../components/StatusCard/types';
+import StatusCardHolder from '../../components/StatusCardHolder/StatusCardHolder';
 
 const ActionCenter: React.FC = () => {
-
-  const [status, setStatus] = useState<IStatusCard[]>([]);
-
-    const getAgentsStatus = async () => {
-        const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-        if (result.error) {
-            console.error(result.error);
-        } else {
-            setStatus(result.data); 
-        }
-    };
-    
-      useEffect(() => {
-   
-        getAgentsStatus();
-    }, []);
 
   return (
     <div>
@@ -32,12 +17,8 @@ const ActionCenter: React.FC = () => {
                       Agents
                   </p>
             </div>
-            <div className="flex flex-row justify-between items-stretch w-full px-20">
-                {status.map((item, index) => (
-                    <StatusCard key={index} status={item.status} numUsers={item.numUsers} />
-                ))}
-        
-            </div>
+            <div>{ <StatusCardHolder instanceId = "7c78bd60-4a9f-40e5-b461-b7a0dfaad848" /> }</div>
+
 
     </div>
   )
