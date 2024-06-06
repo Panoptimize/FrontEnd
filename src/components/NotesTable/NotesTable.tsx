@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import NotesRow from "../NotesRow/NotesRow";
 import { SortConfig, INotesTable } from "./types";
 
-const NotesTable: React.FC<INotesTable> = ({ notesData, signalToAgentCard }) => {
+const NotesTable: React.FC<INotesTable> = ({ name, area, notesData, signalToAgentCard }) => {
   const [notes, setNotes] = useState(notesData);
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
 
@@ -14,7 +14,6 @@ const NotesTable: React.FC<INotesTable> = ({ notesData, signalToAgentCard }) => 
   };
 
   const receivedSignal = () => {
-    console.log("RECEIVED FROM NOTEROW")
     if(signalToAgentCard){
       signalToAgentCard();
     }
@@ -104,6 +103,8 @@ const NotesTable: React.FC<INotesTable> = ({ notesData, signalToAgentCard }) => 
           });
           return (
           <NotesRow
+            name={name}
+            area={area}
             key={index}
             id={note.id}
             title={note.name}
