@@ -1,6 +1,6 @@
-import { Meta, StoryFn } from '@storybook/react'
-import RowAC from './RowAC'
-import { IRowAC } from './types'
+import { Meta, StoryFn } from '@storybook/react';
+import RowAC from './RowAC';
+import { IRowAC } from './types';
 import React from 'react';
 
 const meta = {
@@ -11,38 +11,38 @@ const meta = {
         docs: {
             story: {
                 inline: false,
-                description: "Agent row component",
+                description: "Agent row component showcasing the agent's details including date, initiation hour, current time, status, ID, temperature, and communication channel.",
                 iframeHeight: 400,
             }
         }
     },
     argTypes: {
-        callstatus: { control: { type: "text" } },
+        date: { control: { type: "text" } },
+        initiationHour: { control: { type: "text" } },
+        currentTime: { control: { type: "text" } },
         agentImage: { control: { type: "text" } },
         name: { control: { type: "text" } },
         status: { control: { type: "text" } },
-        workspace1: { control: { type: "text" } },
-        workspace2: { control: { type: "text" } },
-        workHours: { control: { type: "number" } },
-        alarm: { control: { type: "boolean" } },
+        agentId: { control: { type: "text" } },
+        temperature: { control: { type: "radio", options: ['Negative', 'Neutral', 'Positive'] } },
+        channel: { control: { type: 'radio', options: ['Voice', 'Chat'] } }, // Control para seleccionar el canal
     },
     tags: ["autodocs"],
 } as Meta;
 
 export default meta;
 
-const Templates: StoryFn<IRowAC> = (args) => <RowAC {...args} />;
+const Template: StoryFn<IRowAC> = (args) => <RowAC {...args} />;
 
-
-
-export const Default = Templates.bind({});
+export const Default = Template.bind({});
 Default.args = {
-    callstatus: '00:04:15',
+    date: '29/5/2024',
+    initiationHour: '20:22:38',
+    currentTime: '00:04:15',
     agentImage: 'https://randomuser.me/api/portraits/women/48.jpg',
     name: 'Olivia',
     status: 'Online',
-    workspace1: 'Sales',
-    workspace2: 'Delivery',
-    workHours: '04:32:13',
-    alarm: false,
-}
+    agentId: '12345-67890-ABCD',
+    temperature: 'Neutral',
+    channel: 'Voice',  // Valor predeterminado para el canal
+};

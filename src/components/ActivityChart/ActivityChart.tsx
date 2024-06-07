@@ -6,13 +6,18 @@ import { IActivityChart } from './types';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const ActivityChart: React.FC<{ chartData: IActivityChart }> = ({ chartData }) => {
+  // Asegúrate de que chartData.data sea una matriz
+  const dataPoints = Array.isArray(chartData.data) ? chartData.data : [];
+
+  console.log(dataPoints, 'dataPoints'); // Verifica que los puntos de datos estén presentes
+
   const data = {
-    labels: chartData.data?.map(item => new Date(item.startTime).toLocaleDateString("en-US", {
+    labels: dataPoints.map(item => new Date(item.startTime).toLocaleDateString("en-US", {
       month: 'short',
       day: '2-digit'
-    })) || [],
+    })),
     datasets: [{
-      data: chartData.data?.map(item => item.value) || [],
+      data: dataPoints.map(item => item.value),
       tension: 0.5,
       fill: true,
       borderWidth: 5,
