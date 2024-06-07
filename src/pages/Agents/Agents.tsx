@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import { AgentTable } from "../../components/AgentTable";
-import { IAgentTableRow } from "./../../components/AgentTableRow/types";
 import { useCachedAgents } from "../../hooks/useCachedAgents";
 
 const Agents: React.FC = () => {
