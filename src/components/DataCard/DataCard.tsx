@@ -19,26 +19,32 @@ const text_color = (st: string | undefined) => {
   }
 };
 
-const DataCard: React.FC<IDataCard> = ({ 
-  title, 
-  content, 
-  textColor, 
-  decorator 
+const DataCard: React.FC<IDataCard> = ({
+  title,
+  content,
+  textColor,
+  decorator,
 }) => {
   // Get the text color class based on the textColor prop
   const colorClass = text_color(textColor);
 
   // Print type of
-  console.log(content, typeof content)
+  console.log(content, typeof content);
 
   return (
-    <div
-      className="h-28 w-44 px-2 pt-3 pb-2 bg-white border border-gray-200 rounded-3xl shadow flex flex-col justify-center items-start">
+    <div className="flex flex-auto h-24 px-2 pt-3 pb-2 bg-white border border-gray-200 rounded-3xl shadow flex flex-col justify-center items-start">
       <div className="flex-grow-0">
-        <h4 className="ml-2 font-bold text-sm text-gray-600 dark:text-black-400">{title}</h4>
+        <h4 className="ml-2 font-bold text-sm text-gray-600 dark:text-black-400">
+          {title}
+        </h4>
       </div>
       <div className="flex-grow flex items-center">
-        <h5 className={`ml-2 text-xl font-bold tracking-tight ${colorClass} dark:text-grey`}>{content ? content : 0}{decorator}</h5>
+        <h5
+          className={`ml-2 text-3xl font-bold tracking-tight ${colorClass} dark:text-grey`}
+        >
+          {content ? content : 0}
+          {decorator}{" "}
+        </h5>
       </div>
     </div>
   );

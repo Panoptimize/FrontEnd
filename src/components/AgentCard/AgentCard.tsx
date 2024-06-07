@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { IAgentCard, IMetrics } from "./types";
 
@@ -12,7 +11,6 @@ import { getAgentNotes } from "../../services/notes/getAgentNotes";
 import { IAgentPerformance, INoteData } from "../../pages/types";
 import { getAgentId } from "../../services/agentsList/getAgentId";
 import { getAgentMetrics } from "../../services/AgentMetrics/getAgentMetrics";
-
 
 const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details",
@@ -36,11 +34,10 @@ const AgentCard: React.FC<IAgentCard> = ({
     avgAbandonTime: 10,
     avgAfterContactWorkTime: 15,
     avgHandleTime: 20,
-    avgHoldTime: 25
-  }
+    avgHoldTime: 25,
+  };
 
   //const [user, setUser] = useState<any>();
-
 
   const [notesData, setNotesData] = useState<INoteData[]>([]);
   const [metricsData, setMetricsData] = useState<IMetrics>();
@@ -49,12 +46,6 @@ const AgentCard: React.FC<IAgentCard> = ({
   //   const { name, value } = e.target;
   //   setFormData((prev) => ({ ...prev, [name]: value }));
   // };
-
-
-  const handleSave = () => {
-    console.log("Guardando datos:", formData, workspace);
-    setIsVisible(false);
-  };
 
   const handleClose = () => {
     setIsVisible(false);
@@ -81,8 +72,8 @@ const AgentCard: React.FC<IAgentCard> = ({
       if (data && data.data) {
         const agentId = data.data.id;
         setAgentId(agentId);
-        console.log(agentId)
-        return agentId
+        console.log(agentId);
+        return agentId;
       }
     } catch (error) {
       console.error(error);
@@ -194,13 +185,24 @@ const AgentCard: React.FC<IAgentCard> = ({
                   <h2 className="text-xl font-bold">Notes:</h2>
                 </div>
                 <div>
-                  <NoteCard area={workspace} agentId={agentId} metrics={metrics ? metrics : undefined} signalNotesRow={receivedSignal} bttn_color="teal"></NoteCard>
+                  <NoteCard
+                    area={workspace}
+                    agentId={agentId}
+                    metrics={metrics ? metrics : undefined}
+                    signalNotesRow={receivedSignal}
+                    bttn_color="teal"
+                  ></NoteCard>
                 </div>
               </div>
             </div>
             <div className="flex flex-auto flex-col">
               <div>
-                <NotesTable name={name} area={workspace} notesData={notesData} signalToAgentCard={receivedSignal} />
+                <NotesTable
+                  name={name}
+                  area={workspace}
+                  notesData={notesData}
+                  signalToAgentCard={receivedSignal}
+                />
               </div>
             </div>
           </div>
