@@ -12,7 +12,6 @@ import { useOutletContext } from "react-router-dom";
 import { Notification } from "../../components/Topbar/types";
 import StatusCardHolder from '../../components/StatusCardHolder/StatusCardHolder';
 
-
 // Function to update temperatures simulating real-time data from contact lens
 const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
     const temperatures = ['Positive', 'Neutral', 'Negative'];
@@ -61,50 +60,6 @@ const ActionCenter: React.FC = () => {
             console.error(err);
         }
     };
-
-
-
-  const [status, setStatus] = useState<IStatusCard[]>([]);
-
-  const getAgentsStatus = async () => {
-    console.log('entre')
-    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-    console.log(result, 'res');
-    if (result?.error) {
-      console.error(result.error);
-    } else {
-      setStatus(result?.data);
-    }
-  };
-
-  useEffect(()=> {
-      getAgentsStatus();
-  }, [])
-
-
-
-  return (
-    <div data-testid= "wrapper-ActionCenter">
-            {/* Title and Active Agents */}
-            <div className="font-poppins pt-6 pb-0 px-6" >
-                  <h1 className="font-semibold text-3xl" data-testid="txt-agentStatus">Agents Status</h1>
-                  <p className="text-gray-600 pt-4 px-4 text-lg">
-                      Agents
-                  </p>
-            </div>
-            <div>
-
-            <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
-                {status.map((item, index) => (
-                        <StatusCard 
-                          key={index}
-                          status={item.status}
-                          numUsers={item.numUsers}
-                        />
-                      ))}
-            </div>
-              
-            </div>
 
     // Fetch agents list
     const fetchAgents = async () => {
@@ -174,7 +129,6 @@ const ActionCenter: React.FC = () => {
             const date = initiationDate.toLocaleDateString();
             const initiationHour = initiationDate.toLocaleTimeString();
             const currentTime = "00:00:00"; // Set initial value to 00:00:00
-
 
             return {
                 date,

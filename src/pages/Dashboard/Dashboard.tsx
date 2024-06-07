@@ -144,8 +144,9 @@ export const Dashboard: React.FC = () => {
   }, [startDate, endDate, selectedOptions]);
 
   return (
-    <div className="flex w-full h-fit flex-col" data-testid= "wrapper-Dashboard">
+    <div className="flex w-full h-fit flex-col">
       <div className="font-poppins pt-6 px-6">
+
         <h1 className="font-semibold text-3xl">Dashboard</h1>
         <p className="text-gray-600 pt-2 text-lg">Agents Status</p>
         <div className="flex flex-row justify-between place-content-evenly space-x-10 mx-6 mt-2 mb-4">
