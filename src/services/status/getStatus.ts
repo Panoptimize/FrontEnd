@@ -6,6 +6,7 @@ export const getStatus = async (instanceId: string) => {
     try {
         const response = await httpInstance.get(`status?instanceId=${instanceId}`);
         const processedData = processMetrics(response.data);
+        console.log(processedData)
         return { data: processedData, error: null };
     } catch (err) {
         console.error('Error fetching status:', err); 
