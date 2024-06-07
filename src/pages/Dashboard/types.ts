@@ -2,12 +2,14 @@ export interface IStatus {
     /**
      * Activity that the agents are performing, is restricted to only the activites allowed
      */
-    status: 'AGENTS_AVAILABLE' | 'AGENTS_ON_CONTACT' | 'AGENTS_AFTER_CONTACT_WORK' | 'AGENTS_ONLINE';
+    status: 'AGENTS' | 'AGENTS_ONLINE' | 'AGENTS__AVAILABLE' | 'AGENTS_OFFLINE';
     /**
      * Current amount of agents in this activity 
      */
     numUsers : number;
 }
+
+
 
 export interface ICustomerSatisfaction {
     satisfaction_levels: number[];
@@ -21,4 +23,9 @@ export interface FilterResponse {
 interface AWSObject {
     id: string;
     name: string;
+}
+
+export interface IGetStatus {
+    performances: number[];
+    agentID: string;
 }
