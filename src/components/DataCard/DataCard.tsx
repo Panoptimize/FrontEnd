@@ -28,9 +28,6 @@ const DataCard: React.FC<IDataCard> = ({
   // Get the text color class based on the textColor prop
   const colorClass = text_color(textColor);
 
-  // Print type of
-  console.log(content, typeof content);
-
   return (
     <div className="flex flex-auto h-24 px-2 pt-3 pb-2 bg-white border border-gray-200 rounded-3xl shadow flex flex-col justify-center items-start">
       <div className="flex-grow-0">

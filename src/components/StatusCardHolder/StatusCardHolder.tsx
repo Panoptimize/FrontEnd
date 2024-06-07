@@ -1,18 +1,16 @@
 import React from 'react'
-import { IStatusCardHolder } from './types'
 import { IStatusCard } from '../StatusCard/types';
 import { getStatus } from '../../services/status/getStatus';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import StatusCard from '../StatusCard/StatusCard';
 
-const StatusCardHolder: React.FC<IStatusCardHolder> = ({instanceId}) => {
+const StatusCardHolder: React.FC = () => {
 
     const [status, setStatus] = useState<IStatusCard[]>([]);
 
-    
     const getAgentsStatus = async () => {
-        const result = await getStatus(instanceId);
+        const result = await getStatus();
         if (result.error) {
           console.error(result.error);
         } else {
