@@ -102,22 +102,6 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
                 ></Button>
               </div>
             </Link>
-
-            <Link
-              to={ROUTES.HISTORY}
-              className="w-full"
-              onClick={() => handleButtonClick(ROUTES.HISTORY)}
-            >
-              <div className="my-1 flex flex-auto">
-                <Button
-                  baseColor={
-                    activeButton === ROUTES.HISTORY ? "teal" : "transparent"
-                  }
-                  image="History.svg"
-                  text={expanded ? "History" : ""}
-                ></Button>
-              </div>
-            </Link>
           </div>
         </div>
 
