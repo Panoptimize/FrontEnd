@@ -98,7 +98,7 @@ const ActionCenter: React.FC = () => {
         setRows(prevRows => {
           const currentContact = contacts[index];
           // Check if the contact already exists in the current rows
-          const exists = prevRows.some(row => row.agentId.toString() === contacts[index].agentId.toString() );
+          const exists = prevRows.some(row => row.agentId === contacts[index].agentId && row.initiationHour === contacts[index].initiationHour);
           if (!exists) {
             const now = new Date();
             sessionStorage.setItem(`startTime-${contacts[index].agentId}`, now.getTime().toString());
