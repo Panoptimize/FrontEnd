@@ -5,4 +5,4 @@ export { History } from "./History";
 export { Settings } from "./Settings";
 export { Loading } from "./Loading";
 export { Login } from "./Login";
-
+export { PasswordReset } from "./PasswordReset";
