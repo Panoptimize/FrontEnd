@@ -10,21 +10,32 @@ const ActionCenter: React.FC = () => {
   const [status, setStatus] = useState<IStatusCard[]>([]);
 
     
+  // const getAgentsStatus = async () => {
+  //     await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848")
+  //     .then((res) => {
+  //       if (res && res.data) {
+  //         setStatus(res.data)
+  //       }
+  //     })
+  //     .catch((err) => {
+  //         console.log(err)
+  //     })
+  // };
+
   const getAgentsStatus = async () => {
-      await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848")
-      .then((res) => {
-        if (res && res.data) {
-          setStatus(res.data)
-        }
-      })
-      .catch((err) => {
-          console.log(err)
-      })
+    console.log('entre')
+    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
+    console.log(result, 'res');
+    if (result?.error) {
+      console.error(result.error);
+    } else {
+      setStatus(result?.data);
+    }
   };
 
   useEffect(()=> {
       getAgentsStatus();
-  })
+  }, [])
 
 
 

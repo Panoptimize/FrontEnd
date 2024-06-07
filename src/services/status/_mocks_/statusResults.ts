@@ -7,15 +7,15 @@ export const mockStatusCard : IStatusCard[] = [
         numUsers: 33
     },
     {
+        status: 'AGENTS_ONLINE',
+        numUsers: 2
+    },
+    {
         status: 'AGENTS_AVAILABLE',
         numUsers: 2
     },
     {
         status: 'AGENTS_OFFLINE',
-        numUsers: 2
-    },
-    {
-        status: 'AGENTS_ONLINE',
         numUsers: 31
     },
 
