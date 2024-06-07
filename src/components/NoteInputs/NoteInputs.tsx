@@ -16,7 +16,6 @@ import { createNote } from "../../services/notes/createNote";
 
 const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, title, text, closeWindow }) => {
 
-  //const [editedNote, setEditedNote] = useState<INote>();
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
 
   const nameRef = useRef<TextInputRef>(null);
@@ -45,11 +44,8 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
     } else {
       setIsEmpty(false);
       await updateNote(editedNote, id).then((data) => {
-        if(closeWindow){
+        if(closeWindow)
           closeWindow();
-        } else {
-          console.log("NO CLOSE WINDOW")
-        }
       }).catch((error) => {
         console.error(error)
       });
@@ -64,7 +60,6 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
 
   const eraseNote = async(id: number) => {
     await deleteNote(id).then((data) => {
-      console.log("NOTE DELETED")
       if(closeWindow){
         closeWindow();
       }
@@ -78,9 +73,6 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
       setIsEmpty(true);
     }
     else{
-      console.log("AQUI SI LLEGO")
-      console.log(metrics)
-      console.log(agentId)
       if(metrics && agentId){
         setIsEmpty(false);
         const newNote:INote = {
@@ -103,7 +95,6 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
         }
         console.log(noteToCreate)
         await createNote(noteToCreate).then((data) => {
-          console.log("NOTE CREATED")
           if(closeWindow){
             closeWindow();
           }
