@@ -2,6 +2,10 @@ import { screen, render, cleanup } from "@testing-library/react";
 import AgentTableRow from "../AgentTableRow";
 import { IAgentTableRow } from "../types";
 
+afterEach(() => {
+  cleanup();
+});
+
 jest.mock("../../NoteCard", () => ({
   NoteCard: () => <div data-testid="notecard" />,
 }));
@@ -26,10 +30,6 @@ jest.mock("../../Pill", () => ({
   Pill: ({ title }: { title: string }) => <div data-testid="pill">{title}</div>,
 }));
 
-afterEach(() => {
-  cleanup();
-});
-
 describe("Agent table row component", () => {
   const renderComponent = (props: IAgentTableRow) =>
     render(
@@ -50,12 +50,15 @@ describe("Agent table row component", () => {
     id: "1",
   };
 
-  test("The Agent table row renders correctly with types", async () => {
+  test("Renders without crashing", () => {
     renderComponent(props);
     expect(screen.getByText("Agent name")).toBeInTheDocument();
     expect(screen.getByTestId("pill")).toHaveTextContent("Workspace 1");
     expect(screen.getByText("Workspace 2")).toBeInTheDocument();
     expect(screen.getByText("Yesterday")).toBeInTheDocument();
     expect(screen.getByTestId("notecard")).toBeInTheDocument();
+    expect(screen.getByTestId("agentcard")).toHaveTextContent(
+      "1 Agent name Workspace 1",
+    );
   });
 });
