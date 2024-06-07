@@ -15,6 +15,8 @@ import { ICustomerSatisfaction } from "./types";
 import { TimeFrameSelector } from "../../components/TimeFrameSelector";
 import { getFilters } from "../../services/dashboard/getFilters";
 import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
+import { ChoiceBoxSelect } from "../../components/ChoiceBoxes/ChoiceBoxSelect";
+
 import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
 
@@ -27,7 +29,8 @@ export const Dashboard: React.FC = () => {
   const [startDate, setStartDate] = useState<string>(new Date(new Date().setHours(0, 0, 0, 0)).toISOString());
   const [endDate, setEndDate] = useState<string>(new Date().toISOString());
   const [status, setStatus] = useState<IStatusCard[]>([]);
-  const [kpiData, setKpiData] = useState<MetricResponse | null>(null);
+  const [kpiData, setKpiData] = useState<MetricResponse>();
+  const [workspace, setWorkspace] = useState<Option | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
   const [limit, setLimit] = useState<number>(90);
   //const [contactMediumData, setContactMediumData] = useState<number[]>([]);
@@ -65,6 +68,7 @@ export const Dashboard: React.FC = () => {
         label: workspace.name
       }));
       setWorkspaces(workspaces);
+      console.log("Workspaces:", workspaces);
     } catch (error) {
       console.error("Error fetching filters:", error);
     }
@@ -112,17 +116,19 @@ export const Dashboard: React.FC = () => {
     console.log(workspaces);
     
     try {
-      console.log(routingProfile);
       const data = await getDownload(
         startDate,
         endDate,
-        routingProfile
+        routingProfiles
       );
       console.log(data);
     } catch (error) {
       console.error("Error al obtener datos de descarga:", error);
     }
   }
+  const handleSelect = (workspace: Option) => {
+    setWorkspace(workspace);
+  };
 
 
   useEffect(() => {
