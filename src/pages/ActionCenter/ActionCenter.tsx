@@ -36,7 +36,6 @@ const formatTime = (totalSeconds: number): string => {
 const ActionCenter: React.FC = () => {
   // State variables
   const { setNotifications } = useOutletContext<{ setNotifications: (notifications: Notification[]) => void }>();
-    const [status, setStatus] = useState<IStatusCard[]>([]);
     const [rows, setRows] = useState<IRowAC[]>(() => {
       // Load rows from session storage or set to default if not available
       const savedRows = sessionStorage.getItem('rows');
@@ -45,23 +44,6 @@ const ActionCenter: React.FC = () => {
     const [agents, setAgents] = useState<IAgent[]>([]);
     const [contactsFetched, setContactsFetched] = useState(false);
     const prevNegativeRows = useRef<Set<string>>(new Set());
-  
-  // Functions
-    // Fetch agents status
-  const getAgentsStatus = async () => {
-    console.log('entre')
-    const result = await getStatus();
-    console.log(result, 'res');
-    if (result?.error) {
-      console.error(result.error);
-    } else {
-      setStatus(result?.data);
-    }
-  };
-
-  useEffect(()=> {
-      getAgentsStatus();
-  }, [])
 
     // Fetch agents list
     const fetchAgents = async () => {
@@ -161,7 +143,6 @@ const ActionCenter: React.FC = () => {
         // Fetch status and agents only once
           useEffect(() => {
             const fetchInitialData = async () => {
-                await getAgentsStatus();
                 await fetchAgents();
             };
             fetchInitialData();
@@ -226,13 +207,7 @@ const ActionCenter: React.FC = () => {
                     <p className="text-gray-600 pt-4 px-4 text-lg" data-testid="txt-agentStatus">Agents Status</p>
                 </div>
                 <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
-                {status.map((item, index) => (
-                        <StatusCard 
-                          key={index}
-                          status={item.status}
-                          numUsers={item.numUsers}
-                        />
-                      ))}
+                <StatusCardHolder />
                 </div>
                 <div className="font-poppins px-6">
                     <div className="flex justify-between"> 
