@@ -3,8 +3,6 @@ import { INoteCard } from "./types";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 import { Pill } from "../Pill";
-import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
-import { TextInput } from "../TextInput";
 import { NoteInputs } from "../NoteInputs";
 import { IAgentPerformance } from "../../pages/types";
 import { getAgentPerformanceByNote } from "../../services/agentPerformance/getAgentPerformanceByNote";
@@ -17,55 +15,55 @@ const NoteCard: React.FC<INoteCard> = ({
   id,
   agentId,
   name,
-  email = "dave_chapelle@gmail.com",
-  username = "chap",
+  // email = "dave_chapelle@gmail.com",
+  // username = "chap",
   metrics,
   area,
-  selectedWorkspaces: initialSelectedWorkspaces = [],
-  availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
-  profileImage,
+  // selectedWorkspaces: initialSelectedWorkspaces = [],
+  // availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
+  // profileImage,
   bttn_color = "transparent",
   signalNotesRow,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [agentPerformance, setAgentPerformance] = useState<IAgentPerformance | null>(null);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    username: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   email: "",
+  //   username: "",
+  // });
 
-  const [selectedWorkspaces, setSelectedWorkspaces] = useState<string[]>(
-    initialSelectedWorkspaces || []
-  );
+  // const [selectedWorkspaces, setSelectedWorkspaces] = useState<string[]>(
+  //   initialSelectedWorkspaces || []
+  // );
 
-  const [availableWorkspaces, setAvailableWorkspaces] = useState<string[]>(
-    initialAvailableWorkspaces || []
-  );
+  // const [availableWorkspaces, setAvailableWorkspaces] = useState<string[]>(
+  //   initialAvailableWorkspaces || []
+  // );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({ ...prev, [name]: value }));
+  // };
 
-  const handleSelectWorkspace = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newWorkspace = e.target.value;
-    if (!selectedWorkspaces.includes(newWorkspace)) {
-      setSelectedWorkspaces((prev) => [...prev, newWorkspace]);
-    }
-  };
+  // const handleSelectWorkspace = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const newWorkspace = e.target.value;
+  //   if (!selectedWorkspaces.includes(newWorkspace)) {
+  //     setSelectedWorkspaces((prev) => [...prev, newWorkspace]);
+  //   }
+  // };
 
-  const handleRemoveWorkspace = (workspaceToRemove: string) => {
-    setSelectedWorkspaces((prev) =>
-      prev.filter((ws) => ws !== workspaceToRemove)
-    );
-  };
+  // const handleRemoveWorkspace = (workspaceToRemove: string) => {
+  //   setSelectedWorkspaces((prev) =>
+  //     prev.filter((ws) => ws !== workspaceToRemove)
+  //   );
+  // };
 
-  const handleSave = () => {
-    console.log("Guardando datos:", formData, selectedWorkspaces);
-    setIsVisible(false);
-  };
+  // const handleSave = () => {
+  //   console.log("Guardando datos:", formData, selectedWorkspaces);
+  //   setIsVisible(false);
+  // };
 
   const handleClose = () => {
     console.log("Signal received from NoteInputs");
@@ -102,7 +100,7 @@ const NoteCard: React.FC<INoteCard> = ({
     if (isVisible && id) {
       getAgentPerformance(id);
     }
-  }, [isVisible, id]);
+  }, [isVisible, id, agentPerformance]);
 
   if (!isVisible)
     return (

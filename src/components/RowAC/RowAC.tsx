@@ -36,10 +36,10 @@ const RowAC: React.FC<IRowAC> = ({ date, currentTime, agentImage, name, status, 
             </td>
             <td>
                 <div className='flex items-center gap-2'>
-                    <img src={agentImage} alt='user' className='w-8 h-8 rounded-full' />
+                    <img src={agentImage} alt='user' className='w-8 h-8 rounded-full border-2 border-green-500' />
                     <div>
                         <p className='font-semibold'>{name}</p>
-                        <p className='text-xs text-gray-500'>
+                        <p className='text-xs text-gray-500 text-left'>
                             <span className='text-green-500'>{status}</span>
                         </p>
                     </div>

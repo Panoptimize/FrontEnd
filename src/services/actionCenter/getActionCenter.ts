@@ -17,7 +17,7 @@ interface SearchContactsDTO {
 
 export const getActionCenter = async (searchContactsDTO: SearchContactsDTO) => {
     try {
-        const response = await httpInstance.post('contacts/search', searchContactsDTO);
+        const response = await httpInstance.post('contact/search', searchContactsDTO);
         if (response.data && response.data.contacts) {
             return response.data.contacts;
         } else {
