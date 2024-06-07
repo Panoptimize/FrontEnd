@@ -34,7 +34,7 @@ export const Dashboard: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
   const [limit, setLimit] = useState<number>(90);
   //const [contactMediumData, setContactMediumData] = useState<number[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  //const [error, setError] = useState<string | null>(null);
 
   const validateCreationDate = () => {
     if (creationDate) {

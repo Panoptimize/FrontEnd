@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { IAgentCard, INotesRow } from "./types";
+import React, { useState } from "react";
+import { IAgentCard } from "./types";
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 import { Pill } from "../Pill";
 import { DataCard } from "../DataCard";
-import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
-import { NotesRow } from "../NotesRow";
 import NoteCard from "../NoteCard/NoteCard";
 import { NotesTable } from "../NotesTable";
-import { INoteCard } from "../NoteCard/types";
-import { INotesTable } from "../NotesTable/types";
 import { getAgentNotes } from "../../services/notes/getAgentNotes";
 import { IAgentPerformance, INoteData } from "../../pages/types";
 import { getAgentId } from "../../services/agentsList/getAgentId";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase";
 
 const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details", //recibe nombre, email, username. Faltan metricas y como jalar 	Workspace	Last Activity y agent id	desde BE (Agent Row)
@@ -28,11 +22,11 @@ const AgentCard: React.FC<IAgentCard> = ({
   //const [agentMetrics, setAgentMetrics] = useState<IAgentPerformance | null>(null);
   const [agentId, setAgentId] = useState<number>();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    username: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   email: "",
+  //   username: "",
+  // });
 
   const metrics:IAgentPerformance = {
     avgAbandonTime: 10,
@@ -41,20 +35,20 @@ const AgentCard: React.FC<IAgentCard> = ({
     avgHoldTime: 25
   }
 
-  const [user, setUser] = useState<any>();
+  //const [user, setUser] = useState<any>();
 
 
   const [notesData, setNotesData] = useState<INoteData[]>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({ ...prev, [name]: value }));
+  // };
 
-  const handleSave = () => {
-    console.log("Guardando datos:", formData, workspace);
-    setIsVisible(false); // Cerrar el modal después de guardar
-  };
+  // const handleSave = () => {
+  //   console.log("Guardando datos:", formData, workspace);
+  //   setIsVisible(false); // Cerrar el modal después de guardar
+  // };
 
   const handleClose = () => {
     setIsVisible(false);
