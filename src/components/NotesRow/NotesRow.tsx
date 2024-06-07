@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { INotesRow } from "./types";
 import NoteCard from "../NoteCard/NoteCard";
 

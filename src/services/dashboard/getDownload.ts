@@ -1,19 +1,17 @@
 import httpInstance from "../httpInstance";
 
 interface DownloadDTO {
-    instanceId: string;
     startDate: string;
     endDate: string;
     routingProfiles: string[];
     queues: string[];
   }
 
-export const getDownload = async (instanceId: string, sDate: string, eDate: string, workspace: string[]) => {
+export const getDownload = async (sDate: string, eDate: string, workspace: string[]) => {
     const endpoint = '/download/getDownload';
     const date = new Date();
 
     const downloadDTO: DownloadDTO = {
-        instanceId,
         startDate: sDate,
         endDate: eDate,
         routingProfiles: workspace,
