@@ -21,14 +21,7 @@ const AgentCard: React.FC<IAgentCard> = ({
   id,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  //const [agentMetrics, setAgentMetrics] = useState<IAgentPerformance | null>(null);
   const [agentId, setAgentId] = useState<number>();
-
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   email: "",
-  //   username: "",
-  // });
 
   const metrics: IAgentPerformance = {
     avgAbandonTime: 10,
@@ -37,15 +30,8 @@ const AgentCard: React.FC<IAgentCard> = ({
     avgHoldTime: 25,
   };
 
-  //const [user, setUser] = useState<any>();
-
   const [notesData, setNotesData] = useState<INoteData[]>([]);
   const [metricsData, setMetricsData] = useState<IMetrics>();
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({ ...prev, [name]: value }));
-  // };
 
   const handleClose = () => {
     setIsVisible(false);

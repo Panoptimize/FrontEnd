@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Button } from "../Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/constants";
-//import myLogo from "../../assets/images/Panoptimize.png";
 import { useAppContext } from "../../store/app-context/app-context";
 
 interface SidebarProps {
