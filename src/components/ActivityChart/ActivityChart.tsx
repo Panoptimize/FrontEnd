@@ -1,7 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { IActivityChart } from './types'; 
+import { IActivityChart } from './types';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -75,15 +75,16 @@ const ActivityChart: React.FC<{ chartData: IActivityChart }> = ({ chartData }) =
   };
 
   return (
-    <div className="bg-white shadow-md rounded-3xl p-1 flex flex-col items-center justify-center w-full max-w-md"
-         style={{ minWidth: "580px", width: "580px", height: "250px" }}>
+    <div className="bg-white shadow-md rounded-3xl p-1 
+      flex flex-col items-center justify-center max-w-md w-[580px] h-[250px]"
+    >
       <div className="text-md text-left pl-6 pt-3 w-full">
         Overall User Activity
       </div>
       <div className="w-full px-4">
         <hr className="border-gray-300 my-2" />
       </div>
-      <div className="flex-grow w-full px-4 py-2" style={{ height: "180px" }}>
+      <div className="flex-grow w-full px-4 py-2 h-44">
         <Line data={data} options={options} />
       </div>
     </div>
