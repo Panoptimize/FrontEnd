@@ -2,7 +2,7 @@ import httpInstance from "../httpInstance";
 
 export const getAuthUser = async () => {
   try {
-    const endpoint = "/supervisor/firebase";
+    const endpoint = "/supervisor/info";
     const response = await httpInstance.get(endpoint);
 
     if (response.status === 200) {
