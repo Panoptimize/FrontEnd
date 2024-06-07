@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { ChoiceBoxRef, IChoiceBox } from "./types";
 import { Priority } from "../../../constants/Priority";
 

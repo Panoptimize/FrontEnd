@@ -1,5 +1,7 @@
+
 import React, { useEffect, useState } from "react";
 import { IAgentCard, IMetrics } from "./types";
+
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 import { Pill } from "../Pill";
@@ -10,6 +12,7 @@ import { getAgentNotes } from "../../services/notes/getAgentNotes";
 import { IAgentPerformance, INoteData } from "../../pages/types";
 import { getAgentId } from "../../services/agentsList/getAgentId";
 import { getAgentMetrics } from "../../services/AgentMetrics/getAgentMetrics";
+
 
 const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details",
@@ -23,11 +26,11 @@ const AgentCard: React.FC<IAgentCard> = ({
   //const [agentMetrics, setAgentMetrics] = useState<IAgentPerformance | null>(null);
   const [agentId, setAgentId] = useState<number>();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    username: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   email: "",
+  //   username: "",
+  // });
 
   const metrics: IAgentPerformance = {
     avgAbandonTime: 10,
@@ -36,16 +39,17 @@ const AgentCard: React.FC<IAgentCard> = ({
     avgHoldTime: 25
   }
 
-  const [user, setUser] = useState<any>();
+  //const [user, setUser] = useState<any>();
 
 
   const [notesData, setNotesData] = useState<INoteData[]>([]);
   const [metricsData, setMetricsData] = useState<IMetrics>();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({ ...prev, [name]: value }));
+  // };
+
 
   const handleSave = () => {
     console.log("Guardando datos:", formData, workspace);

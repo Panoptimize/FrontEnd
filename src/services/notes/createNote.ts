@@ -1,5 +1,5 @@
 import httpInstance from "../httpInstance";
-import { ICreateNote, INote } from "../../pages/types";
+import { ICreateNote } from "../../pages/types";
 
 export const createNote = async (note: ICreateNote) => {
     let res: any;
