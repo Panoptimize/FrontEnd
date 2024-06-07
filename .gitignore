@@ -27,7 +27,3 @@ yarn-error.log*
 
 # Vscode
 .vscode
-package.json
-yarn.lock
-yarn.lock
-package.json
