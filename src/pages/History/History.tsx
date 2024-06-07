@@ -1,10 +1,4 @@
 import React from "react";
-import { AgentCard } from "../../components/AgentCard";
-import { ChoiceBox } from "../../components/ChoiceBoxes/ChoiceBox";
-import { SearchBox } from "../../components/SearchBox";
-import { FeedbackCard } from "../../components/FeedbackCard";
-import { Button } from "../../components/Button";
-import { NotesRow } from "../../components/NotesRow";
 
 const History: React.FC = () => {
   return (
