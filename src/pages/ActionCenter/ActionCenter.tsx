@@ -49,23 +49,6 @@ const ActionCenter: React.FC = () => {
   
   // Functions
     // Fetch agents status
-    const getAgentsStatus = async () => {
-        try {
-            const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-            if (result.error) {
-                throw new Error(result.error);
-            } else {
-                setStatus(result.data); 
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-
-
-  const [status, setStatus] = useState<IStatusCard[]>([]);
-
   const getAgentsStatus = async () => {
     console.log('entre')
     const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
@@ -80,31 +63,6 @@ const ActionCenter: React.FC = () => {
   useEffect(()=> {
       getAgentsStatus();
   }, [])
-
-
-
-  return (
-    <div data-testid= "wrapper-ActionCenter">
-            {/* Title and Active Agents */}
-            <div className="font-poppins pt-6 pb-0 px-6" >
-                  <h1 className="font-semibold text-3xl" data-testid="txt-agentStatus">Agents Status</h1>
-                  <p className="text-gray-600 pt-4 px-4 text-lg">
-                      Agents
-                  </p>
-            </div>
-            <div>
-
-            <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
-                {status.map((item, index) => (
-                        <StatusCard 
-                          key={index}
-                          status={item.status}
-                          numUsers={item.numUsers}
-                        />
-                      ))}
-            </div>
-              
-            </div>
 
     // Fetch agents list
     const fetchAgents = async () => {
@@ -263,16 +221,20 @@ const ActionCenter: React.FC = () => {
 
     // Render component
     return (
-        <div className="flex">
+        <div className="flex" data-testid= "wrapper-ActionCenter">
             <div className="flex flex-col flex-auto">
                 <div className="font-poppins pt-6 pb-0 px-6">
                     <h1 className="font-semibold text-3xl">Action Center</h1>
-                    <p className="text-gray-600 pt-4 px-4 text-lg">Agents</p>
+                    <p className="text-gray-600 pt-4 px-4 text-lg" data-testid="txt-agentStatus">Agents Status</p>
                 </div>
-                <div className="flex flex-row justify-between place-content-evenly space-x-10 mx-6 my-4">
-                    {status.map((item, index) => (
-                        <StatusCard key={index} status={item.status} numUsers={item.numUsers} />
-                    ))}
+                <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
+                {status.map((item, index) => (
+                        <StatusCard 
+                          key={index}
+                          status={item.status}
+                          numUsers={item.numUsers}
+                        />
+                      ))}
                 </div>
                 <div className="font-poppins px-6">
                     <div className="flex justify-between"> 
