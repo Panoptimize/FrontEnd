@@ -7,9 +7,6 @@ const DataCard: React.FC<IDataCard> = ({
   decorator
 }) => {
 
-  // Print type of
-  console.log(content, typeof content)
-
   return (
     <div
       className="h-28 w-44 px-2 pt-3 pb-2 bg-white border border-gray-200 rounded-3xl shadow flex flex-col justify-center items-start">

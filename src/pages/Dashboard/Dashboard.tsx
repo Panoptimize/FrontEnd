@@ -51,10 +51,8 @@ export const Dashboard: React.FC = () => {
   }
 
   const getAgentsStatus = async () => {
-    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-    if (result.error) {
-      console.error(result.error);
-    } else {
+    const result = await getStatus();
+    if (result && result.data) {
       setStatus(result.data);
     }
   };
