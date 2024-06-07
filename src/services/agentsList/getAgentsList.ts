@@ -2,7 +2,6 @@ import httpInstance from '../httpInstance';
 import { IAgent, IAgentResponse } from '../../components/AgentTable/types';
 
 
-
 export const getAgentsList = async (): Promise<IAgent[]> => {
 
 

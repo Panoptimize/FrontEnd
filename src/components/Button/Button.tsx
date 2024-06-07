@@ -11,7 +11,7 @@ const Button: React.FC<IButton> = ({
 }) => {
   // Using only SVG files for icons
   const isSvg = image?.endsWith(".svg");
-  if (!isSvg) {
+  if (image && !isSvg) {
     console.error("Only SVG files are supported for the image prop.");
     return null;
   }

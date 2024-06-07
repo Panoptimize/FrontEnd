@@ -61,6 +61,9 @@ const SatisfactionChart: React.FC<ISatisfactionChart> = ({
       <div className="text-md pt-2 px-3 pb-2 font-semibold">
         Customer Satisfaction
       </div>
+      <div className="px-4">
+        <hr className="border-gray-300 my-2" />
+      </div>
       <div className="flex-auto py-3 px-5">
         <Doughnut data={data} options={options} />
       </div>

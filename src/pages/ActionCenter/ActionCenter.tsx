@@ -1,8 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import { StatusCard } from '../../components/StatusCard'
+import React, { useState, useEffect, useRef } from "react";
+import { StatusCard } from "../../components/StatusCard";
 import { getStatus } from '../../services';
 import { IStatusCard } from '../../components/StatusCard/types';
 
+import { IRowAC } from "../../components/RowAC/types";
+import { TableAC } from "../../components/TableAC";
+import { getActionCenter } from '../../services/actionCenter/getActionCenter';
+import { getAgentsList } from '../../services/agentsList/getAgentsList';
+import { IAgent } from "../../components/AgentTable/types";
+import { useOutletContext } from "react-router-dom";
+import { Notification } from "../../components/Topbar/types";
+import StatusCardHolder from '../../components/StatusCardHolder/StatusCardHolder';
+
+// Function to update temperatures simulating real-time data from contact lens
+const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
+    const temperatures = ['Positive', 'Neutral', 'Negative'];
+    const getRandomElement = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+
+    return rows.map(row => ({
+        ...row,
+        temperature: getRandomElement(temperatures),
+    }));
+};
+
+
+// Function to format time in HH:MM:SS format
+const formatTime = (totalSeconds: number): string => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor(totalSeconds % 3600 / 60);
+    const seconds = totalSeconds % 60;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+};
+
+// Main component
 const ActionCenter: React.FC = () => {
   // State variables
   const { setNotifications } = useOutletContext<{ setNotifications: (notifications: Notification[]) => void }>();
@@ -153,30 +183,74 @@ const ActionCenter: React.FC = () => {
 
       // Use useEffect to start the timer when the component mounts
       useEffect(() => {
-   
-        getAgentsStatus();
-    }, []);
+        const interval = setInterval(updateTimer, 1000);
+        return () => clearInterval(interval); // Cleanup on unmount
+      }, []);
 
-  return (
-    <div>
-            {/* Title and Active Agents */}
-            <div className="font-poppins pt-6 pb-0 px-6">
-                  <h1 className="font-semibold text-3xl">
-                      Action Center
-                  </h1>
-                  <p className="text-gray-600 pt-4 px-4 text-lg">
-                      Agents
-                  </p>
-            </div>
-            <div className="flex flex-row justify-between items-stretch w-full px-20">
+      // Update notifications when a new negative temperature is detected
+      useEffect(() => {
+        const interval = setInterval(() => {
+            setRows(prevRows => {
+                const newRows = updateTemperatures(prevRows);
+                const newNegativeRows = new Set(newRows.filter(row => row.temperature === 'Negative').map(row => row.agentId));
+                const prevNegativeRowsSet = prevNegativeRows.current;
+                const newNotifications = Array.from(newNegativeRows)
+                    .filter(agentId => !prevNegativeRowsSet.has(agentId))
+                    .map(agentId => {
+                        const agent = newRows.find(row => row.agentId === agentId)?.name || 'Unknown Agent';
+                        const timestamp = new Date().toLocaleString();
+                        return { agentName: agent, timestamp };
+                    });
+
+                if (newNotifications.length > 0) {
+                    setNotifications(newNotifications);
+                }
+
+                prevNegativeRows.current = newNegativeRows;
+                return newRows;
+            });
+        }, 15000);
+        return () => clearInterval(interval);
+    }, [setNotifications]);
+
+    // Filter rows based on temperature
+    const highTemperatureRows = rows.filter(row => row.temperature === 'Negative');
+    const otherTemperatureRows = rows.filter(row => row.temperature !== 'Negative');
+
+    // Render component
+    return (
+        <div className="flex" data-testid= "wrapper-ActionCenter">
+            <div className="flex flex-col flex-auto">
+                <div className="font-poppins pt-6 pb-0 px-6">
+                    <h1 className="font-semibold text-3xl">Action Center</h1>
+                    <p className="text-gray-600 pt-4 px-4 text-lg" data-testid="txt-agentStatus">Agents Status</p>
+                </div>
+                <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
                 {status.map((item, index) => (
-                    <StatusCard key={index} status={item.status} numUsers={item.numUsers} />
-                ))}
-        
+                        <StatusCard 
+                          key={index}
+                          status={item.status}
+                          numUsers={item.numUsers}
+                        />
+                      ))}
+                </div>
+                <div className="font-poppins px-6">
+                    <div className="flex justify-between"> 
+                          <p className="text-gray-600 pt-2 px-4 text-lg">Help Needed</p>
+                          <button onClick={handleReset}>
+                              <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Refresh.svg" alt="Reset" className="h-6 w-6 ml-4 text-gray-600 fill-current"/>
+                          </button>
+                    </div>
+                    
+                    <TableAC rows={highTemperatureRows} />
+                </div>
+                <div className="font-poppins px-6">
+                    <p className="text-gray-600 pt-2 px-4 text-lg">Current Agents</p>
+                    <TableAC rows={otherTemperatureRows} />
+                </div>
             </div>
-
-    </div>
-  )
+        </div>
+    );
 }
 
-export default ActionCenter
+export default ActionCenter;

@@ -1,7 +1,6 @@
 import React from "react";
 import { IPill } from "./types";
 import "./Pill.css";
-import { Button } from "../Button";
 
 const Pill: React.FC<IPill> = ({ title, icon }) => {
   const isIcon = icon?.endsWith(".svg");
