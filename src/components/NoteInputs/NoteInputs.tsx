@@ -3,7 +3,7 @@ import { Button } from "../Button";
 import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
 import { TextInput } from "../TextInput";
 import { useRef, useState } from "react";
-import { IAgentPerformance, IAgentPerformanceData, ICreateNote, INote } from "../../pages/types";
+import { IAgentPerformanceData, ICreateNote, INote } from "../../pages/types";
 import { updateNote } from "../../services/notes/updateNote";
 import { TextInputRef } from "../TextInput/types";
 import { Priority } from "../../constants/Priority";
@@ -16,7 +16,7 @@ import { createNote } from "../../services/notes/createNote";
 
 const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, title, text, closeWindow }) => {
 
-  const [editedNote, setEditedNote] = useState<INote>();
+  //const [editedNote, setEditedNote] = useState<INote>();
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
 
   const nameRef = useRef<TextInputRef>(null);
@@ -40,7 +40,7 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
   }
 
   const editNote = async (id: number, editedNote: INote) => {
-    if(nameRef.current?.getValue() == "" || nameRef.current?.getValue() == undefined){
+    if(nameRef.current?.getValue() === "" || nameRef.current?.getValue() === undefined){
       setIsEmpty(true);
     } else {
       setIsEmpty(false);
@@ -74,7 +74,7 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
   };
 
   const creatingNote = async () => {
-    if(nameRef.current?.getValue() == "" || nameRef.current?.getValue() == undefined){
+    if(nameRef.current?.getValue() === "" || nameRef.current?.getValue() === undefined){
       setIsEmpty(true);
     }
     else{

@@ -12,7 +12,6 @@ import { useOutletContext } from "react-router-dom";
 import { Notification } from "../../components/Topbar/types";
 import StatusCardHolder from '../../components/StatusCardHolder/StatusCardHolder';
 
-
 // Function to update temperatures simulating real-time data from contact lens
 const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
     const temperatures = ['Positive', 'Neutral', 'Negative'];
@@ -132,7 +131,6 @@ const ActionCenter: React.FC = () => {
             const date = initiationDate.toLocaleDateString();
             const initiationHour = initiationDate.toLocaleTimeString();
             const currentTime = "00:00:00"; // Set initial value to 00:00:00
-
 
             return {
                 date,

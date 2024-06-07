@@ -34,7 +34,7 @@ export const Dashboard: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
   const [limit, setLimit] = useState<number>(90);
   //const [contactMediumData, setContactMediumData] = useState<number[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  //const [error, setError] = useState<string | null>(null);
 
   const validateCreationDate = () => {
     if (creationDate) {
@@ -144,8 +144,9 @@ export const Dashboard: React.FC = () => {
   }, [startDate, endDate, selectedOptions]);
 
   return (
-    <div className="flex w-full h-fit flex-col" data-testid= "wrapper-Dashboard">
+    <div className="flex w-full h-fit flex-col">
       <div className="font-poppins pt-6 px-6">
+
         <h1 className="font-semibold text-3xl">Dashboard</h1>
         <p className="text-gray-600 pt-2 text-lg">Agents Status</p>
         <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
