@@ -20,3 +20,8 @@ export interface ITopbar {
      */
     numberOfNotifications? : number
 }
+
+export interface Notification {
+    agentName: string;
+    timestamp: string;
+}

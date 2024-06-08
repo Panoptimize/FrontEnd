@@ -1,10 +1,11 @@
 import httpInstance from "../httpInstance";
 import { IStatusCard } from "../../components/StatusCard/types";
-import { IStatus } from "../../pages/Dashboard/types";
+import { IGetStatus } from "../../pages/Dashboard/types";
 
-export const getStatus = async (instanceId: string) => {
+export const getStatus = async () => {
     try {
-        const response = await httpInstance.get(`status?instanceId=${instanceId}`);
+        const endpoint = "/status/"
+        const response = await httpInstance.get(endpoint);
         const processedData = processMetrics(response.data);
         return { data: processedData, error: null };
     } catch (err) {
@@ -13,7 +14,7 @@ export const getStatus = async (instanceId: string) => {
     }
 }
 
-const processMetrics = (data: MetricData): IStatusCard[] => {
+const processMetrics = (data: IGetStatus): IStatusCard[] => {
     if (data && Array.isArray(data)) {
         return data.map(item => ({
             status: item.metricName,  
@@ -25,10 +26,3 @@ const processMetrics = (data: MetricData): IStatusCard[] => {
 }
 
 export default getStatus;
-
-
-interface MetricData {
-    MetricResults: Array<{
-        Collections: IStatus[];
-    }>;
-}

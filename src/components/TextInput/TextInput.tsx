@@ -6,7 +6,7 @@ export const TextInput = forwardRef<TextInputRef, ITextInput>(({
   placeholder,
   icon,
   size,
-  text, // Default value for the text prop
+  text, 
 }, ref) => {
   const [inputValue, setInputValue] = useState(text);
 
@@ -33,6 +33,7 @@ export const TextInput = forwardRef<TextInputRef, ITextInput>(({
         {icon && (
           <img
             src={icon}
+            alt="Icon"
             className={`absolute left-2 top-2 ${iconSizeClass}`}
           />
         )}

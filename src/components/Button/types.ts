@@ -10,7 +10,6 @@ export interface IButton {
    * The images should be added into this list as they're needed.
    */
   image?: string;
-
   /**
    * The thickness of the text of the button.
    */
@@ -25,9 +24,12 @@ export interface IButton {
    * Goes from 0-100 with 0 being not inverted at all, and 100 being completely inverted.
    */
   inverted?: number;
+  /**
+   * Whether the button is selected or not.
+   */
   isSelected?: boolean;
   /**
    * Function to handle click events.
    */
-  onClick?: () => void; // Añadir esta línea
+  onClick?: () => void;
 }

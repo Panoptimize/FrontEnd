@@ -3,7 +3,7 @@ import NotesRow from "../NotesRow/NotesRow";
 import { SortConfig, INotesTable } from "./types";
 
 const NotesTable: React.FC<INotesTable> = ({ name, area, notesData, signalToAgentCard }) => {
-  const [notes, setNotes] = useState(notesData);
+  //const [notes, setNotes] = useState(notesData);
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
 
    //Order for the sort methods to order priority from low to high and vicecersa. 
@@ -70,7 +70,7 @@ const NotesTable: React.FC<INotesTable> = ({ name, area, notesData, signalToAgen
 
 
   return (
-    <div className="flex flex-auto flex-col">
+    <div className="flex flex-auto flex-col" data-testid="notes_table">
       <div className="flex flex-row items-center justify-between pr-3">
         <h1
           className="ml-2 font-bold cursor-pointer hover:underline"
@@ -112,6 +112,7 @@ const NotesTable: React.FC<INotesTable> = ({ name, area, notesData, signalToAgen
             updateDate={formattedDate}
             description={note.description}
             signalToNotesTable={receivedSignal}
+            data-testid="notes_row"
           />
           );
         })}

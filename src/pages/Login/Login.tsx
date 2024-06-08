@@ -4,7 +4,7 @@ import Password from "../../assets/images/password.png";
 import Logo from "../../assets/images/PanoptimizeBlue.png";
 import React, { useState } from "react";
 import { useAppContext } from "../../store/app-context/app-context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/constants";
 
 const Login = () => {
@@ -98,6 +98,12 @@ const Login = () => {
                   Log In
                 </button>
               </form>
+              <Link
+                to={ROUTES.PASSWORD_RESET}
+                className="block text-blue-500 mt-2 text-sm text-center hover:underline"
+              >
+                Forgot your password?
+              </Link>
             </div>
           </div>
         </div>

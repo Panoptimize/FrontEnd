@@ -31,24 +31,22 @@ export const Default = Template.bind({});
 Default.args = {
     rows: [
         {
-            callstatus: '00:04:15',
+            currentTime: '00:04:15',
             agentImage: 'https://randomuser.me/api/portraits/women/48.jpg',
             name: 'Olivia',
             status: 'Online',
-            workspace1: 'Sales',
-            workspace2: 'Delivery',
-            workHours: '04:32:13',
-            alarm: true,
+            agentId: '12345-67890-ABCD',
+            temperature: 'Low',
+            channel: 'Voice',
         },
         {
-            callstatus: '00:10:22',
-            agentImage: 'https://randomuser.me/api/portraits/men/32.jpg',
-            name: 'John',
-            status: 'Offline',
-            workspace1: 'Support',
-            workspace2: 'Development',
-            workHours: '03:21:44',
-            alarm: false,
+            currentTime: '00:04:15',
+            agentImage: 'https://randomuser.me/api/portraits/women/48.jpg',
+            name: 'Olivia',
+            status: 'Online',
+            agentId: '12345-67890-ABCD', // Ejemplo de ID alfanumérico de 15 caracteres
+            temperature: 'High',
+            channel: 'Voice',
         },
     ],
 };

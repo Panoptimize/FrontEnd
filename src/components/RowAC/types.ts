@@ -1,8 +1,18 @@
 export interface IRowAC {
     /**
-     * Status of the call
+     * Current time counter
      */
-    callstatus: string;
+    currentTime?: string;
+
+    /**
+     * Date of the call status update
+     */
+    date?: string;
+
+    /**
+     * Time of the call status update
+     */
+    initiationHour?: string;
 
     /**
      * Image of the agent
@@ -12,7 +22,7 @@ export interface IRowAC {
     /**
      * Name of the agent
      */
-    name: string;
+    name?: string;
 
     /**
      * Status of the agent
@@ -20,21 +30,17 @@ export interface IRowAC {
     status: string;
 
     /**
-     * Workspace 1 of the agent
+     * Agent identifier
      */
-    workspace1: string;
+    agentId: string;  // Nuevo atributo para identificador del agente
 
     /**
-     * Workspace 2 of the agent
+     * Temperature level of the interaction
      */
-    workspace2?: string;
+    temperature?: string;
+
     /**
-     * Work hours of the agent
+     * Type of channel of the interaction
      */
-    workHours: string;
-    
-    /**
-     * Alarm status of the agent
-     */
-    alarm: boolean;
+    channel: string;
 }

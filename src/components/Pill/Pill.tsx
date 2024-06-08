@@ -1,12 +1,11 @@
 import React from "react";
 import { IPill } from "./types";
 import "./Pill.css";
-import { Button } from "../Button";
 
 const Pill: React.FC<IPill> = ({ title, icon }) => {
   const isIcon = icon?.endsWith(".svg");
   if (icon && !isIcon) {
-    console.error("simple pill");
+    // console.error("simple pill");
     return null;
   }
 
@@ -20,7 +19,8 @@ const Pill: React.FC<IPill> = ({ title, icon }) => {
               className="img"
               src={require(`../../assets/images/${icon}`)}
               alt={icon}
-            ></img>
+              datatest-id="img-pill"
+            />
           </button>
         )}
       </div>

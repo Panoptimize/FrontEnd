@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { INotesRow } from "./types";
 import NoteCard from "../NoteCard/NoteCard";
 
@@ -24,11 +24,11 @@ const NotesRow: React.FC<INotesRow> = ({ id, name, area, title, priority, update
   };
 
   return (
-    <div>
+    <div data-testid="notes_row">
       <table className="w-full table-auto">
         <td className="align-middle w-full">
           <div className="flex items-center w-full mr-2 overflow-x-clip">
-            <p>{title}</p>
+            <p data-testid="notes_row_name">{title}</p>
           </div>
         </td>
         <td className="align-middle flex flex-auto">
