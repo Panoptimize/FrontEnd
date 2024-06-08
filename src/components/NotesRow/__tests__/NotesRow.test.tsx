@@ -7,7 +7,7 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe("NotesRow Component", () => {
+describe("NotesRow", () => {
   const renderComponent = (props: INotesRow) =>
     render(<NotesRow {...props} data-testid="notes_row" />);
 
