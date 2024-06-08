@@ -141,8 +141,8 @@ export const Dashboard: React.FC = () => {
     <div className="flex w-full h-fit flex-col">
       <div className="font-poppins pt-6 px-6">
 
-        <h1 className="font-semibold text-3xl">Dashboard</h1>
-        <p className="text-gray-600 pt-2 text-lg">Agents Status</p>
+        <h1 className="font-semibold text-3xl" datatest-id="dashH">Dashboard</h1>
+        <p className="text-gray-600 pt-2 text-lg" datatest-id="agentStatus">Agents Status</p>
         <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">
           <StatusCardHolder />
         </div>
