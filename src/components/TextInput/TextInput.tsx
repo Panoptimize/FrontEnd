@@ -6,7 +6,7 @@ export const TextInput = forwardRef<TextInputRef, ITextInput>(({
   placeholder,
   icon,
   size,
-  text, // Default value for the text prop
+  text, 
 }, ref) => {
   const [inputValue, setInputValue] = useState(text);
 
