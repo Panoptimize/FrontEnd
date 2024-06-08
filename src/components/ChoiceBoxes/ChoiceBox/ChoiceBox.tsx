@@ -6,6 +6,10 @@ const ChoiceBox = forwardRef<ChoiceBoxRef, IChoiceBox>(({ boxText, options, chos
 
   const selectRef = useRef<HTMLSelectElement>(null);
 
+  if (!options || options.length === 0) {
+    throw new Error("Options are required for ChoiceBox");
+  }
+
   useImperativeHandle(ref, () => ({
     getValue: () => {
       const value = selectRef.current ? selectRef.current.value : 'low'
