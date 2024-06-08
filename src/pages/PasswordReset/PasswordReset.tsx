@@ -45,6 +45,7 @@ const PasswordReset = () => {
                   <label
                     htmlFor="email"
                     className="block text-gray-700 font-bold mb-2"
+                    data-testid="email-label"
                   >
                     Email:
                   </label>
@@ -58,6 +59,7 @@ const PasswordReset = () => {
                       onChange={(e) => setResetEmail(e.target.value)}
                       placeholder="Enter your email to reset password"
                       className="pl-10 w-full px-3 py-2 border border-gray-300 rounded focus:outline-blue-400"
+                      data-testid="email-input"
                     />
                   </div>
                 </div>
