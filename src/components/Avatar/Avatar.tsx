@@ -101,8 +101,8 @@ const Avatar: React.FC<IAvatar> = ({
         if(size_img(size) === 100){
             if(state){
                 return(
-                    <div className='rounded-full flex items-center justify-center' style={{backgroundColor: st_color(state_color), backgroundSize: 'cover', height:size_state(size), width:size_state(size)}}>
-                        <div className='relative rounded-full' style={{height:size_img(size), width:size_img(size)}}>
+                    <div className='rounded-full flex items-center justify-center' style={{backgroundColor: st_color(state_color), backgroundSize: 'cover', height:size_state(size), width:size_state(size)}} data-testid="Avatar">
+                        <div className='relative rounded-full' style={{height:size_img(size), width:size_img(size)}} >
                             <img src={profile_img} alt='img' className='rounded-full h-full w-full'/> 
                         </div>
                         <div className='absolute rounded-full h-8 w-8 ml-20 mt-20 items-center justify-center' style={{backgroundColor: st_color(state_color), padding: 0}}>
@@ -112,7 +112,7 @@ const Avatar: React.FC<IAvatar> = ({
                 )                 
             }else{
                 return(
-                    <div className='relative' style={{height:size_img(size), width:size_img(size), borderRadius:sq(square_border) , overflow: 'hidden'}}>
+                    <div className='relative' style={{height:size_img(size), width:size_img(size), borderRadius:sq(square_border) , overflow: 'hidden'}} data-testid="Avatar">
                         <img src={profile_img} alt='img' className='h-full w-full' style={{borderRadius:sq(square_border), overflow: 'hidden'}}/> 
                     </div>
                 ) 
@@ -121,7 +121,7 @@ const Avatar: React.FC<IAvatar> = ({
         else if (size_img(size) === 40){
             if(state){
                 return(
-                    <div className='rounded-full flex items-center justify-center' style={{backgroundColor: st_color(state_color), backgroundSize: 'cover', height:size_state(size), width:size_state(size)}}>
+                    <div className='rounded-full flex items-center justify-center' style={{backgroundColor: st_color(state_color), backgroundSize: 'cover', height:size_state(size), width:size_state(size)}} data-testid="Avatar">
                         <div className='relative rounded-full' style={{height:size_img(size), width:size_img(size)}}>
                             <img src={profile_img} alt='img' className='rounded-full h-full w-full'/> 
                         </div>
@@ -133,7 +133,7 @@ const Avatar: React.FC<IAvatar> = ({
     
             }else{
                 return(
-                    <div className='relative' style={{height:size_img(size), width:size_img(size), borderRadius:sq(square_border) , overflow: 'hidden'}}>
+                    <div className='relative' style={{height:size_img(size), width:size_img(size), borderRadius:sq(square_border) , overflow: 'hidden'}} data-testid="Avatar">
                         <img src={profile_img} alt='img' className='h-full w-full' style={{borderRadius:sq(square_border), overflow: 'hidden'}}/> 
                     </div>
                 )

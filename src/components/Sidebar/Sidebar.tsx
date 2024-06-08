@@ -22,19 +22,15 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
   };
   const width = expanded ? "w-56" : "w-14";
 
-  // Get the current location
   const location = useLocation();
 
-  // Logic for sidebar active link
   const [activeButton, setActiveButton] = useState<string>(ROUTES.DASHBOARD);
 
-  // Handle button click
   const handleButtonClick = (route: string) => {
     setActiveButton(route);
     localStorage.setItem("activeButton", route);
   };
 
-  // Restore active button state from localStorage when the component mounts
   useEffect(() => {
     const savedActiveButton = localStorage.getItem("activeButton");
     if (savedActiveButton) {
@@ -42,7 +38,6 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
     }
   }, []);
 
-  // Update the active button based on the location
   useEffect(() => {
     setActiveButton(location.pathname);
   }, [location.pathname]);
@@ -50,6 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
   return (
     <div
       className={`${width} flex flex-auto h-[calc(100vh-65px)] px-2 justify-center bg-white border-r`}
+      data-testid="width_test"
     >
       <div className="flex flex-col flex-auto justify-between">
         <div className="flex flex-col my-1 justify-start">
@@ -58,6 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
               to={ROUTES.DASHBOARD}
               className="w-full"
               onClick={() => handleButtonClick(ROUTES.DASHBOARD)}
+              data-testid="dashboard_link"
             >
               <div className="my-1 flex flex-grow justify-center">
                 <Button
@@ -66,6 +63,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
                   }
                   image="Dashboard.svg"
                   text={expanded ? "Dashboard" : ""}
+                  data-testid="dashboard_button"
                 ></Button>
               </div>
             </Link>
@@ -73,8 +71,12 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
               to={ROUTES.ACTION_CENTER}
               className="w-full"
               onClick={() => handleButtonClick(ROUTES.ACTION_CENTER)}
+              data-testid="action_center_link"
             >
-              <div className="my-1 flex flex-auto">
+              <div
+                className="my-1 flex flex-auto"
+                data-testid="action_center_button"
+              >
                 <Button
                   baseColor={
                     activeButton === ROUTES.ACTION_CENTER
@@ -90,6 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
               to={ROUTES.AGENTS}
               className="w-full"
               onClick={() => handleButtonClick(ROUTES.AGENTS)}
+              data-testid="agents_link"
             >
               <div className="my-1 flex flex-auto">
                 <Button
@@ -98,34 +101,20 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
                   }
                   image="Agents.svg"
                   text={expanded ? "Agents" : ""}
+                  data-testid="agents_button"
                 ></Button>
               </div>
             </Link>
           </div>
         </div>
-
         <div className="flex flex-col justify-end my-4">
-          <Link
-            to={ROUTES.SETTINGS}
-            className="w-full"
-            onClick={() => handleButtonClick(ROUTES.SETTINGS)}
-          >
-            {/* <div className="my-1 flex flex-auto">
-              <Button
-                baseColor={
-                  activeButton === ROUTES.SETTINGS ? "teal" : "transparent"
-                }
-                image="Gear.svg"
-                text={expanded ? "Settings" : ""}
-              ></Button>
-            </div> */}
-          </Link>
-          <div className="my-1  flex flex-auto">
+          <div className="my-1 flex flex-auto">
             <Button
               baseColor="transparent"
               image="logout.svg"
               text={expanded ? "Log Out" : ""}
               onClick={handleLogout}
+              data-testid="logout_button"
             ></Button>
           </div>
         </div>

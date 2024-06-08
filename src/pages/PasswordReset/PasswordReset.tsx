@@ -1,33 +1,26 @@
 import Background from "../../assets/images/AuthBackground.png";
-import Email from "../../assets/images/email.png";
-import Password from "../../assets/images/password.png";
 import Logo from "../../assets/images/PanoptimizeBlue.png";
+import Email from "../../assets/images/email.png";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import React, { useState } from "react";
-import { useAppContext } from "../../store/app-context/app-context";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ROUTES } from "../../routes/constants";
 
-const Login = () => {
-  const { login } = useAppContext();
-  const navigate = useNavigate();
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
+const PasswordReset = () => {
+  const [resetEmail, setResetEmail] = useState<string>("");
+  const [resetMessage, setResetMessage] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePasswordReset = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const auth = getAuth();
     try {
-      await login(user.email, user.password);
-      navigate(ROUTES.DASHBOARD);
-    } catch (e: any) {
-      setError(e.message);
+      await sendPasswordResetEmail(auth, resetEmail);
+      setResetMessage("Password reset email sent! Check your inbox");
+    } catch (error: any) {
+      setResetMessage(error.message);
+      console.log(error.message);
     }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   return (
@@ -43,15 +36,16 @@ const Login = () => {
               {error && (
                 <p className="text-red-500 mb-4 text-sm font-medium">{error}</p>
               )}
-              <p className="text-xl font-bold">Company name</p>
+              <p className="text-xl font-bold">Password Reset</p>
               <form
-                onSubmit={handleSubmit}
+                onSubmit={handlePasswordReset}
                 className="flex flex-col items-center"
               >
                 <div className="mb-4">
                   <label
                     htmlFor="email"
                     className="block text-gray-700 font-bold mb-2"
+                    data-testid="email-label"
                   >
                     Email:
                   </label>
@@ -61,48 +55,32 @@ const Login = () => {
                     </span>
                     <input
                       type="email"
-                      name="email"
-                      id="email"
-                      placeholder="email@test.com"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      placeholder="Enter your email to reset password"
                       className="pl-10 w-full px-3 py-2 border border-gray-300 rounded focus:outline-blue-400"
-                      onChange={handleChange}
+                      data-testid="email-input"
                     />
                   </div>
                 </div>
-                <div className="mb-4">
-                  <label
-                    htmlFor="password"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Password:
-                  </label>
-                  <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                      <img src={Password} alt="password" className="h-5 w-5" />
-                    </span>
-                    <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="******"
-                      className="pl-10 w-full px-3 py-2 border border-gray-300 rounded focus:outline-blue-400"
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-
                 <button
                   type="submit"
                   className="w-full bg-teal-700 text-white py-2 px-4 rounded-md hover:bg-teal-800 transition-colors duration-300 mt-3"
                 >
-                  Log In
+                  Send reset email
                 </button>
               </form>
+
+              {resetMessage && (
+                <p className="text-center mt-4 text-sm font-medium text-red-500">
+                  {resetMessage}
+                </p>
+              )}
               <Link
-                to={ROUTES.PASSWORD_RESET}
+                to={ROUTES.AUTH}
                 className="block text-blue-500 mt-2 text-sm text-center hover:underline"
               >
-                Forgot your password?
+                Return to login
               </Link>
             </div>
           </div>
@@ -112,4 +90,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default PasswordReset;
