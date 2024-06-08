@@ -19,6 +19,7 @@ import { ChoiceBoxSelect } from "../../components/ChoiceBoxes/ChoiceBoxSelect";
 
 import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
+import { StatusCardHolder } from "../../components/StatusCardHolder";
 
 export const Dashboard: React.FC = () => {
   const [creationDate, setCreationDate] = useState<string>();
@@ -46,18 +47,9 @@ export const Dashboard: React.FC = () => {
         const differenceTime = new Date().getTime() - creationDateObj.getTime();
         setLimit(Math.ceil(differenceTime / (1000 * 3600 * 24)));
         setStartDate(creationDate);
-      } 
+      }
     }
   }
-    
-  const getAgentsStatus = async () => {
-    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-    if (result && result.data) {
-      setStatus(result.data);
-    } else {
-      console.error(result?.error);
-    }
-  };
 
   const fetchFilters = async () => {
     try {
@@ -76,24 +68,24 @@ export const Dashboard: React.FC = () => {
 
   const getKpiData = async () => {
     try {
-        const result = await getKpis({
-            startDate,
-            endDate,
-            routingProfiles: selectedOptions?.map((option) => option.value) ?? [],
-        });
+      const result = await getKpis({
+        startDate,
+        endDate,
+        routingProfiles: selectedOptions?.map((option) => option.value) ?? [],
+      });
 
-        if (result) {
-          setKpiData(result.data);
-          setActivityData({ data: result.data.activities.activities ?? [] });
-          setPerformanceData({ 
-              users: result.data.performanceData?.map(performance => ({
-                  username: performance.agentName,
-                  data: performance.performances
-              })) ?? []
-          });
-        }
+      if (result) {
+        setKpiData(result.data);
+        setActivityData({ data: result.data.activities.activities ?? [] });
+        setPerformanceData({
+          users: result.data.performanceData?.map(performance => ({
+            username: performance.agentName,
+            data: performance.performances
+          })) ?? []
+        });
+      }
     } catch (error) {
-        console.error('Error fetching KPI data:', error);
+      console.error('Error fetching KPI data:', error);
     }
   };
 
@@ -114,7 +106,7 @@ export const Dashboard: React.FC = () => {
     routingProfile.push(routingProfiles[4])
 
     console.log(workspaces);
-    
+
     try {
       const data = await getDownload(
         startDate,
@@ -133,7 +125,6 @@ export const Dashboard: React.FC = () => {
 
   useEffect(() => {
     fetchFilters();
-    getAgentsStatus();
   }, []);
 
   useEffect(() => {
@@ -149,15 +140,9 @@ export const Dashboard: React.FC = () => {
 
         <h1 className="font-semibold text-3xl">Dashboard</h1>
         <p className="text-gray-600 pt-2 text-lg">Agents Status</p>
-        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
-                {status.map((item, index) => (
-                        <StatusCard 
-                          key={index}
-                          status={item.status}
-                          numUsers={item.numUsers}
-                        />
-                      ))}
-                </div>
+        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">
+          <StatusCardHolder />
+        </div>
       </div>
       <div className="font-poppins px-6">
         <p className="text-gray-600 pt-1 text-lg">Overall Performance</p>
@@ -175,9 +160,9 @@ export const Dashboard: React.FC = () => {
             />
           </div>
           <div className="self-center mx-20">
-              <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
-            </div>
+            <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
           </div>
+        </div>
         <div className="flex items-center pr-5">
           <Button
             baseColor="transparent"
@@ -194,7 +179,7 @@ export const Dashboard: React.FC = () => {
           </div>
           <div className="flex flex-auto">
             <ContactMedium data={[
-              (kpiData?.voice ?? 0), 
+              (kpiData?.voice ?? 0),
               (kpiData?.chat ?? 0),
             ]} />
           </div>
@@ -246,7 +231,8 @@ export const Dashboard: React.FC = () => {
       </div>
     </div>
 
-)}
+  )
+}
 
 
 export default Dashboard;

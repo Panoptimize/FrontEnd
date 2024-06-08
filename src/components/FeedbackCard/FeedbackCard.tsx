@@ -19,13 +19,11 @@ const FeedbackCard: React.FC<IFeedbackCard> = ({
   };
 
   const handleSave = () => {
-    console.log("Saving data:", formData);
     setIsVisible(false);
   };
 
   const handleDelete = () => {
     setFormData({ title: "", suggestion: "" });
-    console.log("Information cleared");
   };
 
   const handleSend = () => {
@@ -52,12 +50,12 @@ const FeedbackCard: React.FC<IFeedbackCard> = ({
 
   return (
     <div
-      className="bg-white rounded-lg shadow-md p-6 mx-auto"
-      style={{ maxWidth: "700px", width: "100%" }}
+      className="bg-white rounded-lg shadow-md p-6 mx-auto max-w-[700px] w-full"
     >
       <div className="flex justify-between items-start">
         <h2 className="text-3xl font-bold mb-5">{title}</h2>
         <button
+          type="button"
           onClick={handleClose}
           className="text-right text-gray-600 hover:text-gray-800"
         >
