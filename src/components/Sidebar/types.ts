@@ -1,1 +1,3 @@
-export {default as Sidebar} from './Sidebar';
+export interface ISidebar {
+    expanded: boolean;    
+}
