@@ -41,13 +41,17 @@ export const Dashboard: React.FC = () => {
     if (creationDate) {
       const creationDateObj = new Date(creationDate);
       const threshold = new Date(new Date().setDate(new Date().getDate() - 90));
-      if (creationDateObj >= threshold) {
+
+      // Check if the creation day is greater than todays date less than 90 days
+      if (creationDateObj < threshold) {
+        // Get difference in days
         return 90;
       } else {
+        // Get difference in days
         const differenceTime = new Date().getTime() - creationDateObj.getTime();
-        setLimit(Math.ceil(differenceTime / (1000 * 3600 * 24)));
-        setStartDate(creationDate);
+        return Math.ceil(differenceTime / (1000 * 3600 * 24));
       }
+
     }
   }
 
@@ -155,7 +159,7 @@ export const Dashboard: React.FC = () => {
               setStartDate={setStartDate}
               endDate={endDate}
               setEndDate={setEndDate}
-              limit={limit}
+              limit={validateCreationDate()}
             />
           </div>
           <div className="self-center mx-20">
