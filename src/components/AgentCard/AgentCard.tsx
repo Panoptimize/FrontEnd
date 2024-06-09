@@ -32,11 +32,9 @@ const AgentCard: React.FC<IAgentCard> = ({
 
   const handleOpen = async () => {
     setIsVisible(true);
-    //setAgentMetrics(metrics);
     try {
       const agentId = await getId(id);
       if (agentId) {
-        console.log("agentId: ", agentId);
         await getMetrics(agentId);
         await getNotes(agentId);
       }
@@ -51,7 +49,6 @@ const AgentCard: React.FC<IAgentCard> = ({
       if (data && data.data) {
         const agentId = data.data.id;
         setAgentId(agentId);
-        console.log(agentId);
         return agentId;
       }
     } catch (error) {
@@ -67,7 +64,6 @@ const AgentCard: React.FC<IAgentCard> = ({
     await getAgentNotes(agentId)
       .then((data) => {
         if (data && data.data) {
-          console.log(data.data.content);
           setNotesData(data.data.content);
         }
       })
@@ -89,10 +85,6 @@ const AgentCard: React.FC<IAgentCard> = ({
         console.error(error);
       });
   };
-
-  useEffect(() => {
-    console.log(metricsData);
-  }, [metricsData]);
 
   if (!isVisible)
     return (

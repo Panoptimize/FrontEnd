@@ -41,10 +41,14 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
   }
 
   const editNote = async (id: number, editedNote: INote) => {
-    if(nameRef.current?.getValue() === "" || nameRef.current?.getValue() === undefined){
+    const nameValue = nameRef.current?.getValue() ?? "";
+    if(nameValue === ""){
       setIsEmpty(true);
+    } else if(nameValue.length > 20) {
+      setIsTooLong(true);
     } else {
       setIsEmpty(false);
+      setIsTooLong(false);
       await updateNote(editedNote, id).then((data) => {
         if(closeWindow)
           closeWindow();
@@ -137,10 +141,9 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
         <TextInput placeholder="Add Text" size="big" text={text} ref={descriptionRef}></TextInput>
       </div>
       <div className="grid grid-cols-3">
-        {isEmpty ? (<div className="p-2 text-red-600 font-bold"> PLEASE ADD A TITLE !!! </div>
+        {isEmpty || isTooLong ? (<div className="p-2 text-red-600 font-bold"> {isEmpty ? "PLEASE ADD A TITLE" : "TITLE IS TOO LONG"} !!! </div>
         ):(<div></div>)}
-        {isTooLong ? (<div className="p-2 text-red-600 font-bold"> THE TITLE IS TOO LONG !!! </div>
-        ):(<div></div>)}
+        <div></div>
         <div className="grid grid-cols-2 space-x-4">
           {id ? (
     <Button baseColor="rose" image="Cross.svg" text="Delete" onClick={deleteCurrentNote}></Button>

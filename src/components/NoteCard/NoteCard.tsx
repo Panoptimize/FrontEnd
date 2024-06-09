@@ -27,7 +27,6 @@ const NoteCard: React.FC<INoteCard> = ({
   const [agentPerformance, setAgentPerformance] = useState<IAgentPerformance | null>(null);
 
   const handleClose = () => {
-    console.log("Signal received from NoteInputs");
     sendSignalToRow();
     setIsVisible(false);
   };
@@ -48,9 +47,7 @@ const NoteCard: React.FC<INoteCard> = ({
   const getAgentPerformance =  async (noteId: number) => {
     await getAgentPerformanceByNote(noteId).then((data) =>{
       if(data && data.data){
-        console.log(data.data)
         setAgentPerformance(data.data)
-        console.log(agentPerformance)
       }
     }).catch((error) => {
       console.error(error);
@@ -58,11 +55,9 @@ const NoteCard: React.FC<INoteCard> = ({
   };
 
   const getMetrics = async (agentId: number) => {
-    console.log("HERE?")
     await getAgentMetrics(agentId)
       .then((data) => {
         if (data && data.data) {
-          console.log(data.data)
           setAgentPerformance(data.data);
         }
       })
@@ -88,7 +83,6 @@ const NoteCard: React.FC<INoteCard> = ({
   useEffect(() => {
     const fetchMetrics = async () =>   {
       if(isVisible && !metrics && !id && connectId){
-        console.log("HERE!")
         const agentDbId = await getId(connectId);
         if(agentDbId){
           agentId = agentDbId
@@ -103,7 +97,6 @@ const NoteCard: React.FC<INoteCard> = ({
 
   useEffect(() => {
     if (isVisible && id) {
-      console.log("NOTE WILL BE EDITED")
       getAgentPerformance(id);
     }
   }, [isVisible]);
