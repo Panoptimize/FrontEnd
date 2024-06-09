@@ -16,22 +16,15 @@ const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details",
   title = "Contact Details",
   name,
-  email = "dave_chapelle@gmail.com",
+  email,
   workspace,
   id,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [agentId, setAgentId] = useState<number>();
 
-  const metrics: IAgentPerformance = {
-    avgAbandonTime: 10,
-    avgAfterContactWorkTime: 15,
-    avgHandleTime: 20,
-    avgHoldTime: 25,
-  };
-
   const [notesData, setNotesData] = useState<INoteData[]>([]);
-  const [metricsData, setMetricsData] = useState<IMetrics>();
+  const [metricsData, setMetricsData] = useState<IAgentPerformance>();
 
   const handleClose = () => {
     setIsVisible(false);
@@ -39,11 +32,9 @@ const AgentCard: React.FC<IAgentCard> = ({
 
   const handleOpen = async () => {
     setIsVisible(true);
-    //setAgentMetrics(metrics);
     try {
       const agentId = await getId(id);
       if (agentId) {
-        console.log("agentId: ", agentId);
         await getMetrics(agentId);
         await getNotes(agentId);
       }
@@ -58,7 +49,6 @@ const AgentCard: React.FC<IAgentCard> = ({
       if (data && data.data) {
         const agentId = data.data.id;
         setAgentId(agentId);
-        console.log(agentId);
         return agentId;
       }
     } catch (error) {
@@ -74,7 +64,6 @@ const AgentCard: React.FC<IAgentCard> = ({
     await getAgentNotes(agentId)
       .then((data) => {
         if (data && data.data) {
-          console.log(data.data.content);
           setNotesData(data.data.content);
         }
       })
@@ -96,10 +85,6 @@ const AgentCard: React.FC<IAgentCard> = ({
         console.error(error);
       });
   };
-
-  useEffect(() => {
-    console.log(metricsData);
-  }, [metricsData]);
 
   if (!isVisible)
     return (
@@ -173,8 +158,8 @@ const AgentCard: React.FC<IAgentCard> = ({
                 <div>
                   <NoteCard
                     area={workspace}
-                    agentId={agentId}
-                    metrics={metrics ? metrics : undefined}
+                    connectId={id}
+                    metrics={metricsData ? metricsData : undefined}
                     signalNotesRow={receivedSignal}
                     bttn_color="teal"
                   ></NoteCard>
