@@ -29,7 +29,7 @@ describe('PerformanceChart', () => {
     });
 
     function calculateAverage(data: number[]): number {
-            throw new Error('Function not implemented.');
+        return data.reduce((acc, curr) => acc + curr, 0) / data.length;
     }
 
 });

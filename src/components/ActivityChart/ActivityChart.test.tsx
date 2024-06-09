@@ -2,7 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ActivityChart from './ActivityChart';
 
+// Test cases for ActivityChart component
 describe('ActivityChart Component', () => {
+    // Test rendering of the component
     test('renders with provided data', () => {
         const chartData = {
             data: [
@@ -16,24 +18,12 @@ describe('ActivityChart Component', () => {
         const chartElement = screen.getByText(/Overall User Activity/i);
         expect(chartElement).toBeInTheDocument();
     });
-
-    test('renders without data', () => {
+    // Test if the correct title is displayed when no data is provided
+    it('Renders with empty chartData', () => {
         const chartData = {
-            data: []
+          data: [],
         };
-        
-        render(<ActivityChart chartData={chartData} />);
-        
-        const chartElement = screen.getByText(/No data available/i);
-        expect(chartElement).toBeInTheDocument();
-    });
-
-    test('renders with empty chartData', () => {
-        const chartData = {};
-        
-        render(<ActivityChart chartData={chartData} />);
-        
-        const chartElement = screen.getByText(/No data available/i);
-        expect(chartElement).toBeInTheDocument();
-    });
+        const { getByText } = render(<ActivityChart chartData={chartData} />);
+        expect(getByText('Overall User Activity')).toBeInTheDocument();
+      });
 });

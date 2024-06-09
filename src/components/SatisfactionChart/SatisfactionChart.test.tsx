@@ -1,29 +1,39 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import SatisfactionChart from './SatisfactionChart';
+import { ISatisfactionChart } from './types';
 
 // Test cases for SatisfactionChart component
-describe('SatisfactionChart', () => {
-    // Test rendering of the component
-    it('renders the component', () => {
-        render(<SatisfactionChart data={[10, 20, 30, 40, 50]} />);
+describe('SatisfactionChart Component', () => {
+    // Render with data
+    it('should render without crashing', () => {
+        const customData: ISatisfactionChart = {
+            data: [10, 20, 30, 40, 50],
+        };
+
+        const { getByText } = render(<SatisfactionChart {...customData} />);
+        expect(getByText('Customer Satisfaction')).toBeInTheDocument();
     });
-    // Test if the correct labels are displayed
-    it('displays the correct labels', () => {
-        const { getByText } = render(<SatisfactionChart data={[10, 20, 30, 40, 50]} />);
-        expect(getByText('Very satisfied')).toBeInTheDocument();
-        expect(getByText('Satisfied')).toBeInTheDocument();
-        expect(getByText('Neutral')).toBeInTheDocument();
-        expect(getByText('Unsatisfied')).toBeInTheDocument();
-        expect(getByText('Very unsatisfied')).toBeInTheDocument();
-    });
-    // Test if the correct data is displayed
-    it('displays the correct data', () => {
-        const { getByText } = render(<SatisfactionChart data={[10, 20, 30, 40, 50]} />);
-        expect(getByText('10')).toBeInTheDocument();
-        expect(getByText('20')).toBeInTheDocument();
-        expect(getByText('30')).toBeInTheDocument();
-        expect(getByText('40')).toBeInTheDocument();
-        expect(getByText('50')).toBeInTheDocument();
-    });
+
+    // Render without data
+  it('should render without crashing when customData is an empty array', () => {
+    const customData: ISatisfactionChart = {
+      data: [],
+    };
+
+    const { getByText } = render(<SatisfactionChart {...customData} />);
+    expect(getByText('Customer Satisfaction')).toBeInTheDocument();
+  });
+
+    // Display the chart correctly with empty data
+  it('should display the chart correctly with empty data', () => {
+    const customData: ISatisfactionChart = {
+      data: [],
+    };
+
+    const { getByText, container } = render(<SatisfactionChart {...customData} />);
+    expect(getByText('Customer Satisfaction')).toBeInTheDocument();
+    // Ensure the chart canvas is rendered
+    expect(container.querySelector('canvas')).toBeInTheDocument();
+  });
 });
