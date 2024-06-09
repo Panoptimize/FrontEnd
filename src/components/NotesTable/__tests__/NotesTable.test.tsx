@@ -65,4 +65,28 @@ describe("NotesTable", () => {
     expect(noteRows[0]).toHaveTextContent("Test Note 2");
   });
 
+  test("Sorts by priority", () => {
+    const props: INotesTable = {
+      notesData: mockNotesData
+    }
+    renderComponent(props);
+    const priorityHeader = screen.getByText("Priority");
+    fireEvent.click(priorityHeader);
+    const noteRows = screen.getAllByText(/High|Medium|Low/);
+    expect(noteRows[0]).toHaveTextContent("High");
+  });
+
+  test("Sorts by last update", () => {
+    const props: INotesTable = {
+      notesData: mockNotesData
+  }
+    renderComponent(props);
+    const updateHeader = screen.getByText("Last Update");
+    fireEvent.click(updateHeader);
+    const noteRows = screen.getAllByTestId("notes_row");
+    expect(noteRows[0]).toHaveTextContent("01/05/2024");
+    fireEvent.click(updateHeader);
+    expect(noteRows[0]).toHaveTextContent("02/05/2024");
+  });
+
 });

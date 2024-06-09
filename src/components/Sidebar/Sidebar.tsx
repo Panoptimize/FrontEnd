@@ -108,7 +108,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
           </div>
         </div>
         <div className="flex flex-col justify-end my-4">
-          <div className="my-1 flex flex-auto">
+          <div className="my-1 flex flex-auto" data-testid="logout_buttonn">
             <Button
               baseColor="transparent"
               image="logout.svg"
