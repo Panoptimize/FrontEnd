@@ -15,7 +15,6 @@ import { ICustomerSatisfaction } from "./types";
 import { TimeFrameSelector } from "../../components/TimeFrameSelector";
 import { getFilters } from "../../services/dashboard/getFilters";
 import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
-import { ChoiceBoxSelect } from "../../components/ChoiceBoxes/ChoiceBoxSelect";
 
 import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
