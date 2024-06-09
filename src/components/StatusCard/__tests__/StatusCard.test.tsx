@@ -16,7 +16,7 @@ describe("StatusCard component", () => {
 
     expect(screen.getByText("Agents")).toBeInTheDocument();
     expect(screen.getByText("10")).toBeInTheDocument();
-    const statusIndicator = screen.getByTestId("status-indicator");
+    const statusIndicator = screen.getByTestId("status-color");
     expect(statusIndicator).toHaveClass("bg-fuchsia-600");
   });
 
@@ -30,7 +30,7 @@ describe("StatusCard component", () => {
 
     expect(screen.getByText("Online")).toBeInTheDocument();
     expect(screen.getByText("5")).toBeInTheDocument();
-    const statusIndicator = screen.getByTestId("status-indicator");
+    const statusIndicator = screen.getByTestId("status-color");
     expect(statusIndicator).toHaveClass("bg-amber-500");
   });
 
@@ -44,7 +44,7 @@ describe("StatusCard component", () => {
 
     expect(screen.getByText("Available")).toBeInTheDocument();
     expect(screen.getByText("7")).toBeInTheDocument();
-    const statusIndicator = screen.getByTestId("status-indicator");
+    const statusIndicator = screen.getByTestId("status-color");
     expect(statusIndicator).toHaveClass("bg-green-600");
   });
 
@@ -58,7 +58,7 @@ describe("StatusCard component", () => {
 
     expect(screen.getByText("Offline")).toBeInTheDocument();
     expect(screen.getByText("2")).toBeInTheDocument();
-    const statusIndicator = screen.getByTestId("status-indicator");
+    const statusIndicator = screen.getByTestId("status-color");
     expect(statusIndicator).toHaveClass("bg-gray-600");
   });
 });
