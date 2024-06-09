@@ -15,55 +15,13 @@ const NoteCard: React.FC<INoteCard> = ({
   id,
   agentId,
   name,
-  // email = "dave_chapelle@gmail.com",
-  // username = "chap",
   metrics,
   area,
-  // selectedWorkspaces: initialSelectedWorkspaces = [],
-  // availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
-  // profileImage,
   bttn_color = "transparent",
   signalNotesRow,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [agentPerformance, setAgentPerformance] = useState<IAgentPerformance | null>(null);
-
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   email: "",
-  //   username: "",
-  // });
-
-  // const [selectedWorkspaces, setSelectedWorkspaces] = useState<string[]>(
-  //   initialSelectedWorkspaces || []
-  // );
-
-  // const [availableWorkspaces, setAvailableWorkspaces] = useState<string[]>(
-  //   initialAvailableWorkspaces || []
-  // );
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({ ...prev, [name]: value }));
-  // };
-
-  // const handleSelectWorkspace = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const newWorkspace = e.target.value;
-  //   if (!selectedWorkspaces.includes(newWorkspace)) {
-  //     setSelectedWorkspaces((prev) => [...prev, newWorkspace]);
-  //   }
-  // };
-
-  // const handleRemoveWorkspace = (workspaceToRemove: string) => {
-  //   setSelectedWorkspaces((prev) =>
-  //     prev.filter((ws) => ws !== workspaceToRemove)
-  //   );
-  // };
-
-  // const handleSave = () => {
-  //   console.log("Guardando datos:", formData, selectedWorkspaces);
-  //   setIsVisible(false);
-  // };
 
   const handleClose = () => {
     console.log("Signal received from NoteInputs");
