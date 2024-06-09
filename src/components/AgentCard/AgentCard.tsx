@@ -16,22 +16,15 @@ const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details",
   title = "Contact Details",
   name,
-  email = "dave_chapelle@gmail.com",
+  email,
   workspace,
   id,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [agentId, setAgentId] = useState<number>();
 
-  const metrics: IAgentPerformance = {
-    avgAbandonTime: 10,
-    avgAfterContactWorkTime: 15,
-    avgHandleTime: 20,
-    avgHoldTime: 25,
-  };
-
   const [notesData, setNotesData] = useState<INoteData[]>([]);
-  const [metricsData, setMetricsData] = useState<IMetrics>();
+  const [metricsData, setMetricsData] = useState<IAgentPerformance>();
 
   const handleClose = () => {
     setIsVisible(false);
@@ -174,7 +167,7 @@ const AgentCard: React.FC<IAgentCard> = ({
                   <NoteCard
                     area={workspace}
                     agentId={agentId}
-                    metrics={metrics ? metrics : undefined}
+                    metrics={metricsData ? metricsData : undefined}
                     signalNotesRow={receivedSignal}
                     bttn_color="teal"
                   ></NoteCard>

@@ -6,6 +6,8 @@ import { Pill } from "../Pill";
 import { NoteInputs } from "../NoteInputs";
 import { IAgentPerformance } from "../../pages/types";
 import { getAgentPerformanceByNote } from "../../services/agentPerformance/getAgentPerformanceByNote";
+import { getAgentMetrics } from "../../services/AgentMetrics/getAgentMetrics";
+import { getAgentId } from "../../services/agentsList/getAgentId";
 
 const NoteCard: React.FC<INoteCard> = ({
   bttnTitle = "Add note",
@@ -13,57 +15,16 @@ const NoteCard: React.FC<INoteCard> = ({
   text,
   priority,
   id,
+  connectId,
   agentId,
   name,
-  // email = "dave_chapelle@gmail.com",
-  // username = "chap",
   metrics,
   area,
-  // selectedWorkspaces: initialSelectedWorkspaces = [],
-  // availableWorkspaces: initialAvailableWorkspaces = ["Sales", "Payments"],
-  // profileImage,
   bttn_color = "transparent",
   signalNotesRow,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [agentPerformance, setAgentPerformance] = useState<IAgentPerformance | null>(null);
-
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   email: "",
-  //   username: "",
-  // });
-
-  // const [selectedWorkspaces, setSelectedWorkspaces] = useState<string[]>(
-  //   initialSelectedWorkspaces || []
-  // );
-
-  // const [availableWorkspaces, setAvailableWorkspaces] = useState<string[]>(
-  //   initialAvailableWorkspaces || []
-  // );
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({ ...prev, [name]: value }));
-  // };
-
-  // const handleSelectWorkspace = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const newWorkspace = e.target.value;
-  //   if (!selectedWorkspaces.includes(newWorkspace)) {
-  //     setSelectedWorkspaces((prev) => [...prev, newWorkspace]);
-  //   }
-  // };
-
-  // const handleRemoveWorkspace = (workspaceToRemove: string) => {
-  //   setSelectedWorkspaces((prev) =>
-  //     prev.filter((ws) => ws !== workspaceToRemove)
-  //   );
-  // };
-
-  // const handleSave = () => {
-  //   console.log("Guardando datos:", formData, selectedWorkspaces);
-  //   setIsVisible(false);
-  // };
 
   const handleClose = () => {
     console.log("Signal received from NoteInputs");
@@ -96,11 +57,56 @@ const NoteCard: React.FC<INoteCard> = ({
     })
   };
 
+  const getMetrics = async (agentId: number) => {
+    console.log("HERE?")
+    await getAgentMetrics(agentId)
+      .then((data) => {
+        if (data && data.data) {
+          console.log(data.data)
+          setAgentPerformance(data.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getId = async (id: string) => {
+    try {
+      const data = await getAgentId(id);
+      if (data && data.data) {
+        const agentDbId = data.data.id;
+        agentId = agentDbId;
+        console.log(agentId);
+        return agentId;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchMetrics = async () =>   {
+      if(isVisible && !metrics && !id && connectId){
+        console.log("HERE!")
+        const agentDbId = await getId(connectId);
+        if(agentDbId){
+          agentId = agentDbId
+          await getMetrics(agentId);
+        }
+      } 
+    };
+
+    fetchMetrics();
+
+  }, [isVisible]);
+
   useEffect(() => {
     if (isVisible && id) {
+      console.log("NOTE WILL BE EDITED")
       getAgentPerformance(id);
     }
-  }, [isVisible, id, agentPerformance]);
+  }, [isVisible]);
 
   if (!isVisible)
     return (
@@ -144,10 +150,10 @@ const NoteCard: React.FC<INoteCard> = ({
                 <h4 className="mb-4">{name}</h4>
                 {agentPerformance ? (
                   <>
-                    <h4> Avg Abandon Time: <span className="font-bold">{agentPerformance.avgAbandonTime}</span></h4>
-                    <h4> Avg ACWT: <span className="font-bold">{agentPerformance.avgAfterContactWorkTime}</span></h4>
-                    <h4> Avg Handle Time: <span className="font-bold">{agentPerformance.avgHandleTime}</span></h4>
-                    <h4> Avg Hold Time: <span className="font-bold">{agentPerformance.avgHoldTime}</span></h4>
+                    <h4> Avg Abandon Time: <span className="font-bold">{agentPerformance.avgAbandonTime == null ? "0" : agentPerformance.avgAbandonTime}</span></h4>
+                    <h4> Avg ACWT: <span className="font-bold">{agentPerformance.avgAfterContactWorkTime == null ? "0" : agentPerformance.avgAfterContactWorkTime}</span></h4>
+                    <h4> Avg Handle Time: <span className="font-bold">{agentPerformance.avgHandleTime == null ? "0" : agentPerformance.avgHandleTime}</span></h4>
+                    <h4> Avg Hold Time: <span className="font-bold">{agentPerformance.avgHoldTime == null ? "0" : agentPerformance.avgHoldTime}</span></h4>
                   </>
                 ) : ( 
                   <p>Loading metrics...</p>
