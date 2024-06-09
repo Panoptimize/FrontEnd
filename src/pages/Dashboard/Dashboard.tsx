@@ -167,7 +167,7 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center pr-5">
-          <Button
+          <Button data-testid="Button"
             baseColor="transparent"
             image="Download.svg"
             text="Download"
