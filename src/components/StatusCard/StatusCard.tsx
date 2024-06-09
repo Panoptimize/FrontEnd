@@ -10,7 +10,7 @@ const StatusCard: React.FC<IStatusCard> = ({ status, numUsers }) => {
       AGENTS_OFFLINE: "Offline",
     };
 
-    return statusLabels[status] || status;
+    return statusLabels[status];
   };
 
   const getColor = (status: string): string => {
@@ -20,10 +20,10 @@ const StatusCard: React.FC<IStatusCard> = ({ status, numUsers }) => {
       return "bg-amber-500";
     } else if (status === "AGENTS_AVAILABLE") {
       return "bg-green-600";
-    } else if (status === "AGENTS_OFFLINE") {
-      return "bg-gray-600";
-    }
-    return "";
+    } 
+    //agents offline
+    return "bg-gray-600";
+
   };
 
   return (
