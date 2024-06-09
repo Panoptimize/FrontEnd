@@ -9,6 +9,10 @@ jest.mock("../../../components/StatusCardHolder", () => ({
   StatusCardHolder: () => <div data-testid="StatusCardHolder">Overall Performance</div>,
 }));
 
+jest.mock ("../../../components/Button", () =>({
+  Button : () => <div data-testid="Dbutton">Download</div>
+}))
+
 // Mocking services functions
 jest.mock('../../../services');
 jest.mock('../../../services/dashboard');
@@ -80,7 +84,7 @@ describe("Dashboard page", () => {
       expect(getFSer.getFilters).toHaveBeenCalled();
     })
 
-    const downloadButton = screen.getByTestId('button');
+    const downloadButton = screen.getByTestId("Dbutton");
 
     fireEvent.click(downloadButton);
 
