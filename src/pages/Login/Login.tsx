@@ -41,7 +41,7 @@ const Login = () => {
           <div className="w-96 h-96 bg-white rounded-r-xl shadow-lg flex flex-col items-center justify-center">
             <div className="flex flex-col items-center justify-center space-y-6">
               {error && (
-                <p className="text-red-500 mb-4 text-sm font-medium">{error}</p>
+                <p className="text-red-500 mb-4 text-sm font-medium" data-test="txt-error">{error}</p>
               )}
               <p className="text-xl font-bold">Company name</p>
               <form
