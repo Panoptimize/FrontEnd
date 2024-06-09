@@ -10,7 +10,6 @@ import { getAgentsList } from '../../services/agentsList/getAgentsList';
 import { IAgent } from "../../components/AgentTable/types";
 import { useOutletContext } from "react-router-dom";
 import { Notification } from "../../components/Topbar/types";
-import StatusCardHolder from '../../components/StatusCardHolder/StatusCardHolder';
 
 // Function to update temperatures simulating real-time data from contact lens
 const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
@@ -43,6 +42,7 @@ const ActionCenter: React.FC = () => {
     });
     const [agents, setAgents] = useState<IAgent[]>([]);
     const [contactsFetched, setContactsFetched] = useState(false);
+    const [status, setStatus] = useState<IStatusCard[]>([]);
     const prevNegativeRows = useRef<Set<string>>(new Set());
 
     // Fetch agents list
@@ -140,6 +140,19 @@ const ActionCenter: React.FC = () => {
             await fetchContacts();
           };
 
+          const getAgentsStatus = async () => {
+            const result = await getStatus();
+            if (result.error) {
+              console.error(result.error);
+            } else {
+              setStatus(result.data);
+            }
+        };
+    
+        useEffect(()=> {
+            getAgentsStatus();
+        }, [])
+
         // Fetch status and agents only once
           useEffect(() => {
             const fetchInitialData = async () => {
@@ -207,7 +220,13 @@ const ActionCenter: React.FC = () => {
                     <p className="text-gray-600 pt-4 px-4 text-lg" data-testid="txt-agentStatus">Agents Status</p>
                 </div>
                 <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
-                <StatusCardHolder />
+                {status.map((item, index) => (
+                        <StatusCard 
+                          key={index}
+                          status={item.status}
+                          numUsers={item.numUsers}
+                        />
+                      ))}
                 </div>
                 <div className="font-poppins px-6">
                     <div className="flex justify-between"> 
