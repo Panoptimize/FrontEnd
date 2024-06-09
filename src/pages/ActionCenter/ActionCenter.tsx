@@ -220,7 +220,7 @@ const ActionCenter: React.FC = () => {
                     <TableAC rows={highTemperatureRows} />
                 </div>
                 <div className="font-poppins px-6">
-                    <p className="text-gray-600 pt-2 px-4 text-lg">Current Agents</p>
+                    <p className="text-gray-600 pt-2 px-4 text-lg" data-testid="txt-CurrentAgents">Current Agents</p>
                     <TableAC rows={otherTemperatureRows} />
                 </div>
             </div>
