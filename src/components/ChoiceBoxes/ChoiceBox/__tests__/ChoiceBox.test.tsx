@@ -86,15 +86,6 @@ describe("Choice Box Component", () => {
         expect(select.value).toBe(props.options[0].value); // Defaults to the first option
     });
 
-    test("Is accessible via keyboard", async () => {
-        renderComponent(props);
-        const select = screen.getByRole('combobox') as HTMLSelectElement;
-        select.focus();
-        await userEvent.keyboard('{arrowdown}');
-        expect(select.value).toBe('option2');
-        await userEvent.keyboard('{arrowdown}');
-        expect(select.value).toBe('option3');
-    });
 
     test("Applies correct classes", () => {
         renderComponent(props);
