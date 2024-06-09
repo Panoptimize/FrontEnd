@@ -1,0 +1,15 @@
+{
+  "extends": "@istanbuljs/nyc-config-babel",
+  "include": [
+    "src/**/*.js"
+  ],
+  "exclude": [
+    "cypress",
+    "coverage"
+  ],
+  "reporter": [
+    "html",
+    "text-summary"
+  ],
+  "report-dir": "./coverage"
+}

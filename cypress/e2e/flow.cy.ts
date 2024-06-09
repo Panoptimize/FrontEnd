@@ -55,13 +55,13 @@ describe('template spec', () => {
     cy.get('[data-testid="txt-agents"]').should('contain', 'Agents');
   })
 
-  // it('should logout on successful click', () => {
-  //   cy.get('[data-testid="logout-button"]').should('be.visible').click();
+  it('should logout on successful click', () => {
+    cy.get('[data-testid="logout_buttonn"]').should('be.visible').click();
 
-  //   // cy.get('p').contains("Company name");
-  //   // cy.get('input[name="email"]').should('exist');
-  //   // cy.get('input[name="password"]').should('exist');
+    cy.get('p').contains("Company name");
+    cy.get('input[name="email"]').should('exist');
+    cy.get('input[name="password"]').should('exist');
     
-  // });
+  });
 
 })
