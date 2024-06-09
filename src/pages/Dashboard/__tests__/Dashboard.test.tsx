@@ -1,26 +1,13 @@
-import { cleanup, fireEvent, getByTestId, render, screen, waitFor } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import Dashboard from "../Dashboard"
-import { useAppContext } from "../../../store/app-context/app-context";
-import { MemoryRouter, useNavigate } from "react-router-dom";
-import { StatusCardHolder } from "../../../components/StatusCardHolder";
-import { MultipleChoiceBox } from "../../../components/ChoiceBoxes/MultipleChoiceBox";
-import { Option } from "../../../components/ChoiceBoxes/ChoiceBox/types";
 import * as services from '../../../services';
-import * as getFSer from '../../../services/dashboard/getFilters' 
+import * as getFSer from '../../../services/dashboard/getFilters'
 import * as servicesK from '../../../services/dashboard';
-import { mocks } from "@storybook/test";
 
 
 jest.mock("../../../components/StatusCardHolder", () => ({
-    StatusCardHolder: () => <div data-testid="StatusCardHolder">Overall Performance</div>,
-  }));
-
-
-
-
-jest.mock("../../../components/Sidebar", () =>{
-  Sidevbar: () => <div data-testid="Sidebar"></div>
-})
+  StatusCardHolder: () => <div data-testid="StatusCardHolder">Overall Performance</div>,
+}));
 
 // Mocking services functions
 jest.mock('../../../services');
@@ -56,12 +43,8 @@ const mockSatisfactionResponse = {
   }
 };
 
-
-
-// Mock implementation for services
-
-
 beforeEach(() => {
+  jest.clearAllMocks();
 
   (getFSer.getFilters as jest.Mock).mockResolvedValue(mockFiltersResponse);
   (services.getDownload as jest.Mock).mockResolvedValue(mockSatisfactionResponse);
@@ -70,69 +53,73 @@ beforeEach(() => {
 });
 
 describe("Dashboard page", () => {
-  
-
-      test('renders without crashing', async () => {
-        render(<Dashboard />);
-        expect(screen.getByText('Dashboard')).toBeInTheDocument();
-      });
-
-      test('displays initial data correctly', async () => {
-        render(<Dashboard />);
-    
-        // Wait for the useEffect to run
-        await waitFor(() => {
-          expect(getFSer.getFilters).toHaveBeenCalled();
-        });
-    
-        // Check that initial data is displayed
-        expect(screen.getByText('Dashboard')).toBeInTheDocument();
-        expect(screen.getByText('Agents Status')).toBeInTheDocument();
-      });
-
-      test('handles user interaction correctly', async () => {
-        render(<Dashboard />);
-    
-        const downloadButton = screen.getByTestId('Button');
-    
-        fireEvent.click(downloadButton);
-    
-        await waitFor(() => {
-          expect(services.getDownload).toHaveBeenCalled();
-        });
-    
-        expect(services.getDownload).toHaveBeenCalledWith(expect.any(String), expect.any(String), expect.any(Array));
-      });
-
-      test('updates state correctly on date change', async () => {
-        render(<Dashboard />);
-    
-        const startDateInput = screen.getByLabelText("Filters:");
-        const endDateInput = screen.getByLabelText('Timeframe:');
-    
-        fireEvent.change(startDateInput, { target: { value: '2024-06-01' } });
-        fireEvent.change(startDateInput, { target: { value: '2024-06-30' } });
-    
-        await waitFor(() => {
-          expect(servicesK.getKpis).toHaveBeenCalledWith(expect.objectContaining({ startDate: '2024-06-01', endDate: '2024-06-30' }));
-        });
-      });
 
 
-      test('fetches and displays KPI data correctly', async () => {
-        render(<Dashboard />);
-    
-        await waitFor(() => {
-          expect(servicesK.getKpis).toHaveBeenCalled();
-        });
-    
-        // Check that KPI data is displayed
-        expect(screen.getByText('Avg Hold Time')).toBeInTheDocument();
-        expect(screen.getByText('First Contact Resolution')).toBeInTheDocument();
-        expect(screen.getByText('Abandonment Rate')).toBeInTheDocument();
-        expect(screen.getByText('Service Level')).toBeInTheDocument();
-        expect(screen.getByText('Agent Schedule Adherence')).toBeInTheDocument();
-        expect(screen.getByText('Avg Speed Answer')).toBeInTheDocument();
-      });
+  test('renders without crashing', async () => {
+    render(<Dashboard />);
+    expect(screen.getByText('Dashboard')).toBeInTheDocument();
+  });
 
+  test('displays initial data correctly', async () => {
+    render(<Dashboard />);
+
+    // Wait for the useEffect to run
+    await waitFor(() => {
+      expect(getFSer.getFilters).toHaveBeenCalled();
     });
+
+    // Check that initial data is displayed
+    expect(screen.getByText('Dashboard')).toBeInTheDocument();
+    expect(screen.getByText('Agents Status')).toBeInTheDocument();
+  });
+
+  test('handles user interaction correctly', async () => {
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(getFSer.getFilters).toHaveBeenCalled();
+    })
+
+    const downloadButton = screen.getByTestId('button');
+
+    fireEvent.click(downloadButton);
+
+    await waitFor(() => {
+      expect(services.getDownload).toHaveBeenCalled();
+    });
+
+    expect(services.getDownload).toHaveBeenCalledWith(expect.any(String), expect.any(String), expect.any(Array));
+  });
+
+  test('updates state correctly on date change', async () => {
+    render(<Dashboard />);
+
+    const startDateInput = screen.getByLabelText("Filters:");
+    const endDateInput = screen.getByLabelText('Timeframe:');
+
+    fireEvent.change(startDateInput, { target: { value: '2024-06-01' } });
+    fireEvent.change(startDateInput, { target: { value: '2024-06-30' } });
+
+    await waitFor(() => {
+      expect(servicesK.getKpis).toHaveBeenCalledWith(expect.objectContaining({ startDate: '2024-06-01', endDate: '2024-06-30' }));
+    });
+  });
+
+
+  test('fetches and displays KPI data correctly', async () => {
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(servicesK.getKpis).toHaveBeenCalled();
+    });
+
+    // Check that KPI data is displayed
+    expect(screen.getByText('Avg Hold Time')).toBeInTheDocument();
+    expect(screen.getByText('First Contact Resolution')).toBeInTheDocument();
+    expect(screen.getByText('Abandonment Rate')).toBeInTheDocument();
+    expect(screen.getByText('Service Level')).toBeInTheDocument();
+    expect(screen.getByText('Agent Schedule Adherence')).toBeInTheDocument();
+    expect(screen.getByText('Avg Speed Answer')).toBeInTheDocument();
+  });
+
+});

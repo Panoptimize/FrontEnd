@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { StatusCard } from "../../components/StatusCard";
 import { SatisfactionChart } from "../../components/SatisfactionChart";
 import { ContactMedium } from "../../components/ContactMedium";
 import { DataCard } from "../../components/DataCard";
@@ -7,19 +6,18 @@ import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
 import { IActivityChart } from "../../components/ActivityChart/types";
 import { Button } from "../../components/Button";
-import { getStatus, getSatisfaction, getDownload } from "../../services";
+import { getSatisfaction, getDownload } from "../../services";
 import getKpis from "../../services/dashboard/getKpis";
-import { IStatusCard } from '../../components/StatusCard/types';
 import { MetricResponse } from "../../services/dashboard/types";
 import { ICustomerSatisfaction } from "./types";
 import { TimeFrameSelector } from "../../components/TimeFrameSelector";
 import { getFilters } from "../../services/dashboard/getFilters";
 import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
-import { ChoiceBoxSelect } from "../../components/ChoiceBoxes/ChoiceBoxSelect";
 
 import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
 import { StatusCardHolder } from "../../components/StatusCardHolder";
+import { toast } from "react-toastify";
 
 export const Dashboard: React.FC = () => {
   const [creationDate, setCreationDate] = useState<string>();
@@ -29,10 +27,8 @@ export const Dashboard: React.FC = () => {
   const [performanceData, setPerformanceData] = useState<IPerformanceChart | null>(null);
   const [startDate, setStartDate] = useState<string>(new Date(new Date().setHours(0, 0, 0, 0)).toISOString());
   const [endDate, setEndDate] = useState<string>(new Date().toISOString());
-  const [status, setStatus] = useState<IStatusCard[]>([]);
   const [kpiData, setKpiData] = useState<MetricResponse>();
-  const [workspace, setWorkspace] = useState<Option | null>(null);
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>();
   const [limit, setLimit] = useState<number>(90);
   //const [contactMediumData, setContactMediumData] = useState<number[]>([]);
   //const [error, setError] = useState<string | null>(null);
@@ -46,27 +42,34 @@ export const Dashboard: React.FC = () => {
       if (creationDateObj < threshold) {
         // Get difference in days
         return 90;
-      } else {
-        // Get difference in days
-        const differenceTime = new Date().getTime() - creationDateObj.getTime();
-        return Math.ceil(differenceTime / (1000 * 3600 * 24));
-      }
-
+      } 
+      
+      const differenceTime = new Date().getTime() - creationDateObj.getTime();
+      return Math.ceil(differenceTime / (1000 * 3600 * 24));
     }
+    return 30;
   }
 
   const fetchFilters = async () => {
     try {
       const data = await getFilters();
       setCreationDate(data?.instanceCreationDate);
+      // Set start date to 90 days or on the creation date
+      const validateLimit = validateCreationDate();
+      setLimit(validateLimit);
+
+      const temporalStartDate = new Date(new Date().setDate(new Date().getDate() - validateLimit));
+      temporalStartDate.setHours(23, 59, 59, 999);
+      setStartDate(temporalStartDate.toISOString());
+
       const workspaces = data?.workspaces?.map((workspace) => ({
         value: workspace.id,
         label: workspace.name
       }));
       setWorkspaces(workspaces);
-      console.log("Workspaces:", workspaces);
+      setSelectedOptions(workspaces);
     } catch (error) {
-      console.error("Error fetching filters:", error);
+      toast.error("Error fetching filters");
     }
   }
 
@@ -89,7 +92,7 @@ export const Dashboard: React.FC = () => {
         });
       }
     } catch (error) {
-      console.error('Error fetching KPI data:', error);
+      toast.error('Error fetching KPI data: ' + error);
     }
   };
 
@@ -106,24 +109,21 @@ export const Dashboard: React.FC = () => {
 
   const fetchDownload = async () => {
     const routingProfiles = workspaces?.map((workspace) => workspace.value) ?? [];
-    let routingProfile: string[] = [];
-    routingProfile.push("4896ae34-a93e-41bc-8231-bf189e7628b1");
-    console.log("Routing Profiles:");
-    console.log(routingProfile);    
+    if (routingProfiles.length === 0) {
+      toast.error("Please select at least one workspace to download data");
+      return;
+    }
     try {
       const data = await getDownload(
         startDate,
         endDate,
-        routingProfile
+        routingProfiles
       );
       console.log(data);
     } catch (error) {
       console.error("Error al obtener datos de descarga:", error);
     }
   }
-  const handleSelect = (workspace: Option) => {
-    setWorkspace(workspace);
-  };
 
 
   useEffect(() => {
@@ -163,11 +163,11 @@ export const Dashboard: React.FC = () => {
             />
           </div>
           <div className="self-center mx-20">
-            <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
+            <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions ?? []} setSelectedOptions={setSelectedOptions} />
           </div>
         </div>
         <div className="flex items-center pr-5">
-          <Button data-testid="Button"
+          <Button data-testid="button"
             baseColor="transparent"
             image="Download.svg"
             text="Download"

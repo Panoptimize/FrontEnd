@@ -13,12 +13,13 @@ import { IContactMedium } from "./types";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ContactMedium: React.FC<IContactMedium> = ({ data: customData }) => {
+
   const data = {
     labels: ["Call", "Chat"], // Add more if needed
     datasets: [
       {
         label: "  Opinions",
-        data: customData || [20, 30], // Default data or custom data
+        data: !customData || customData[0] === 0 && customData[1] === 0 ? [20, 30] : customData, // Default data or custom data
         backgroundColor: ["#014542", "#0E948A"],
         borderColor: ["#FFFFFF"],
         borderWidth: 2,
