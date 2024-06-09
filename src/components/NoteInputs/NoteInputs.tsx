@@ -98,12 +98,10 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
           avgHoldTime: metrics.avgHoldTime,
           id: agentId
         };
-        console.log(newAgentPerformance)
         const noteToCreate:ICreateNote = {
           createNote:newNote,
           createAgentPerformance:newAgentPerformance
         }
-        console.log(noteToCreate)
         await createNote(noteToCreate).then((data) => {
           if(closeWindow){
             closeWindow();

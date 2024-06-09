@@ -16,7 +16,6 @@ const NoteCard: React.FC<INoteCard> = ({
   priority,
   id,
   connectId,
-  agentId,
   name,
   metrics,
   area,
@@ -25,6 +24,7 @@ const NoteCard: React.FC<INoteCard> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [agentPerformance, setAgentPerformance] = useState<IAgentPerformance | null>(null);
+  const [agentId, setAgentId] = useState<number>();
 
   const handleClose = () => {
     sendSignalToRow();
@@ -71,8 +71,7 @@ const NoteCard: React.FC<INoteCard> = ({
       const data = await getAgentId(id);
       if (data && data.data) {
         const agentDbId = data.data.id;
-        agentId = agentDbId;
-        console.log(agentId);
+        setAgentId(agentDbId);
         return agentId;
       }
     } catch (error) {
@@ -82,10 +81,9 @@ const NoteCard: React.FC<INoteCard> = ({
 
   useEffect(() => {
     const fetchMetrics = async () =>   {
-      if(isVisible && !metrics && !id && connectId){
-        const agentDbId = await getId(connectId);
-        if(agentDbId){
-          agentId = agentDbId
+      if(isVisible && !id && connectId){
+        await getId(connectId);
+        if(agentId && !metrics){
           await getMetrics(agentId);
         }
       } 
@@ -154,7 +152,7 @@ const NoteCard: React.FC<INoteCard> = ({
               </div>
             </div>
           </div>
-          <NoteInputs
+          {agentId || id ? (<NoteInputs
             id={id}
             agentId={agentId}
             metrics={agentPerformance ? agentPerformance : undefined}
@@ -162,7 +160,8 @@ const NoteCard: React.FC<INoteCard> = ({
             text={text}
             priority={priority}
             closeWindow={handleClose}
-          ></NoteInputs>
+          ></NoteInputs>) : (<p>Loading ...</p>)}
+          
         </div>
       </div>
     </div>
