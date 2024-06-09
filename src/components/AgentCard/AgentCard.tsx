@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { IAgentCard } from "./types";
+import React, { useEffect, useState } from "react";
+import { IAgentCard, IMetrics } from "./types";
+
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
 import { Pill } from "../Pill";
@@ -9,46 +10,21 @@ import { NotesTable } from "../NotesTable";
 import { getAgentNotes } from "../../services/notes/getAgentNotes";
 import { IAgentPerformance, INoteData } from "../../pages/types";
 import { getAgentId } from "../../services/agentsList/getAgentId";
+import { getAgentMetrics } from "../../services/AgentMetrics/getAgentMetrics";
 
 const AgentCard: React.FC<IAgentCard> = ({
-  bttnTitle = "View Details", //recibe nombre, email, username. Faltan metricas y como jalar 	Workspace	Last Activity y agent id	desde BE (Agent Row)
+  bttnTitle = "View Details",
   title = "Contact Details",
   name,
-  email = "dave_chapelle@gmail.com",
+  email,
   workspace,
   id,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  //const [agentMetrics, setAgentMetrics] = useState<IAgentPerformance | null>(null);
   const [agentId, setAgentId] = useState<number>();
 
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   email: "",
-  //   username: "",
-  // });
-
-  const metrics:IAgentPerformance = {
-    avgAbandonTime: 10,
-    avgAfterContactWorkTime: 15,
-    avgHandleTime: 20,
-    avgHoldTime: 25
-  }
-
-  //const [user, setUser] = useState<any>();
-
-
   const [notesData, setNotesData] = useState<INoteData[]>([]);
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({ ...prev, [name]: value }));
-  // };
-
-  // const handleSave = () => {
-  //   console.log("Guardando datos:", formData, workspace);
-  //   setIsVisible(false); // Cerrar el modal después de guardar
-  // };
+  const [metricsData, setMetricsData] = useState<IAgentPerformance>();
 
   const handleClose = () => {
     setIsVisible(false);
@@ -56,50 +32,64 @@ const AgentCard: React.FC<IAgentCard> = ({
 
   const handleOpen = async () => {
     setIsVisible(true);
-    //setAgentMetrics(metrics);
     try {
       const agentId = await getId(id);
-      if(agentId) {
-        console.log("agentId: ", agentId)
+      if (agentId) {
+        await getMetrics(agentId);
         await getNotes(agentId);
       }
-    } catch (error){
+    } catch (error) {
       console.error(error);
     }
   };
 
-  const getId = async (id:string) => {
+  const getId = async (id: string) => {
     try {
       const data = await getAgentId(id);
-      if(data && data.data){
+      if (data && data.data) {
         const agentId = data.data.id;
         setAgentId(agentId);
-        console.log(agentId)
-        return agentId
+        return agentId;
       }
-    } catch(error) {
-        console.error(error);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   const receivedSignal = () => {
     handleOpen();
-  }
+  };
 
   const getNotes = async (agentId: number) => {
-    await getAgentNotes(agentId).then((data) => {
-      if(data && data.data) {
-        console.log(data.data.content)
-        setNotesData(data.data.content)
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
+    await getAgentNotes(agentId)
+      .then((data) => {
+        if (data && data.data) {
+          setNotesData(data.data.content);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getMetrics = async (agentId: number) => {
+    await getAgentMetrics(agentId)
+      .then((data) => {
+        if (data && data.data) {
+          console.log("METRICS FOUND");
+          console.log(data.data);
+          setMetricsData(data.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   if (!isVisible)
     return (
       <button
+        type="button"
         onClick={handleOpen}
         className="bg-teal-100 hover:bg-teal-600 text-teal-900 font-bold py-2 px-4 rounded"
       >
@@ -110,13 +100,8 @@ const AgentCard: React.FC<IAgentCard> = ({
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black/[0.3]">
       <div
-        className="flex flex-auto flex-col bg-white rounded-3xl shadow-lg p-8"
-        style={{
-          maxWidth: "900px",
-          width: "100%",
-          maxHeight: "600px",
-          height: "600px",
-        }}
+        className="flex flex-auto flex-col bg-white rounded-3xl 
+        shadow-lg p-8 max-w-[900px] w-full max-h-[600px] h-[600px]"
       >
         <div className="flex flex-row items-center justify-between mb-3">
           <h2 className="text-3xl font-bold mb-2">{title}</h2>
@@ -146,23 +131,23 @@ const AgentCard: React.FC<IAgentCard> = ({
             <div className="grid grid-cols-4 space-x-3">
               <DataCard
                 title="Call Time"
-                content={metrics.avgHandleTime}
+                content={metricsData?.avgHandleTime}
                 textColor="green"
               ></DataCard>
               <DataCard
                 title="After Call Time"
-                content={metrics.avgAfterContactWorkTime}
-                textColor="red"
+                content={metricsData?.avgAfterContactWorkTime}
+                textColor="purple"
               ></DataCard>
               <DataCard
                 title="Hold Time"
-                content={metrics.avgHoldTime}
+                content={metricsData?.avgHoldTime}
                 textColor="yellow"
               ></DataCard>
               <DataCard
                 title="Abandon Time"
-                content={metrics.avgAbandonTime}
-                textColor="purple"
+                content={metricsData?.avgAbandonTime}
+                textColor="red"
               ></DataCard>
             </div>
             <div>
@@ -171,16 +156,25 @@ const AgentCard: React.FC<IAgentCard> = ({
                   <h2 className="text-xl font-bold">Notes:</h2>
                 </div>
                 <div>
-                  <NoteCard area={workspace} agentId={agentId} metrics={metrics ? metrics : undefined} signalNotesRow={receivedSignal} bttn_color="teal"></NoteCard>
+                  <NoteCard
+                    area={workspace}
+                    connectId={id}
+                    metrics={metricsData ? metricsData : undefined}
+                    signalNotesRow={receivedSignal}
+                    bttn_color="teal"
+                  ></NoteCard>
                 </div>
               </div>
             </div>
             <div className="flex flex-auto flex-col">
-              {/* cambiar para ordenar: title, priority, last update */}
               <div>
-                <NotesTable name={name} area={workspace} notesData={notesData} signalToAgentCard={receivedSignal}/>
+                <NotesTable
+                  name={name}
+                  area={workspace}
+                  notesData={notesData}
+                  signalToAgentCard={receivedSignal}
+                />
               </div>
-              {/* 1. cambiar con NotesRow, checar si flexea, probar con los placeholders de figma */}
             </div>
           </div>
         </div>

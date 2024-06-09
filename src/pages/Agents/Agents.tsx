@@ -62,8 +62,8 @@ const Agents: React.FC = () => {
 
   return (
     <div>
-      <div className="font-poppins pt-6 pb-0 px-6">
-        <h1 className="font-semibold text-3xl">Agents</h1>
+      <div className="font-poppins pt-6 pb-0 px-6" data-testid= "wrapper-Agents">
+        <h1 className="font-semibold text-3xl" data-testid="txt-agents">Agents</h1>
         <div className="ml-12 mt-4">
           <button onClick={() => requestSort("name")}>Sort by Name</button>
           <button onClick={() => requestSort("workspace1")} className="ml-6">Sort by Workspace</button>

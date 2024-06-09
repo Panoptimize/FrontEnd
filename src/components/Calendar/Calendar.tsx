@@ -24,6 +24,7 @@ const Calendar: React.FC<ICalendarView> = (
 
   const [currentMonth, setCurrentMonth] = useState<number>(startDateObj.getMonth());
   const [currentYear, setCurrentYear] = useState<number>(startDateObj.getFullYear());
+  const [clickCount, setClickCount] = useState<number>(0);
 
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = getDaysInMonth(currentMonth, currentMonth);
@@ -38,7 +39,6 @@ const Calendar: React.FC<ICalendarView> = (
   for (let i = 1; i <= daysInMonth; i++) {
     days.push(i);
   }
-  let clickCount = 0;
 
   const notify = (message: string) => {
     toast.error(message, {
@@ -73,7 +73,6 @@ const Calendar: React.FC<ICalendarView> = (
       return false;
     }
     const currentDay = new Date(currentYear, currentMonth, day);
-    // console.log(formatDate(currentDay), formatDate(startDateObj), formatDate(endDateObj), startDateObj <= currentDay && currentDay <= endDateObj)
     return currentDay >= startDateObj && currentDay <= endDateObj;
   }
 
@@ -89,7 +88,7 @@ const Calendar: React.FC<ICalendarView> = (
 
     const currentDay = new Date(currentYear, currentMonth, day);
 
-    if (currentDay > todayDate || currentDay > endDateObj) {
+    if (currentDay > todayDate) {
       notify("You can't select a future date.");
       return;
     }
@@ -100,21 +99,25 @@ const Calendar: React.FC<ICalendarView> = (
 
     if (startDateObj > currentDay) {
       setStartDate(currentDay.toISOString());
+      setClickCount(clickCount + 1);
     } else if (endDateObj < currentDay) {
       setEndDate(currentDay.toISOString());
+      setClickCount(0);
     } else if (clickCount < 1) {
-      clickCount++;
+      setClickCount(clickCount + 1);
       setStartDate(currentDay.toISOString());
     } else {
       const todayDate = new Date();
       if (currentDay.getDate() === todayDate.getDate()
         && currentMonth === todayDate.getMonth()
         && currentYear === todayDate.getFullYear()) {
-          setEndDate(todayDate.toISOString());
+        setEndDate(todayDate.toISOString());
       }
-      currentDay.setHours(23, 59, 59, 999);
-      setEndDate(currentDay.toISOString());
-      clickCount = 0;
+      else {
+        currentDay.setHours(23, 59, 59, 999);
+        setEndDate(currentDay.toISOString());
+      }
+      setClickCount(0);
     }
 
   }
@@ -127,6 +130,7 @@ const Calendar: React.FC<ICalendarView> = (
           type='button'
           onClick={handlePreviousMonth}
           className="bg-teal-600 text-white px-2 py-1 rounded"
+          data-testid='previous-month'
         >
           {"<"}
         </button>
@@ -137,6 +141,7 @@ const Calendar: React.FC<ICalendarView> = (
           type='button'
           onClick={handleNextMonth}
           className="bg-teal-600 text-white px-2 py-1 rounded"
+          data-testid='next-month'
         >
           {">"}
         </button>
@@ -150,7 +155,7 @@ const Calendar: React.FC<ICalendarView> = (
         {days.map((day, index) => (
           <div
             key={index}
-            className={`day cursor-pointer w-full pt-[100%] text-center relative ${isDayInInterval(day)
+            className={`cursor-pointer w-full pt-[100%] text-center relative ${isDayInInterval(day)
               ? 'bg-teal-600 text-white rounded border'
               : ''
               }`}

@@ -10,7 +10,6 @@ import { getAgentsList } from '../../services/agentsList/getAgentsList';
 import { IAgent } from "../../components/AgentTable/types";
 import { useOutletContext } from "react-router-dom";
 import { Notification } from "../../components/Topbar/types";
-import StatusCardHolder from '../../components/StatusCardHolder/StatusCardHolder';
 
 // Function to update temperatures simulating real-time data from contact lens
 const updateTemperatures = (rows: IRowAC[]): IRowAC[] => {
@@ -36,7 +35,6 @@ const formatTime = (totalSeconds: number): string => {
 const ActionCenter: React.FC = () => {
   // State variables
   const { setNotifications } = useOutletContext<{ setNotifications: (notifications: Notification[]) => void }>();
-    const [status, setStatus] = useState<IStatusCard[]>([]);
     const [rows, setRows] = useState<IRowAC[]>(() => {
       // Load rows from session storage or set to default if not available
       const savedRows = sessionStorage.getItem('rows');
@@ -44,24 +42,8 @@ const ActionCenter: React.FC = () => {
     });
     const [agents, setAgents] = useState<IAgent[]>([]);
     const [contactsFetched, setContactsFetched] = useState(false);
+    const [status, setStatus] = useState<IStatusCard[]>([]);
     const prevNegativeRows = useRef<Set<string>>(new Set());
-  
-  // Functions
-    // Fetch agents status
-  const getAgentsStatus = async () => {
-    console.log('entre')
-    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-    console.log(result, 'res');
-    if (result?.error) {
-      console.error(result.error);
-    } else {
-      setStatus(result?.data);
-    }
-  };
-
-  useEffect(()=> {
-      getAgentsStatus();
-  }, [])
 
     // Fetch agents list
     const fetchAgents = async () => {
@@ -158,10 +140,22 @@ const ActionCenter: React.FC = () => {
             await fetchContacts();
           };
 
+          const getAgentsStatus = async () => {
+            const result = await getStatus();
+            if (result.error) {
+              console.error(result.error);
+            } else {
+              setStatus(result.data);
+            }
+        };
+    
+        useEffect(()=> {
+            getAgentsStatus();
+        }, [])
+
         // Fetch status and agents only once
           useEffect(() => {
             const fetchInitialData = async () => {
-                await getAgentsStatus();
                 await fetchAgents();
             };
             fetchInitialData();
@@ -245,7 +239,7 @@ const ActionCenter: React.FC = () => {
                     <TableAC rows={highTemperatureRows} />
                 </div>
                 <div className="font-poppins px-6">
-                    <p className="text-gray-600 pt-2 px-4 text-lg">Current Agents</p>
+                    <p className="text-gray-600 pt-2 px-4 text-lg" data-testid="txt-CurrentAgents">Current Agents</p>
                     <TableAC rows={otherTemperatureRows} />
                 </div>
             </div>

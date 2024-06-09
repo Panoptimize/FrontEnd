@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { ITimeFrameSelector } from './types'
+import React, { useEffect, useRef, useState } from 'react';
+import { ITimeFrameSelector } from './types';
 import Calendar from '../Calendar/Calendar';
 
 const TimeFrameSelector: React.FC<ITimeFrameSelector> = ({
@@ -48,6 +48,7 @@ const TimeFrameSelector: React.FC<ITimeFrameSelector> = ({
             <div
                 className="flex items-center p-2 border rounded-full cursor-pointer"
                 onClick={toggleCalendar}
+                data-testid="toggle-button"
             >
                 <span className="mr-2">Timeframe: {selectedInterval}</span>
                 <svg
@@ -61,7 +62,7 @@ const TimeFrameSelector: React.FC<ITimeFrameSelector> = ({
                 </svg>
             </div>
             {isOpen && (
-                <div className="absolute mt-2 bg-white border rounded shadow-lg z-10">
+                <div className="absolute mt-2 bg-white border rounded shadow-lg z-10" data-testid="calendar-container">
                     <Calendar
                         text="Select an interval"
                         startDate={startDate}
@@ -75,4 +76,4 @@ const TimeFrameSelector: React.FC<ITimeFrameSelector> = ({
     );
 }
 
-export default TimeFrameSelector
+export default TimeFrameSelector;

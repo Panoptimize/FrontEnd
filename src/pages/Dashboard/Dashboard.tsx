@@ -15,7 +15,6 @@ import { ICustomerSatisfaction } from "./types";
 import { TimeFrameSelector } from "../../components/TimeFrameSelector";
 import { getFilters } from "../../services/dashboard/getFilters";
 import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
-import { ChoiceBoxSelect } from "../../components/ChoiceBoxes/ChoiceBoxSelect";
 
 import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
@@ -40,24 +39,19 @@ export const Dashboard: React.FC = () => {
     if (creationDate) {
       const creationDateObj = new Date(creationDate);
       const threshold = new Date(new Date().setDate(new Date().getDate() - 90));
-      if (creationDateObj >= threshold) {
+
+      // Check if the creation day is greater than todays date less than 90 days
+      if (creationDateObj < threshold) {
+        // Get difference in days
         return 90;
       } else {
+        // Get difference in days
         const differenceTime = new Date().getTime() - creationDateObj.getTime();
-        setLimit(Math.ceil(differenceTime / (1000 * 3600 * 24)));
-        setStartDate(creationDate);
-      } 
+        return Math.ceil(differenceTime / (1000 * 3600 * 24));
+      }
+
     }
   }
-    
-  const getAgentsStatus = async () => {
-    const result = await getStatus("7c78bd60-4a9f-40e5-b461-b7a0dfaad848");
-    if (result && result.data) {
-      setStatus(result.data);
-    } else {
-      console.error(result?.error);
-    }
-  };
 
   const fetchFilters = async () => {
     try {
@@ -76,24 +70,24 @@ export const Dashboard: React.FC = () => {
 
   const getKpiData = async () => {
     try {
-        const result = await getKpis({
-            startDate,
-            endDate,
-            routingProfiles: selectedOptions?.map((option) => option.value) ?? [],
-        });
+      const result = await getKpis({
+        startDate,
+        endDate,
+        routingProfiles: selectedOptions?.map((option) => option.value) ?? [],
+      });
 
-        if (result) {
-          setKpiData(result.data);
-          setActivityData({ data: result.data.activities.activities ?? [] });
-          setPerformanceData({ 
-              users: result.data.performanceData?.map(performance => ({
-                  username: performance.agentName,
-                  data: performance.performances
-              })) ?? []
-          });
-        }
+      if (result) {
+        setKpiData(result.data);
+        setActivityData({ data: result.data.activities.activities ?? [] });
+        setPerformanceData({
+          users: result.data.performanceData?.map(performance => ({
+            username: performance.agentName,
+            data: performance.performances
+          })) ?? []
+        });
+      }
     } catch (error) {
-        console.error('Error fetching KPI data:', error);
+      console.error('Error fetching KPI data:', error);
     }
   };
 
@@ -111,15 +105,14 @@ export const Dashboard: React.FC = () => {
   const fetchDownload = async () => {
     const routingProfiles = workspaces?.map((workspace) => workspace.value) ?? [];
     let routingProfile: string[] = [];
-    routingProfile.push(routingProfiles[4])
-
-    console.log(workspaces);
-    
+    routingProfile.push("4896ae34-a93e-41bc-8231-bf189e7628b1");
+    console.log("Routing Profiles:");
+    console.log(routingProfile);    
     try {
       const data = await getDownload(
         startDate,
         endDate,
-        routingProfiles
+        routingProfile
       );
       console.log(data);
     } catch (error) {
@@ -130,10 +123,18 @@ export const Dashboard: React.FC = () => {
     setWorkspace(workspace);
   };
 
+  const getAgentsStatus = async () => {
+    const result = await getStatus();
+    if (result.error) {
+      console.error(result.error);
+    } else {
+      setStatus(result.data);
+    }
+  };
 
   useEffect(() => {
-    fetchFilters();
     getAgentsStatus();
+    fetchFilters();
   }, []);
 
   useEffect(() => {
@@ -144,23 +145,23 @@ export const Dashboard: React.FC = () => {
   }, [startDate, endDate, selectedOptions]);
 
   return (
-    <div className="flex w-full h-fit flex-col">
+    <div className="flex w-full h-fit flex-col " data-testid= "wrapper-Dashboard">
       <div className="font-poppins pt-6 px-6">
 
         <h1 className="font-semibold text-3xl">Dashboard</h1>
-        <p className="text-gray-600 pt-2 text-lg">Agents Status</p>
+        <p className="text-gray-600 pt-2 text-lg" data-testid="txt-AgentStatus">Agents Status</p>
         <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
-                {status.map((item, index) => (
-                        <StatusCard 
-                          key={index}
-                          status={item.status}
-                          numUsers={item.numUsers}
-                        />
-                      ))}
-                </div>
+        {status.map((item, index) => (
+                <StatusCard 
+                  key={index}
+                  status={item.status}
+                  numUsers={item.numUsers}
+                />
+              ))}
+        </div>
       </div>
       <div className="font-poppins px-6">
-        <p className="text-gray-600 pt-1 text-lg">Overall Performance</p>
+        <p className="text-gray-600 pt-1 text-lg" data-testid="txt-OverallPerformance">Overall Performance</p>
       </div>
       <div className="flex flex-row justify-between mx-5 py-2 space-x-2">
         <div className="flex items-stretch max-h-24">
@@ -171,13 +172,13 @@ export const Dashboard: React.FC = () => {
               setStartDate={setStartDate}
               endDate={endDate}
               setEndDate={setEndDate}
-              limit={limit}
+              limit={validateCreationDate()}
             />
           </div>
           <div className="self-center mx-20">
-              <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
-            </div>
+            <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
           </div>
+        </div>
         <div className="flex items-center pr-5">
           <Button
             baseColor="transparent"
@@ -194,7 +195,7 @@ export const Dashboard: React.FC = () => {
           </div>
           <div className="flex flex-auto">
             <ContactMedium data={[
-              (kpiData?.voice ?? 0), 
+              (kpiData?.voice ?? 0),
               (kpiData?.chat ?? 0),
             ]} />
           </div>
@@ -246,7 +247,8 @@ export const Dashboard: React.FC = () => {
       </div>
     </div>
 
-)}
+  )
+}
 
 
 export default Dashboard;

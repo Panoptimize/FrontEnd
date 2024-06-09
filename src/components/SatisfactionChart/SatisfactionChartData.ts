@@ -4,7 +4,7 @@ import axios from 'axios';
 const url = 'http://127.0.0.1:8080/dashboard/customer-satisfaction';
 
 // Function to fetch and return JSON data
-async function fetchJsonData(): Promise<any> {
+export async function fetchJsonData(): Promise<any> {
     try {
         // Fetch the JSON data from the URL using Axios
         const response = await axios.get(url);
