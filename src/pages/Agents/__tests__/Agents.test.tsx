@@ -78,4 +78,42 @@ describe('Agents Component', () => {
     const sortedWorkspaceNames = screen.getAllByRole('row').slice(1).map(row => row.querySelector('td:nth-child(2)')!.textContent);
     expect(sortedWorkspaceNames).toEqual(['Workspace 1', 'Workspace 2']);
   });
+
+  test('fails when sorting agents by name incorrectly', () => {
+    mockedUseCachedAgents.mockReturnValue({
+      agents: [
+        { id: '2', name: 'Agent B', status: 'Inactive', workspace: 'Workspace 2', score: 90, email: 'b@example.com' },
+        { id: '1', name: 'Agent A', status: 'Active', workspace: 'Workspace 1', score: 85, email: 'a@example.com' },
+      ],
+      loading: false,
+    });
+
+    render(<Agents />);
+    fireEvent.click(screen.getByText('Sort by Name'));
+
+    try {
+      const sortedAgentNames = screen.getAllByRole('row').slice(1).map(row => row.querySelector('td')!.textContent);
+      expect(sortedAgentNames).toEqual(['Agent B', 'Agent A']);
+      throw new Error('Expected sorting to fail but it passed');
+    } catch (error) {
+      expect(error).toBeTruthy();
+    }
+  });
+
+  test('fails when no agents are displayed', () => {
+    mockedUseCachedAgents.mockReturnValue({
+      agents: [],
+      loading: false,
+    });
+
+    render(<Agents />);
+
+    try {
+      expect(screen.getByText('Agent C')).toBeInTheDocument();
+      throw new Error('Expected Agent C to be not found but it was found');
+    } catch (error) {
+      expect(error).toBeTruthy();
+    }
+  });
+
 });

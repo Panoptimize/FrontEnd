@@ -61,4 +61,10 @@ describe("Action center row component", () => {
     expect(screen.getByText("Positive")).toBeInTheDocument();
     expect(screen.getByText("Chat")).toBeInTheDocument();
   });
+
+  test("Renders with content", () => {
+    renderComponent(props);
+
+    expect(screen.getByText("Agent 1")).toBeInTheDocument();
+  });
 });

@@ -64,4 +64,10 @@ describe("Action Center table component", () => {
     expect(screen.getByText("Sentiment")).toBeInTheDocument();
     expect(screen.getByText("Channel")).toBeInTheDocument();
   });
+  test("Renders with content", () => {
+    renderComponent(props);
+
+    expect(screen.getByText("Agent 1")).toBeInTheDocument();
+  });
+
 });
