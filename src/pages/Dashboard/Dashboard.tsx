@@ -18,7 +18,6 @@ import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
 
 import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
-import { StatusCardHolder } from "../../components/StatusCardHolder";
 
 export const Dashboard: React.FC = () => {
   const [creationDate, setCreationDate] = useState<string>();
@@ -124,8 +123,17 @@ export const Dashboard: React.FC = () => {
     setWorkspace(workspace);
   };
 
+  const getAgentsStatus = async () => {
+    const result = await getStatus();
+    if (result.error) {
+      console.error(result.error);
+    } else {
+      setStatus(result.data);
+    }
+  };
 
   useEffect(() => {
+    getAgentsStatus();
     fetchFilters();
   }, []);
 
@@ -142,8 +150,14 @@ export const Dashboard: React.FC = () => {
 
         <h1 className="font-semibold text-3xl">Dashboard</h1>
         <p className="text-gray-600 pt-2 text-lg" data-testid="txt-AgentStatus">Agents Status</p>
-        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">
-          <StatusCardHolder />
+        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
+        {status.map((item, index) => (
+                <StatusCard 
+                  key={index}
+                  status={item.status}
+                  numUsers={item.numUsers}
+                />
+              ))}
         </div>
       </div>
       <div className="font-poppins px-6">
