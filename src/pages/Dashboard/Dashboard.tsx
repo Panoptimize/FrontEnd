@@ -19,7 +19,6 @@ import { ChoiceBoxSelect } from "../../components/ChoiceBoxes/ChoiceBoxSelect";
 
 import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
-import { StatusCardHolder } from "../../components/StatusCardHolder";
 
 export const Dashboard: React.FC = () => {
   const [creationDate, setCreationDate] = useState<string>();
@@ -125,8 +124,17 @@ export const Dashboard: React.FC = () => {
     setWorkspace(workspace);
   };
 
+  const getAgentsStatus = async () => {
+    const result = await getStatus();
+    if (result.error) {
+      console.error(result.error);
+    } else {
+      setStatus(result.data);
+    }
+  };
 
   useEffect(() => {
+    getAgentsStatus();
     fetchFilters();
   }, []);
 
@@ -138,17 +146,23 @@ export const Dashboard: React.FC = () => {
   }, [startDate, endDate, selectedOptions]);
 
   return (
-    <div className="flex w-full h-fit flex-col">
+    <div className="flex w-full h-fit flex-col " data-testid= "wrapper-Dashboard">
       <div className="font-poppins pt-6 px-6">
 
         <h1 className="font-semibold text-3xl">Dashboard</h1>
-        <p className="text-gray-600 pt-2 text-lg">Agents Status</p>
-        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">
-          <StatusCardHolder />
+        <p className="text-gray-600 pt-2 text-lg" data-testid="txt-AgentStatus">Agents Status</p>
+        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
+        {status.map((item, index) => (
+                <StatusCard 
+                  key={index}
+                  status={item.status}
+                  numUsers={item.numUsers}
+                />
+              ))}
         </div>
       </div>
       <div className="font-poppins px-6">
-        <p className="text-gray-600 pt-1 text-lg">Overall Performance</p>
+        <p className="text-gray-600 pt-1 text-lg" data-testid="txt-OverallPerformance">Overall Performance</p>
       </div>
       <div className="flex flex-row justify-between mx-5 py-2 space-x-2">
         <div className="flex items-stretch max-h-24">

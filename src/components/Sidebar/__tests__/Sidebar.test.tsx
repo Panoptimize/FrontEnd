@@ -2,11 +2,11 @@ import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import Sidebar from "../Sidebar";
 import { ISidebar } from "../types";
 import { BrowserRouter as Router } from "react-router-dom";
-import { AppContextProvider } from "../../../store/app-context/app-context"; // Adjust the import according to your file structure
+import { AppContextProvider } from "../../../store/app-context/app-context";
 
 afterEach(() => {
   cleanup();
-  localStorage.clear(); // Clear localStorage after each test
+  localStorage.clear();
 });
 
 describe("Sidebar", () => {
@@ -72,19 +72,16 @@ describe("Sidebar", () => {
     renderComponent(props);
     const actionCenterButton = screen.getByTestId("action_center_button");
 
-    // Click on the Action Center button
     fireEvent.click(actionCenterButton);
 
-    // Verify the activeButton state is updated
     expect(screen.getByTestId("action_center_button")).toHaveAttribute(
       "baseColor",
       "teal"
     );
 
-    // Verify the localStorage is updated
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       "activeButton",
-      "/action-center" // Update this value according to your route structure
+      "/action-center"
     );
   });
 });

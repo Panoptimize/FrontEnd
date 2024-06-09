@@ -2,8 +2,6 @@ import {
   Dashboard,
   ActionCenter,
   Agents,
-  History,
-  Settings,
   PasswordReset,
 } from "../pages";
 import { Navigate, RouteObject, createBrowserRouter } from "react-router-dom";
@@ -25,8 +23,6 @@ export const AppRouter = () => {
         { path: ROUTES.DASHBOARD, element: <Dashboard /> },
         { path: ROUTES.ACTION_CENTER, element: <ActionCenter /> },
         { path: ROUTES.AGENTS, element: <Agents /> },
-        { path: ROUTES.HISTORY, element: <History /> },
-        { path: ROUTES.SETTINGS, element: <Settings /> },
       ],
     },
     {

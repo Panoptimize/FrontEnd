@@ -3,10 +3,9 @@ import NotesRow from "../NotesRow/NotesRow";
 import { SortConfig, INotesTable } from "./types";
 
 const NotesTable: React.FC<INotesTable> = ({ name, area, notesData, signalToAgentCard }) => {
-  //const [notes, setNotes] = useState(notesData);
+
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
 
-   //Order for the sort methods to order priority from low to high and vicecersa. 
    const priorityOrder: Record<'low' | 'medium' | 'high', number> = {
     low: 1,
     medium: 2,
@@ -18,10 +17,6 @@ const NotesTable: React.FC<INotesTable> = ({ name, area, notesData, signalToAgen
       signalToAgentCard();
     }
   }
-
-  useEffect(() => {
-    console.log(notesData);
-  })
 
   const sortedNotes = useMemo(() => {
     if (!sortConfig) {
