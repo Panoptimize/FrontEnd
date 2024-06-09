@@ -30,6 +30,7 @@ const StatusCard: React.FC<IStatusCard> = ({ status, numUsers }) => {
       <div className="h-20 w-64 flex rounded-md shadow flex-auto bg-white m-2">
         <div
           className={`${getColor(status)} w-7 mr-1 rounded-tl-md rounded-bl-md`}
+          data-testid="status-color"
         ></div>
         <div className="flex flex-col items-center justify-center flex-grow">
           <span className="text-lg text-black">{getStatusLabel(status)}</span>
