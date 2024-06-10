@@ -150,7 +150,7 @@ export const Dashboard: React.FC = () => {
 
         <h1 className="font-semibold text-3xl">Dashboard</h1>
         <p className="text-gray-600 pt-2 text-lg" data-testid="txt-AgentStatus">Agents Status</p>
-        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
+        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4" data-testid="TimeFrame">           
         {status.map((item, index) => (
                 <StatusCard 
                   key={index}
@@ -173,6 +173,8 @@ export const Dashboard: React.FC = () => {
               endDate={endDate}
               setEndDate={setEndDate}
               limit={validateCreationDate()}
+              data-testid = "TimeFrame-startDate"
+              
             />
           </div>
           <div className="self-center mx-20">
@@ -181,6 +183,7 @@ export const Dashboard: React.FC = () => {
         </div>
         <div className="flex items-center pr-5">
           <Button
+            data-testid="button"
             baseColor="transparent"
             image="Download.svg"
             text="Download"
