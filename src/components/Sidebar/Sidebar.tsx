@@ -3,12 +3,9 @@ import { Button } from "../Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/constants";
 import { useAppContext } from "../../store/app-context/app-context";
+import { ISidebar } from "./types";
 
-interface SidebarProps {
-  expanded: boolean;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ expanded }) => {
+const Sidebar: React.FC<ISidebar> = ({ expanded }) => {
   const navigate = useNavigate();
   const { logOut } = useAppContext();
 

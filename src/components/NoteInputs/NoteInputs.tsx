@@ -1,8 +1,8 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { INoteInputs } from "./types";
 import { Button } from "../Button";
 import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
 import { TextInput } from "../TextInput";
-import { useEffect, useRef, useState } from "react";
 import { IAgentPerformanceData, ICreateNote, INote } from "../../pages/types";
 import { updateNote } from "../../services/notes/updateNote";
 import { TextInputRef } from "../TextInput/types";
