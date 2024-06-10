@@ -8,7 +8,7 @@ afterEach(cleanup);
 describe('DataCard component', () => {
   const props: IDataCard = {
     title: 'Test Title',
-    content: 'Content',
+    content: 50,
     textColor: 'blue',
     decorator: '%'
   };
@@ -16,7 +16,7 @@ describe('DataCard component', () => {
   test('renders without crashing', () => {
     render(<DataCard {...props} />);
     expect(screen.getByText('Test Title')).toBeInTheDocument();
-    expect(screen.getByText('Content%')).toBeInTheDocument();
+    expect(screen.getByText('50%')).toBeInTheDocument();
   });
 
   test('applies the correct text color class based on textColor prop', () => {

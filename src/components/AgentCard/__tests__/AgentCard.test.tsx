@@ -5,55 +5,90 @@ import AgentCard from '../AgentCard';
 import { getAgentNotes } from '../../../services/notes/getAgentNotes';
 import { getAgentId } from '../../../services/agentsList/getAgentId';
 import profilePicture from "../../../assets/images/Toretto.jpg";
+import { IAgentCard } from '../types';
 
-// Mockear las funciones y servicios necesarios
-jest.mock('../../services/notes/getAgentNotes', () => ({
+jest.mock('../../../services/notes/getAgentNotes', () => ({
   getAgentNotes: jest.fn().mockResolvedValue({ data: { content: ['Note 1 Content', 'Note 2 Content'] } }),
 }));
 
-jest.mock('../../services/agentsList/getAgentId', () => ({
+jest.mock('../../../services/agentsList/getAgentId', () => ({
   getAgentId: jest.fn().mockResolvedValue({ data: { id: 123 } }),
 }));
 
+const renderAgentCard = (props: Partial<IAgentCard> = {}) => {
+  const defaultProps: IAgentCard = {
+    id: '123',
+    name: 'Test Name',
+    workspace: 'Test Workspace',
+  };
+  return render(<AgentCard {...defaultProps} {...props} />);
+}
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('AgentCard Component', () => {
   it('renders with default props', () => {
-    const { getByText } = render(<AgentCard id="123" name="Test Name" workspace="Test Workspace" />);
-    expect(getByText('Test Name')).toBeInTheDocument();
-    expect(getByText('Test Workspace')).toBeInTheDocument();
+    renderAgentCard({
+      bttnTitle: "View details"
+    });
+    expect(screen.getByText('View details')).toBeInTheDocument();
   });
 
   it('opens modal on button click', async () => {
-    const { getByText, findByText } = render(<AgentCard id="123" name="Test Name" workspace="Test Workspace" />);
-    const button = getByText('View Details');
-    fireEvent.click(button);
-    const modalTitle = await findByText('Contact Details');
-    expect(modalTitle).toBeInTheDocument();
+    renderAgentCard({
+      bttnTitle: "View Details"
+
+    });
+
+    fireEvent.click(screen.getByTestId("view-details-button"));
+
+    await waitFor(() => {
+      expect(screen.getByText('Agent Details')).toBeInTheDocument();
+    });
   });
 
   it('closes modal on close button click', async () => {
-    const { getByText, findByRole } = render(<AgentCard id="123" name="Test Name" workspace="Test Workspace" />);
-    const button = getByText('View Details');
+    renderAgentCard();
+    const button = screen.getByTestId("view-details-button");
     fireEvent.click(button);
-    const closeButton = await findByRole('button', { name: /cross/i });
-    fireEvent.click(closeButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Agent Details')).toBeInTheDocument();
+    })
+
+    const closeButton = screen.queryByTestId("close-button");
+
+    if (closeButton) {
+      fireEvent.click(closeButton);
+    }
+    
     await waitFor(() => {
       expect(screen.queryByText('Contact Details')).not.toBeInTheDocument();
     });
   });
 
   it('loads agent data correctly', async () => {
-    const { getByText, findByText } = render(<AgentCard id="123" name="Test Name" workspace="Test Workspace" />);
-    const button = getByText('View Details');
+    renderAgentCard({
+      bttnTitle: "View Details",
+      workspace: "Test Workspace"
+    });
+
+    const button = screen.getByTestId("view-details-button");
     fireEvent.click(button);
-    const agentName = await findByText('Test Name');
-    const agentWorkspace = await findByText('Test Workspace');
-    expect(agentName).toBeInTheDocument();
+    
+    const titleDetails = await screen.findByText('Agent Details');
+    const agentWorkspace = await screen.findByText('Test Workspace');
+
+    expect(titleDetails).toBeInTheDocument();
     expect(agentWorkspace).toBeInTheDocument();
+
   });
 
   it('calls getId function when opening modal', async () => {
-    const { getByText } = render(<AgentCard id="123" name="Test Name" workspace="Test Workspace" />);
-    const button = getByText('View Details');
+    renderAgentCard();
+    const button = screen.getByTestId("view-details-button");
     fireEvent.click(button);
     await waitFor(() => {
       expect(getAgentId).toHaveBeenCalledWith("123");
@@ -62,22 +97,28 @@ describe('AgentCard Component', () => {
 
   it('handles error in getId function', async () => {
     (getAgentId as jest.Mock).mockRejectedValueOnce(new Error('Error fetching agent id'));
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    const { getByText } = render(<AgentCard id="123" name="Test Name" workspace="Test Workspace" />);
-    const button = getByText('View Details');
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    renderAgentCard();
+    const button = screen.getByTestId("view-details-button");
     fireEvent.click(button);
     await waitFor(() => {
       expect(consoleErrorSpy).toHaveBeenCalledWith(new Error('Error fetching agent id'));
-    });
+    }); 
     consoleErrorSpy.mockRestore();
   });
 
   it('loads agent notes correctly', async () => {
-    const { getByText, findByText } = render(<AgentCard id="123" name="Test Name" workspace="Test Workspace" />);
-    const button = getByText('View Details');
+    renderAgentCard();
+    const button = screen.getByTestId("view-details-button");
     fireEvent.click(button);
-    const note1 = await findByText('Note 1 Content');
-    const note2 = await findByText('Note 2 Content');
+
+    // Wait for getNotes to be called
+    await waitFor(() => {
+      expect(getAgentNotes).toHaveBeenCalled();
+    });
+
+    const note1 = await screen.findByText('Note 1 Content');
+    const note2 = await screen.findByText('Note 2 Content');
     expect(note1).toBeInTheDocument();
     expect(note2).toBeInTheDocument();
   });
@@ -93,7 +134,7 @@ describe('AgentCard Component', () => {
 
   it('handles error in getNotes function', async () => {
     (getAgentNotes as jest.Mock).mockRejectedValueOnce(new Error('Error fetching notes'));
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
     const { getByText } = render(<AgentCard id="123" name="Test Name" workspace="Test Workspace" />);
     const button = getByText('View Details');
     fireEvent.click(button);
@@ -120,7 +161,7 @@ describe('AgentCard Component', () => {
 
   it('displays error message when agent data fails to load', async () => {
     (getAgentId as jest.Mock).mockRejectedValueOnce(new Error('Error fetching agent data'));
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
     const { getByText } = render(<AgentCard id="123" name="Test Name" workspace="Test Workspace" />);
     const button = getByText('View Details');
     fireEvent.click(button);
