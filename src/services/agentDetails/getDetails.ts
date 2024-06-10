@@ -1,6 +1,6 @@
 
 import httpInstance from "../httpInstance";
-import { IUserInfoCard } from "../../components/UserInfoCard/types";
+import { IUserInfoCard } from "./types";
 
 export const getDetails = async () => {
     try {

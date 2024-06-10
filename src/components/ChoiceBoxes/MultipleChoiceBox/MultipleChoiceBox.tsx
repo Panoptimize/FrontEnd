@@ -3,12 +3,11 @@ import { IMultipleChoiceBox } from './types';
 import { ErasablePill } from '../../ErasablePill';
 import { Option } from '../ChoiceBox/types';
 import { SelectorList } from '../../SelectorList';
-import iconCross from '../../assets/images/Cross.svg'
 
-const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({ options, setSelectedOptions, selectedOptions,icon }) => {
+const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({ options, setSelectedOptions, selectedOptions }) => {
     const [showOptions, setShowOptions] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    icon = !icon? icon = iconCross : icon;
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -50,7 +49,7 @@ const MultipleChoiceBox: React.FC<IMultipleChoiceBox> = ({ options, setSelectedO
                                     className="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none"
                                     onClick={() => setShowOptions(!showOptions)}
                                 >
-                                    <svg xmlns={iconCross} width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-chevron-up w-4 h-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-chevron-up w-4 h-4">
                                         <polyline points="18 15 12 9 6 15"></polyline>
                                     </svg>
                                     {""}
