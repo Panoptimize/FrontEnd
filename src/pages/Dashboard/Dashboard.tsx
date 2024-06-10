@@ -15,11 +15,9 @@ import { ICustomerSatisfaction } from "./types";
 import { TimeFrameSelector } from "../../components/TimeFrameSelector";
 import { getFilters } from "../../services/dashboard/getFilters";
 import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
-import { ChoiceBoxSelect } from "../../components/ChoiceBoxes/ChoiceBoxSelect";
 
 import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
-import { StatusCardHolder } from "../../components/StatusCardHolder";
 
 export const Dashboard: React.FC = () => {
   const [creationDate, setCreationDate] = useState<string>();
@@ -44,11 +42,13 @@ export const Dashboard: React.FC = () => {
         setLimit(90);
         setStartDate(threshold.toISOString());
       } else {
+        // Get difference in days
         const differenceTime = new Date().getTime() - creationDateObj.getTime();
         setLimit(Math.ceil(differenceTime / (1000 * 3600 * 24)));
         setStartDate(creationDate);
 
       }
+
     }
     console.log("Start date set", startDate, creationDate);
   }
@@ -106,17 +106,15 @@ export const Dashboard: React.FC = () => {
   };
 
   const fetchDownload = async () => {
-    const routingProfiles = workspaces?.map((workspace) => workspace.value) ?? [];
-    let routingProfile: string[] = [];
-    routingProfile.push(routingProfiles[4])
-
-    console.log(workspaces);
-
+    let routingProfile: any = [];
+    selectedOptions.forEach((option) => {
+      routingProfile.push(option.value);
+    });
     try {
       const data = await getDownload(
         startDate,
         endDate,
-        routingProfiles
+        routingProfile
       );
       console.log(data);
     } catch (error) {
@@ -138,17 +136,23 @@ export const Dashboard: React.FC = () => {
   }, [startDate, endDate, selectedOptions]);
 
   return (
-    <div className="flex w-full h-fit flex-col">
+    <div className="flex w-full h-fit flex-col " data-testid= "wrapper-Dashboard">
       <div className="font-poppins pt-6 px-6">
 
         <h1 className="font-semibold text-3xl">Dashboard</h1>
-        <p className="text-gray-600 pt-2 text-lg">Agents Status</p>
-        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">
-          <StatusCardHolder />
+        <p className="text-gray-600 pt-2 text-lg" data-testid="txt-AgentStatus">Agents Status</p>
+        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
+        {status.map((item, index) => (
+                <StatusCard 
+                  key={index}
+                  status={item.status}
+                  numUsers={item.numUsers}
+                />
+              ))}
         </div>
       </div>
       <div className="font-poppins px-6">
-        <p className="text-gray-600 pt-1 text-lg">Overall Performance</p>
+        <p className="text-gray-600 pt-1 text-lg" data-testid="txt-OverallPerformance">Overall Performance</p>
       </div>
       <div className="flex flex-row justify-between mx-5 py-2 space-x-2">
         <div className="flex items-stretch max-h-24">
@@ -159,7 +163,7 @@ export const Dashboard: React.FC = () => {
               setStartDate={setStartDate}
               endDate={endDate}
               setEndDate={setEndDate}
-              limit={limit}
+              limit={validateCreationDate()}
             />
           </div>
           <div className="self-center mx-20">

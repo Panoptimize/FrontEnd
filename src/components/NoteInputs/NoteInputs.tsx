@@ -2,7 +2,7 @@ import { INoteInputs } from "./types";
 import { Button } from "../Button";
 import { ChoiceBox } from "../ChoiceBoxes/ChoiceBox";
 import { TextInput } from "../TextInput";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IAgentPerformanceData, ICreateNote, INote } from "../../pages/types";
 import { updateNote } from "../../services/notes/updateNote";
 import { TextInputRef } from "../TextInput/types";
@@ -10,14 +10,15 @@ import { Priority } from "../../constants/Priority";
 import { ChoiceBoxRef } from "../ChoiceBoxes/ChoiceBox/types";
 import { deleteNote } from "../../services/notes/deleteNote";
 import { createNote } from "../../services/notes/createNote";
+import { getAgentMetrics } from "../../services/AgentMetrics/getAgentMetrics";
 
 /* Ahorita se esta simulando lo del backend, ya despues seria con un backend ya implementado */
 
 
 const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, title, text, closeWindow }) => {
 
-  //const [editedNote, setEditedNote] = useState<INote>();
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
+  const [isTooLong, setIsTooLong] = useState<boolean>(false);
 
   const nameRef = useRef<TextInputRef>(null);
   const descriptionRef = useRef<TextInputRef>(null);
@@ -40,16 +41,17 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
   }
 
   const editNote = async (id: number, editedNote: INote) => {
-    if(nameRef.current?.getValue() === "" || nameRef.current?.getValue() === undefined){
+    const nameValue = nameRef.current?.getValue() ?? "";
+    if(nameValue === ""){
       setIsEmpty(true);
+    } else if(nameValue.length > 20) {
+      setIsTooLong(true);
     } else {
       setIsEmpty(false);
+      setIsTooLong(false);
       await updateNote(editedNote, id).then((data) => {
-        if(closeWindow){
+        if(closeWindow)
           closeWindow();
-        } else {
-          console.log("NO CLOSE WINDOW")
-        }
       }).catch((error) => {
         console.error(error)
       });
@@ -64,7 +66,6 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
 
   const eraseNote = async(id: number) => {
     await deleteNote(id).then((data) => {
-      console.log("NOTE DELETED")
       if(closeWindow){
         closeWindow();
       }
@@ -74,15 +75,16 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
   };
 
   const creatingNote = async () => {
-    if(nameRef.current?.getValue() === "" || nameRef.current?.getValue() === undefined){
+    const nameValue = nameRef.current?.getValue() ?? "";
+    if(nameValue === ""){
       setIsEmpty(true);
+    } else if(nameValue.length > 20) {
+      setIsTooLong(true);
     }
     else{
-      console.log("AQUI SI LLEGO")
-      console.log(metrics)
-      console.log(agentId)
       if(metrics && agentId){
         setIsEmpty(false);
+        setIsTooLong(false);
         const newNote:INote = {
           name: nameRef.current?.getValue() || "",
           description: descriptionRef.current?.getValue() || "",
@@ -96,14 +98,11 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
           avgHoldTime: metrics.avgHoldTime,
           id: agentId
         };
-        console.log(newAgentPerformance)
         const noteToCreate:ICreateNote = {
           createNote:newNote,
           createAgentPerformance:newAgentPerformance
         }
-        console.log(noteToCreate)
         await createNote(noteToCreate).then((data) => {
-          console.log("NOTE CREATED")
           if(closeWindow){
             closeWindow();
           }
@@ -140,7 +139,7 @@ const NoteInputs: React.FC<INoteInputs> = ({ id, agentId, metrics, priority, tit
         <TextInput placeholder="Add Text" size="big" text={text} ref={descriptionRef}></TextInput>
       </div>
       <div className="grid grid-cols-3">
-        {isEmpty ? (<div className="p-2 text-red-600 font-bold"> PLEASE ADD A TITLE !!! </div>
+        {isEmpty || isTooLong ? (<div className="p-2 text-red-600 font-bold"> {isEmpty ? "PLEASE ADD A TITLE" : "TITLE IS TOO LONG"} !!! </div>
         ):(<div></div>)}
         <div></div>
         <div className="grid grid-cols-2 space-x-4">

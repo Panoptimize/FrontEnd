@@ -1,4 +1,9 @@
-import { Dashboard, ActionCenter, Agents, History, Settings } from "../pages";
+import {
+  Dashboard,
+  ActionCenter,
+  Agents,
+  PasswordReset,
+} from "../pages";
 import { Navigate, RouteObject, createBrowserRouter } from "react-router-dom";
 
 import PrivateRouter from "./PrivateRouter";
@@ -18,8 +23,6 @@ export const AppRouter = () => {
         { path: ROUTES.DASHBOARD, element: <Dashboard /> },
         { path: ROUTES.ACTION_CENTER, element: <ActionCenter /> },
         { path: ROUTES.AGENTS, element: <Agents /> },
-        { path: ROUTES.HISTORY, element: <History /> },
-        { path: ROUTES.SETTINGS, element: <Settings /> },
       ],
     },
     {
@@ -29,10 +32,12 @@ export const AppRouter = () => {
       ) : (
         <PublicRouter />
       ),
-      children: [{ path: ROUTES.AUTH, element: <Login /> }],
+      children: [
+        { path: ROUTES.AUTH, element: <Login /> },
+        { path: ROUTES.PASSWORD_RESET, element: <PasswordReset /> },
+      ],
     },
   ];
 
   return createBrowserRouter(routes);
 };
-

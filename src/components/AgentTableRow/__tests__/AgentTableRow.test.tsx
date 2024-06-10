@@ -60,5 +60,19 @@ describe("Agent table row component", () => {
     expect(screen.getByTestId("agentcard")).toHaveTextContent(
       "1 Agent name Workspace 1",
     );
+    })
+
+    test("Does not render if agentImage is not .svg", () => {
+      const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const invalidImageProps = {
+        ...props,
+        agentImage: "agent.png",
+      };
+
+      renderComponent(invalidImageProps);
+
+      expect(consoleError).toHaveBeenCalledWith("simple pill");
+      expect(screen.queryByText("Agent name")).not.toBeInTheDocument();
+      consoleError.mockRestore();
   });
 });
