@@ -18,23 +18,14 @@ const PrivateRouter = () => {
     setUnreadCount(prev => prev + newNotifications.length);
   };
 
-  const resetNotificationCount = () => {
-    setUnreadCount(0);
-  };
-
-  const clearNotifications = () => {
-    setNotifications([]); // Clears all notifications
-    setUnreadCount(0); // Resets unread count
-  };
+  
 
   return (
     <div className="flex flex-col flex-initial h-screen">
       <Topbar 
         toggleSidebar={toggleSidebar}
         notifications={notifications}
-        unreadCount={unreadCount}
-        resetNotificationCount={resetNotificationCount} 
-        clearNotifications={clearNotifications}/>
+        unreadCount={unreadCount}/>
       <div className="h-dvh flex flex-row flex-auto">
         <div>
           <Sidebar expanded={isSidebarExpanded} />
