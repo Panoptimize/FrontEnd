@@ -120,7 +120,7 @@ const AgentCard: React.FC<IAgentCard> = ({
                 <Pill title={workspace}></Pill>
               </div>
               <div className="flex flex-col h-full w-full">
-                <h4 className="my-3 font-bold text-xl">Agent Details</h4>
+                <h4 className="my-3 font-bold text-xl">Agent Details Today</h4>
                 <h4 className="mb-2">{name}</h4>
                 <h4 className="text-xs">{email}</h4>
               </div>
@@ -130,22 +130,38 @@ const AgentCard: React.FC<IAgentCard> = ({
             <div className="grid grid-cols-4 space-x-3">
               <DataCard
                 title="Call Time"
-                content={metricsData?.avgHandleTime ?? null}
+                content={
+                  metricsData?.avgHandleTime
+                    ? `${metricsData.avgHandleTime} s`
+                    : null
+                }
                 textColor="green"
               ></DataCard>
               <DataCard
                 title="After Call Time"
-                content={metricsData?.avgAfterContactWorkTime ?? null}
+                content={
+                  metricsData?.avgHandleTime
+                    ? `${metricsData.avgAfterContactWorkTime} s`
+                    : null
+                }
                 textColor="purple"
               ></DataCard>
               <DataCard
                 title="Hold Time"
-                content={metricsData?.avgHoldTime ?? null}
+                content={
+                  metricsData?.avgHandleTime
+                    ? `${metricsData.avgHoldTime} s`
+                    : null
+                }
                 textColor="yellow"
               ></DataCard>
               <DataCard
                 title="Abandon Time"
-                content={metricsData?.avgAbandonTime ?? null}
+                content={
+                  metricsData?.avgHandleTime
+                    ? `${metricsData.avgAbandonTime} s`
+                    : null
+                }
                 textColor="red"
               ></DataCard>
             </div>
