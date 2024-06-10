@@ -13,12 +13,9 @@ import "!style-loader!css-loader!postcss-loader!../src/components/Avatar/Avatar.
 import "!style-loader!css-loader!postcss-loader!../src/components/Button/Button.css";
   // PIll
 import "!style-loader!css-loader!postcss-loader!../src/components/Pill/Pill.css";
-  // TableAC
-import '!style-loader!css-loader!postcss-loader!../src/components/TableAC/TableAC.css';
-  // RowAC
-import '!style-loader!css-loader!postcss-loader!../src/components/RowAC/RowAC.css';
+  //Button
+import '!style-loader!css-loader!postcss-loader!../src/components/Button/Button.css';
 
-import '!style-loader!css-loader!postcss-loader!../src/components/ProgressBar/ProgressBar.css';
 
 const preview: Preview = {
   parameters: {
