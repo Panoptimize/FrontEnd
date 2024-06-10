@@ -19,7 +19,9 @@ const StatusCardHolder: React.FC = () => {
     };
 
     useEffect(()=> {
+      setTimeout(() => {
         getAgentsStatus();
+      }, 10000);
     })
 
     return (

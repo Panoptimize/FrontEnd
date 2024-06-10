@@ -14,7 +14,7 @@ const AgentCard: React.FC<IAgentCard> = ({
   bttnTitle = "View Details", //recibe nombre, email, username. Faltan metricas y como jalar 	Workspace	Last Activity y agent id	desde BE (Agent Row)
   title = "Contact Details",
   name,
-  email = "dave_chapelle@gmail.com",
+  email,
   workspace,
   id,
 }) => {
@@ -110,14 +110,7 @@ const AgentCard: React.FC<IAgentCard> = ({
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black/[0.3]">
       <div
-        className="flex flex-auto flex-col bg-white rounded-3xl shadow-lg p-8"
-        style={{
-          maxWidth: "900px",
-          width: "100%",
-          maxHeight: "600px",
-          height: "600px",
-        }}
-      >
+        className="flex flex-auto flex-col bg-white rounded-3xl shadow-lg p-8 max-w-[900px] w-full h-[600px]">
         <div className="flex flex-row items-center justify-between mb-3">
           <h2 className="text-3xl font-bold mb-2">{title}</h2>
           <div>

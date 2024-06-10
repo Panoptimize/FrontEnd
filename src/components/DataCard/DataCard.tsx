@@ -35,7 +35,7 @@ const DataCard: React.FC<IDataCard> = ({
         <h4 className="ml-2 font-bold text-sm text-gray-600 dark:text-black-400">{title}</h4>
       </div>
       <div className="flex-grow flex items-center">
-        <h5 className={`ml-2 text-xl font-bold tracking-tight ${colorClass} dark:text-grey`}>{content ? content : 0}{decorator}</h5>
+        <h5 className={`ml-2 text-xl font-bold tracking-tight ${colorClass} dark:text-grey`}>{content ? content.toFixed(2) : 0}{decorator}</h5>
       </div>
     </div>
   );

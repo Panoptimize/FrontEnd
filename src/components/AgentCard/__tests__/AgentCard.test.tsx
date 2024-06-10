@@ -1,10 +1,10 @@
 // AgentCard.test.tsx
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
-import AgentCard from './AgentCard';
-import { getAgentNotes } from '../../services/notes/getAgentNotes';
-import { getAgentId } from '../../services/agentsList/getAgentId';
-import profilePicture from "../../assets/images/Toretto.jpg";
+import AgentCard from '../AgentCard';
+import { getAgentNotes } from '../../../services/notes/getAgentNotes';
+import { getAgentId } from '../../../services/agentsList/getAgentId';
+import profilePicture from "../../../assets/images/Toretto.jpg";
 
 // Mockear las funciones y servicios necesarios
 jest.mock('../../services/notes/getAgentNotes', () => ({
