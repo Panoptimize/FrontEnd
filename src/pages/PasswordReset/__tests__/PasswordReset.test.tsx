@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import PasswordReset from "../PasswordReset";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
@@ -55,5 +55,31 @@ describe("PasswordReset component", () => {
     
         expect(sendPasswordResetEmail).toHaveBeenCalledWith(getAuth(), "a01662659@tec.mx");
         await screen.findByText("Password reset email sent! Check your inbox");
+      });
+
+      test("Handles error during password reset", async () => {
+        const errorMessage = "Failed to send email";
+        (sendPasswordResetEmail as jest.Mock).mockRejectedValueOnce(new Error("Failed to send email"));
+
+        console.log = jest.fn();
+
+        render(
+            <MemoryRouter>
+                <PasswordReset />
+            </MemoryRouter>
+        );
+
+        const emailInput = screen.getByTestId("email-input")
+        const submitButton = screen.getByRole("button", { name: /Send reset email/i });
+
+        fireEvent.change(emailInput, {target: { value: "fake@com" }});
+        fireEvent.click(submitButton);
+
+        expect(sendPasswordResetEmail).toHaveBeenCalledWith(getAuth(), "fake@com");
+        await waitFor(() => {
+            expect(screen.getByText(errorMessage)).toBeInTheDocument();
+        });
+
+        expect(console.log).toHaveBeenCalledWith(errorMessage);
       });
 });
