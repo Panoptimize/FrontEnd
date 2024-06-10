@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import SatisfactionChart from './SatisfactionChart';
-import { ISatisfactionChart } from './types';
+import SatisfactionChart from '../SatisfactionChart';
+import { ISatisfactionChart } from '../types';
 
 // Test cases for SatisfactionChart component
 describe('SatisfactionChart Component', () => {

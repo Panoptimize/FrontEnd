@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ContactMedium from './ContactMedium';
+import ContactMedium from '../ContactMedium';
 
 // Test cases for ContactMedium component
 describe('ContactMedium', () => {

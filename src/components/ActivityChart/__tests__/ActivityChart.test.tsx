@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ActivityChart from './ActivityChart';
+import ActivityChart from '../ActivityChart';
 
 // Test cases for ActivityChart component
 describe('ActivityChart Component', () => {

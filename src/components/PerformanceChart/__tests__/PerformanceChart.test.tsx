@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import PerformanceChart from './PerformanceChart';
+import PerformanceChart from '../PerformanceChart';
 
 // Test cases for PerformanceChart component
 describe('PerformanceChart', () => {
