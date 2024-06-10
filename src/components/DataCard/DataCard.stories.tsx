@@ -38,7 +38,7 @@ export const Default = Template.bind({});
 
 Default.args = {
     title: 'Total Contacts',
-    content: 53,
+    content: '53',
 };
 
 /**
@@ -59,6 +59,5 @@ export const AvgCall = Template.bind({});
 
 AvgCall.args = {
     title: 'Average Call Time',
-    content: 130,
-    decorator: " seconds"
+    content: '00:02:58',
 };
