@@ -29,7 +29,6 @@ export const Dashboard: React.FC = () => {
   const [endDate, setEndDate] = useState<string>(new Date().toISOString());
   const [status, setStatus] = useState<IStatusCard[]>([]);
   const [kpiData, setKpiData] = useState<MetricResponse>();
-  const [workspace, setWorkspace] = useState<Option | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
   const [limit, setLimit] = useState<number>(90);
   //const [contactMediumData, setContactMediumData] = useState<number[]>([]);
@@ -103,11 +102,10 @@ export const Dashboard: React.FC = () => {
   };
 
   const fetchDownload = async () => {
-    const routingProfiles = workspaces?.map((workspace) => workspace.value) ?? [];
-    let routingProfile: string[] = [];
-    routingProfile.push("4896ae34-a93e-41bc-8231-bf189e7628b1");
-    console.log("Routing Profiles:");
-    console.log(routingProfile);    
+    let routingProfile: any = [];
+    selectedOptions.forEach((option) => {
+      routingProfile.push(option.value);
+    });
     try {
       const data = await getDownload(
         startDate,
@@ -119,9 +117,6 @@ export const Dashboard: React.FC = () => {
       console.error("Error al obtener datos de descarga:", error);
     }
   }
-  const handleSelect = (workspace: Option) => {
-    setWorkspace(workspace);
-  };
 
   const getAgentsStatus = async () => {
     const result = await getStatus();
