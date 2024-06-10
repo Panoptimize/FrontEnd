@@ -34,10 +34,6 @@ const AgentCard: React.FC<IAgentCard> = ({
     setIsVisible(true);
     try {
       await getId(id);
-      if (agentId) {
-        await getMetrics(agentId);
-        await getNotes(agentId);
-      }
     } catch (error) {
       console.error(error);
     }
@@ -48,6 +44,8 @@ const AgentCard: React.FC<IAgentCard> = ({
       const data = await getAgentId(id);
       if (data && data.data) {
         setAgentId(data.data.id);
+        await getMetrics(data.data.id);
+        await getNotes(data.data.id);
       }
     } catch (error) {
       console.error(error);
