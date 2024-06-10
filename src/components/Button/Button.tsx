@@ -8,7 +8,6 @@ const Button: React.FC<IButton> = ({
   baseColor,
   image,
   onClick,
-  ...props
 }) => {
   // Using only SVG files for icons
   const isSvg = image?.endsWith(".svg");
@@ -30,9 +29,7 @@ const Button: React.FC<IButton> = ({
           <img
             src={require(`../../assets/images/${image}`)}
             alt={image}
-            style={
-              baseColor === "transparent" ? {} : { filter: "invert(100%)" }
-            }
+            className={baseColor === "transparent" ? '' : 'filter-[invert(100%)]'}
           />
         )}
         {text}

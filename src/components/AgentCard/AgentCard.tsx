@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { IAgentCard, IMetrics } from "./types";
+import React, { useState } from "react";
+import { IAgentCard } from "./types";
 
 import { Button } from "../Button";
 import { Avatar } from "../Avatar";
@@ -13,8 +13,8 @@ import { getAgentId } from "../../services/agentsList/getAgentId";
 import { getAgentMetrics } from "../../services/AgentMetrics/getAgentMetrics";
 
 const AgentCard: React.FC<IAgentCard> = ({
-  bttnTitle = "View Details",
-  title = "Contact Details",
+  bttnTitle,
+  title,
   name,
   email,
   workspace,
@@ -33,7 +33,7 @@ const AgentCard: React.FC<IAgentCard> = ({
   const handleOpen = async () => {
     setIsVisible(true);
     try {
-      const agentId = await getId(id);
+      await getId(id);
       if (agentId) {
         await getMetrics(agentId);
         await getNotes(agentId);
@@ -47,9 +47,7 @@ const AgentCard: React.FC<IAgentCard> = ({
     try {
       const data = await getAgentId(id);
       if (data && data.data) {
-        const agentId = data.data.id;
-        setAgentId(agentId);
-        return agentId;
+        setAgentId(data.data.id);
       }
     } catch (error) {
       console.error(error);
@@ -92,6 +90,7 @@ const AgentCard: React.FC<IAgentCard> = ({
         type="button"
         onClick={handleOpen}
         className="bg-teal-100 hover:bg-teal-600 text-teal-900 font-bold py-2 px-4 rounded"
+        data-testid="view-details-button"
       >
         {bttnTitle}
       </button>
@@ -131,22 +130,22 @@ const AgentCard: React.FC<IAgentCard> = ({
             <div className="grid grid-cols-4 space-x-3">
               <DataCard
                 title="Call Time"
-                content={metricsData?.avgHandleTime}
+                content={metricsData?.avgHandleTime ?? null}
                 textColor="green"
               ></DataCard>
               <DataCard
                 title="After Call Time"
-                content={metricsData?.avgAfterContactWorkTime}
+                content={metricsData?.avgAfterContactWorkTime ?? null}
                 textColor="purple"
               ></DataCard>
               <DataCard
                 title="Hold Time"
-                content={metricsData?.avgHoldTime}
+                content={metricsData?.avgHoldTime ?? null}
                 textColor="yellow"
               ></DataCard>
               <DataCard
                 title="Abandon Time"
-                content={metricsData?.avgAbandonTime}
+                content={metricsData?.avgAbandonTime ?? null}
                 textColor="red"
               ></DataCard>
             </div>

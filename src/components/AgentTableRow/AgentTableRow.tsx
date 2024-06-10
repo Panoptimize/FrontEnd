@@ -39,7 +39,7 @@ const AgentTableRow: React.FC<IAgentTableRow> = ({
         <NoteCard area={workspace1} connectId={id}></NoteCard>
       </td>
       <td className="btn-rightcell">
-        <AgentCard id={id} email={email} name={name} workspace={workspace1}></AgentCard>
+        <AgentCard bttnTitle="View Details" title="Contact Details" id={id} email={email} name={name} workspace={workspace1}></AgentCard>
       </td>
     </tr>
   );
