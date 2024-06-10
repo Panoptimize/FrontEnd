@@ -39,7 +39,7 @@ const DataCard: React.FC<IDataCard> = ({
         <h5
           className={`ml-2 text-3xl font-bold tracking-tight ${colorClass} dark:text-grey`}
         >
-          {content ? content : 0}
+          {content ? content.toFixed(2) : 0}
           {decorator}{" "}
         </h5>
       </div>

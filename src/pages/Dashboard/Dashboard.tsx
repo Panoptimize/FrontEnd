@@ -29,7 +29,7 @@ export const Dashboard: React.FC = () => {
   const [endDate, setEndDate] = useState<string>(new Date().toISOString());
   const [status, setStatus] = useState<IStatusCard[]>([]);
   const [kpiData, setKpiData] = useState<MetricResponse>();
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>();
   const [limit, setLimit] = useState<number>(90);
   //const [contactMediumData, setContactMediumData] = useState<number[]>([]);
   //const [error, setError] = useState<string | null>(null);
@@ -38,18 +38,19 @@ export const Dashboard: React.FC = () => {
     if (creationDate) {
       const creationDateObj = new Date(creationDate);
       const threshold = new Date(new Date().setDate(new Date().getDate() - 90));
-
-      // Check if the creation day is greater than todays date less than 90 days
-      if (creationDateObj < threshold) {
-        // Get difference in days
-        return 90;
+      if (creationDateObj >= threshold) {
+        setLimit(90);
+        setStartDate(threshold.toISOString());
       } else {
         // Get difference in days
         const differenceTime = new Date().getTime() - creationDateObj.getTime();
-        return Math.ceil(differenceTime / (1000 * 3600 * 24));
+        setLimit(Math.ceil(differenceTime / (1000 * 3600 * 24)));
+        setStartDate(creationDate);
+
       }
 
     }
+    console.log("Start date set", startDate, creationDate);
   }
 
   const fetchFilters = async () => {
@@ -60,8 +61,11 @@ export const Dashboard: React.FC = () => {
         value: workspace.id,
         label: workspace.name
       }));
+      validateCreationDate();
       setWorkspaces(workspaces);
-      console.log("Workspaces:", workspaces);
+      if (!selectedOptions) {
+        setSelectedOptions(workspaces);
+      }
     } catch (error) {
       console.error("Error fetching filters:", error);
     }
@@ -116,27 +120,19 @@ export const Dashboard: React.FC = () => {
     } catch (error) {
       console.error("Error al obtener datos de descarga:", error);
     }
-  }
-
-  const getAgentsStatus = async () => {
-    const result = await getStatus();
-    if (result.error) {
-      console.error(result.error);
-    } else {
-      setStatus(result.data);
-    }
   };
 
   useEffect(() => {
-    getAgentsStatus();
-    fetchFilters();
-  }, []);
+    const fetchData = async () => {
+      if (!workspaces) {
+        await fetchFilters();
+      } else {
+        await getSatisfactionLevels();
+        await getKpiData();
+      }
+    };
 
-  useEffect(() => {
-    if (workspaces) {
-      getSatisfactionLevels();
-      getKpiData();
-    }
+    fetchData();
   }, [startDate, endDate, selectedOptions]);
 
   return (
@@ -171,7 +167,7 @@ export const Dashboard: React.FC = () => {
             />
           </div>
           <div className="self-center mx-20">
-            <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
+            <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions ?? []} setSelectedOptions={setSelectedOptions} />
           </div>
         </div>
         <div className="flex items-center pr-5">
