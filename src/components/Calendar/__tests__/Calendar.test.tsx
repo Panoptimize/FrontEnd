@@ -56,7 +56,6 @@ describe('Calendar Component', () => {
 
         // Log all days to see if they are being rendered correctly
         const days = screen.getAllByText(/^\d+$/);
-        days.forEach(day => console.log(day));
 
         // Ensure we select the correct day element
         const day = days[0]; // Get the first day

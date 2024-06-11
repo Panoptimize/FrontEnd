@@ -7,20 +7,18 @@ import { PerformanceChart } from "../../components/PerformanceChart";
 import { ActivityChart } from "../../components/ActivityChart";
 import { IActivityChart } from "../../components/ActivityChart/types";
 import { Button } from "../../components/Button";
-import { getStatus, getSatisfaction, getDownload } from "../../services";
-import getKpis from "../../services/dashboard/getKpis";
+import { getStatus, getSatisfaction, getDownload, getKpis, getFilters } from "../../services";
 import { IStatusCard } from '../../components/StatusCard/types';
 import { MetricResponse } from "../../services/dashboard/types";
 import { ICustomerSatisfaction } from "./types";
 import { TimeFrameSelector } from "../../components/TimeFrameSelector";
-import { getFilters } from "../../services/dashboard/getFilters";
 import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
 
 import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
+import { toast } from "react-toastify";
 
 export const Dashboard: React.FC = () => {
-  const [creationDate, setCreationDate] = useState<string>();
   const [workspaces, setWorkspaces] = useState<Option[]>();
   const [satisfactionLevels, setSatisfactionLevels] = useState<ICustomerSatisfaction>();
   const [activityData, setActivityData] = useState<IActivityChart>({ data: [] });
@@ -29,24 +27,26 @@ export const Dashboard: React.FC = () => {
   const [endDate, setEndDate] = useState<string>(new Date().toISOString());
   const [status, setStatus] = useState<IStatusCard[]>([]);
   const [kpiData, setKpiData] = useState<MetricResponse>();
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>();
   const [limit, setLimit] = useState<number>(90);
   //const [contactMediumData, setContactMediumData] = useState<number[]>([]);
   //const [error, setError] = useState<string | null>(null);
 
-  const validateCreationDate = () => {
+  const validateCreationDate = (creationDate: string) => {
     if (creationDate) {
       const creationDateObj = new Date(creationDate);
-      const threshold = new Date(new Date().setDate(new Date().getDate() - 90));
+      const threshold = new Date(new Date().setDate(new Date().getDate() - 30));
 
       // Check if the creation day is greater than todays date less than 90 days
       if (creationDateObj < threshold) {
         // Get difference in days
-        return 90;
+        setLimit(30)
+        setStartDate(threshold.toISOString());
       } else {
         // Get difference in days
         const differenceTime = new Date().getTime() - creationDateObj.getTime();
-        return Math.ceil(differenceTime / (1000 * 3600 * 24));
+        setLimit(Math.ceil(differenceTime / (1000 * 3600 * 24)));
+        setStartDate(creationDateObj.toISOString());
       }
 
     }
@@ -55,15 +55,17 @@ export const Dashboard: React.FC = () => {
   const fetchFilters = async () => {
     try {
       const data = await getFilters();
-      setCreationDate(data?.instanceCreationDate);
       const workspaces = data?.workspaces?.map((workspace) => ({
         value: workspace.id,
         label: workspace.name
       }));
+      const provisionalDate = new Date();
+      provisionalDate.setDate(provisionalDate.getDate() - 30);
+      validateCreationDate(data?.instanceCreationDate ?? provisionalDate.toISOString());
       setWorkspaces(workspaces);
-      console.log("Workspaces:", workspaces);
+      setSelectedOptions(workspaces);
     } catch (error) {
-      console.error("Error fetching filters:", error);
+      toast.error("Error fetching filters");
     }
   }
 
@@ -103,16 +105,15 @@ export const Dashboard: React.FC = () => {
 
   const fetchDownload = async () => {
     let routingProfile: any = [];
-    selectedOptions.forEach((option) => {
+    selectedOptions?.forEach((option) => {
       routingProfile.push(option.value);
     });
     try {
-      const data = await getDownload(
+      await getDownload(
         startDate,
         endDate,
         routingProfile
       );
-      console.log(data);
     } catch (error) {
       console.error("Error al obtener datos de descarga:", error);
     }
@@ -167,11 +168,11 @@ export const Dashboard: React.FC = () => {
               setStartDate={setStartDate}
               endDate={endDate}
               setEndDate={setEndDate}
-              limit={validateCreationDate()}
+              limit={limit}
             />
           </div>
           <div className="self-center mx-20">
-            <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
+            <MultipleChoiceBox options={workspaces ?? []} selectedOptions={selectedOptions ?? []} setSelectedOptions={setSelectedOptions} />
           </div>
         </div>
         <div className="flex items-center pr-5">
@@ -180,6 +181,7 @@ export const Dashboard: React.FC = () => {
             image="Download.svg"
             text="Download"
             onClick={() => fetchDownload()}
+            data-testid="download-button"
           ></Button>
         </div>
       </div>

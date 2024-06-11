@@ -16,8 +16,6 @@ const SelectorList: React.FC<SelectorListProps> = ({
         }
     }
 
-    console.log(selected.some(currentItem => currentItem.value === "Item 2") ? "border-teal-400 hover:border-teal-600" : "hover:border-teal-100 border-transparent")
-
     return (
         <div className="flex flex-col w-full">
             {items.map(item => (

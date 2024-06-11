@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Notification } from "./types";
 import { FaTimes } from "react-icons/fa";
 import { getAuthUser } from "../../services/getAuth/getAuthUser";
+import { toast } from "react-toastify";
 
 interface TopbarProps {
   toggleSidebar: () => void;
@@ -51,7 +52,7 @@ const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, notifications, unreadCou
     try {
       const result = await getAuthUser();
       if (result.error) {
-        console.log(result.error);
+        toast.error("Error fetching user info");
       } else {
         const fullName = result.fullName;
         const firstName = fullName.split(" ")[0];

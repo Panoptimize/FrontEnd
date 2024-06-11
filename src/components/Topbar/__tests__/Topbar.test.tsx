@@ -4,9 +4,17 @@ import Topbar from '../Topbar';
 import { BrowserRouter } from 'react-router-dom';
 import { Notification } from '../types';
 import * as getAuthUserModule from '../../../services/getAuth/getAuthUser';
+import { toast } from 'react-toastify';
 
 jest.mock('../../../services/getAuth/getAuthUser', () => ({
   getAuthUser: jest.fn(),
+}));
+
+// Mocking react-toastify
+jest.mock('react-toastify', () => ({
+  toast: {
+    error: jest.fn(),
+  },
 }));
 
 describe('Topbar component', () => {
@@ -158,8 +166,6 @@ describe('Topbar component', () => {
       error: 'User not found',
     });
 
-    console.log = jest.fn();
-
     await act(async () => {
       render(
         <BrowserRouter>
@@ -175,7 +181,8 @@ describe('Topbar component', () => {
     });
 
     await waitFor(() => {
-      expect(console.log).toHaveBeenCalledWith('User not found');
+      // Check if toast error is called with correct message
+      expect(toast.error).toHaveBeenCalledWith('Error fetching user info');
     });
   });
 

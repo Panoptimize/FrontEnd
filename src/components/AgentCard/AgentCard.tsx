@@ -72,8 +72,7 @@ const AgentCard: React.FC<IAgentCard> = ({
     await getAgentMetrics(agentId)
       .then((data) => {
         if (data && data.data) {
-          console.log("METRICS FOUND");
-          console.log(data.data);
+          
           setMetricsData(data.data);
         }
       })

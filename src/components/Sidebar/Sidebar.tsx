@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/constants";
 import { useAppContext } from "../../store/app-context/app-context";
 import { ISidebar } from "./types";
+import { toast } from "react-toastify";
 
 const Sidebar: React.FC<ISidebar> = ({ expanded }) => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Sidebar: React.FC<ISidebar> = ({ expanded }) => {
       await logOut();
       navigate(ROUTES.AUTH);
     } catch (e) {
-      console.log("Logout error");
+      toast.error("Failed to log out");
     }
   };
   const width = expanded ? "w-56" : "w-14";

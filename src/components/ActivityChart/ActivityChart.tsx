@@ -9,8 +9,6 @@ const ActivityChart: React.FC<{ chartData: IActivityChart }> = ({ chartData }) =
   // Asegúrate de que chartData.data sea una matriz
   const dataPoints = Array.isArray(chartData.data) ? chartData.data : [];
 
-  console.log(dataPoints, 'dataPoints'); // Verifica que los puntos de datos estén presentes
-
   const data = {
     labels: dataPoints.map(item => new Date(item.startTime).toLocaleDateString("en-US", {
       month: 'short',
