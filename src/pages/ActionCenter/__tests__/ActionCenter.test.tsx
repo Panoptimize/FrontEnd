@@ -2,7 +2,6 @@ import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 
 import React from "react";
 import ActionCenter from "../ActionCenter";
-import mockAxios from 'jest-mock-axios';
 import { getStatus } from "../../../services";
 import {mockStatusCard} from "../../../services/status/_mocks_/statusResults"
 jest.mock("../../../services");

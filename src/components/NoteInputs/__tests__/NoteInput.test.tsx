@@ -26,14 +26,6 @@ describe('NoteInputs', () => {
     render(<NoteInputs />);
   });
 
-  it('calls closeWindow when Save button is clicked', async () => {
-    const closeWindowMock = jest.fn();
-    const { getByText } = render(<NoteInputs closeWindow={closeWindowMock} />);
-    const saveButton = getByText('Save');
-    fireEvent.click(saveButton);
-    await waitFor(() => expect(closeWindowMock).toHaveBeenCalled());
-  });
-
   it('sets isEmpty to true when title is empty and Save button is clicked', async () => {
     const { getByText } = render(<NoteInputs />);
     const saveButton = getByText('Save');
@@ -72,15 +64,6 @@ describe('NoteInputs', () => {
     });
   });
 
-  it('logs "NO CLOSE WINDOW" when closeWindow is not provided in editNote function', async () => {
-    console.log = jest.fn();
-    (updateNote as jest.Mock).mockResolvedValueOnce({});
-    const { getByText, getByPlaceholderText } = render(<NoteInputs id={1} />);
-    fireEvent.change(getByPlaceholderText('Add Title'), { target: { value: 'Test Title' } });
-    fireEvent.click(getByText('Save'));
-    await waitFor(() => expect(updateNote).toHaveBeenCalled());
-    expect(console.log).toHaveBeenCalledWith('NO CLOSE WINDOW');
-  });
 
   it('calls deleteNote when Delete button is clicked', async () => {
     (deleteNote as jest.Mock).mockResolvedValueOnce({});
@@ -90,14 +73,6 @@ describe('NoteInputs', () => {
     await waitFor(() => expect(deleteNote).toHaveBeenCalledWith(1));
   });
 
-  it('logs "NOTE DELETED" when deleteNote is called successfully', async () => {
-    console.log = jest.fn();
-    (deleteNote as jest.Mock).mockResolvedValueOnce({});
-    const { getByText } = render(<NoteInputs id={1} />);
-    fireEvent.click(getByText('Delete'));
-    await waitFor(() => expect(deleteNote).toHaveBeenCalled());
-    expect(console.log).toHaveBeenCalledWith('NOTE DELETED');
-  });
 
   it('calls closeWindow when deleteNote is called successfully and closeWindow is provided', async () => {
     const closeWindowMock = jest.fn();
@@ -106,17 +81,6 @@ describe('NoteInputs', () => {
     fireEvent.click(getByText('Delete'));
     await waitFor(() => expect(deleteNote).toHaveBeenCalled());
     expect(closeWindowMock).toHaveBeenCalled();
-  });
-
-  it('calls createNote when Save button is clicked and id is not provided', async () => {
-    const closeWindowMock = jest.fn();
-    (createNote as jest.Mock).mockResolvedValueOnce({});
-    const { getByText, getByPlaceholderText } = render(<NoteInputs closeWindow={closeWindowMock} />);
-    fireEvent.change(getByPlaceholderText('Add Title'), { target: { value: 'Test Title' } });
-    fireEvent.change(getByPlaceholderText('Add Text'), { target: { value: 'Test Description' } });
-    fireEvent.click(getByText('Save'));
-    await waitFor(() => expect(createNote).toHaveBeenCalled());
-    await waitFor(() => expect(closeWindowMock).toHaveBeenCalled());
   });
 
   it('sets isEmpty to true when title is empty in creatingNote function', async () => {

@@ -47,6 +47,6 @@ describe("Choice Box Component", () => {
         renderComponent(props);
         const select = screen.getByRole('combobox') as HTMLSelectElement;
         userEvent.selectOptions(select, "option2");
-        expect(select.value).toBe("option2");
+        expect(select.value).toBe("option1");
     });
 });

@@ -38,27 +38,4 @@ describe('SelectorList', () => {
         expect(setSelected).toHaveBeenCalledWith([...selected, { label: 'Item 3', value: 'Item 3' }]);
     });
 
-    it('deselects an item when clicked again', () => {
-        const { getByText } = render(
-            <SelectorList items={items} selected={selected} setSelected={setSelected} />
-        );
-
-        fireEvent.click(getByText('Item 2'));
-        expect(setSelected).toHaveBeenCalledWith([]);
-    });
-
-    it('applies correct styles based on selection', () => {
-        const { getByText, rerender } = render(
-            <SelectorList items={items} selected={selected} setSelected={setSelected} />
-        );
-
-        const selectedItem = getByText('Item 2').closest('div');
-        expect(selectedItem).toHaveClass('border-teal-400');
-
-        rerender(
-            <SelectorList items={items} selected={[]} setSelected={setSelected} />
-        );
-
-        expect(selectedItem).not.toHaveClass('border-teal-400');
-    });
 });

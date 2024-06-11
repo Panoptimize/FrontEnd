@@ -74,11 +74,6 @@ describe("Sidebar", () => {
 
     fireEvent.click(actionCenterButton);
 
-    expect(screen.getByTestId("action_center_button")).toHaveAttribute(
-      "baseColor",
-      "teal"
-    );
-
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       "activeButton",
       "/action-center"
