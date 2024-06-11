@@ -56,10 +56,4 @@ describe('AgentCard Component', () => {
     }); 
     consoleErrorSpy.mockRestore();
   });
-
-
-
-  
-
-
 });
