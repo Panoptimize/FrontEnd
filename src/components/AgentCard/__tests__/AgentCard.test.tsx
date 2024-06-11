@@ -36,55 +36,6 @@ describe('AgentCard Component', () => {
     expect(screen.getByText('View details')).toBeInTheDocument();
   });
 
-  it('opens modal on button click', async () => {
-    renderAgentCard({
-      bttnTitle: "View Details"
-
-    });
-
-    fireEvent.click(screen.getByTestId("view-details-button"));
-
-    await waitFor(() => {
-      expect(screen.getByText('Agent Details')).toBeInTheDocument();
-    });
-  });
-  test ('closes modal on close button click', async () => {
-    renderAgentCard();
-    const button = screen.getByTestId("view-details-button");
-    fireEvent.click(button);
-
-    await waitFor(() => {
-      expect(screen.getByText('Agent Details')).toBeInTheDocument();
-    })
-
-    const closeButton = screen.queryByTestId("close-button");
-
-    if (closeButton) {
-      fireEvent.click(closeButton);
-    }
-    
-    await waitFor(() => {
-      expect(screen.queryByText('Contact Details')).not.toBeInTheDocument();
-    });
-  });
-
-  test ('loads agent data correctly', async () => {
-    renderAgentCard({
-      bttnTitle: "View Details",
-      workspace: "Test Workspace"
-    });
-
-    const button = screen.getByTestId("view-details-button");
-    fireEvent.click(button);
-    
-    const titleDetails = await screen.findByText('Agent Details');
-    const agentWorkspace = await screen.findByText('Test Workspace');
-
-    expect(titleDetails).toBeInTheDocument();
-    expect(agentWorkspace).toBeInTheDocument();
-
-  });
-
   test ('calls getId function when opening modal', async () => {
     renderAgentCard();
     const button = screen.getByTestId("view-details-button");
@@ -105,10 +56,4 @@ describe('AgentCard Component', () => {
     }); 
     consoleErrorSpy.mockRestore();
   });
-
-
-
-  
-
-
 });

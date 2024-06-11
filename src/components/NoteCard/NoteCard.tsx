@@ -33,46 +33,46 @@ const NoteCard: React.FC<INoteCard> = ({
 
   const handleOpen = () => {
     setIsVisible(true);
-    if(metrics){
-      setAgentPerformance(metrics)
+    if (metrics) {
+      setAgentPerformance(metrics);
     }
   };
 
   const sendSignalToRow = () => {
-    if(signalNotesRow){
+    if (signalNotesRow) {
       signalNotesRow();
     }
-  }
+  };
 
-  const getAgentPerformance =  async (noteId: number) => {
-    await getAgentPerformanceByNote(noteId).then((data) =>{
-      if(data && data.data){
-        setAgentPerformance(data.data)
+  const getAgentPerformance = async (noteId: number) => {
+    try {
+      const data = await getAgentPerformanceByNote(noteId);
+      if (data) {
+        setAgentPerformance(data);
       }
-    }).catch((error) => {
+    } catch (error) {
       console.error(error);
-    })
+    }
   };
 
   const getMetrics = async (agentId: number) => {
-    await getAgentMetrics(agentId)
-      .then((data) => {
-        if (data && data.data) {
-          setAgentPerformance(data.data);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const data = await getAgentMetrics(agentId);
+      if (data) {
+        setAgentPerformance(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const getId = async (id: string) => {
     try {
       const data = await getAgentId(id);
-      if (data && data.data) {
-        const agentDbId = data.data.id;
+      if (data) {
+        const agentDbId = data.id;
         setAgentId(agentDbId);
-        return agentId;
+        return agentDbId;
       }
     } catch (error) {
       console.error(error);
@@ -80,17 +80,16 @@ const NoteCard: React.FC<INoteCard> = ({
   };
 
   useEffect(() => {
-    const fetchMetrics = async () =>   {
-      if(isVisible && !id && connectId){
-        await getId(connectId);
-        if(agentId && !metrics){
-          await getMetrics(agentId);
+    const fetchMetrics = async () => {
+      if (isVisible && !id && connectId) {
+        const agentDbId = await getId(connectId);
+        if (agentDbId && !metrics) {
+          await getMetrics(agentDbId);
         }
-      } 
+      }
     };
 
     fetchMetrics();
-
   }, [isVisible]);
 
   useEffect(() => {
@@ -141,27 +140,30 @@ const NoteCard: React.FC<INoteCard> = ({
                 <h4 className="mb-4">{name}</h4>
                 {agentPerformance ? (
                   <>
-                    <h4> Avg Abandon Time: <span className="font-bold">{agentPerformance.avgAbandonTime == null ? "0" : agentPerformance.avgAbandonTime}</span></h4>
-                    <h4> Avg ACWT: <span className="font-bold">{agentPerformance.avgAfterContactWorkTime == null ? "0" : agentPerformance.avgAfterContactWorkTime}</span></h4>
-                    <h4> Avg Handle Time: <span className="font-bold">{agentPerformance.avgHandleTime == null ? "0" : agentPerformance.avgHandleTime}</span></h4>
-                    <h4> Avg Hold Time: <span className="font-bold">{agentPerformance.avgHoldTime == null ? "0" : agentPerformance.avgHoldTime}</span></h4>
+                    <h4>Avg Abandon Time: <span className="font-bold">{agentPerformance.avgAbandonTime == null ? "0" : agentPerformance.avgAbandonTime}</span></h4>
+                    <h4>Avg ACWT: <span className="font-bold">{agentPerformance.avgAfterContactWorkTime == null ? "0" : agentPerformance.avgAfterContactWorkTime}</span></h4>
+                    <h4>Avg Handle Time: <span className="font-bold">{agentPerformance.avgHandleTime == null ? "0" : agentPerformance.avgHandleTime}</span></h4>
+                    <h4>Avg Hold Time: <span className="font-bold">{agentPerformance.avgHoldTime == null ? "0" : agentPerformance.avgHoldTime}</span></h4>
                   </>
-                ) : ( 
+                ) : (
                   <p>Loading metrics...</p>
                 )}
               </div>
             </div>
           </div>
-          {agentId || id ? (<NoteInputs
-            id={id}
-            agentId={agentId}
-            metrics={agentPerformance ? agentPerformance : undefined}
-            title={title}
-            text={text}
-            priority={priority}
-            closeWindow={handleClose}
-          ></NoteInputs>) : (<p>Loading ...</p>)}
-          
+          {agentId || id ? (
+            <NoteInputs
+              id={id}
+              agentId={agentId}
+              metrics={agentPerformance ? agentPerformance : undefined}
+              title={title}
+              text={text}
+              priority={priority}
+              closeWindow={handleClose}
+            />
+          ) : (
+            <p>Loading ...</p>
+          )}
         </div>
       </div>
     </div>
