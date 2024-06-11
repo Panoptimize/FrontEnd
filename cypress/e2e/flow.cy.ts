@@ -32,8 +32,8 @@ describe('template spec', () => {
 
   it('should navigate to dashboard on sucessful login', () => {
     cy.get('p').contains("Company name"); //para recuperar el titulo de login
-    cy.get('input[name="email"]').type('A01656828@tec.mx');
-    cy.get('input[name="password"]').type('ernesto-561');
+    cy.get('input[name="email"]').type(Cypress.env('EMAIL'));
+    cy.get('input[name="password"]').type(Cypress.env('PASSWORD'));
     cy.get('button[type="submit"]').click();
 
     cy.url().should('not.include', '/auth');
