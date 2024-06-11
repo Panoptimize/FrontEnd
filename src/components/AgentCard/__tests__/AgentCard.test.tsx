@@ -45,7 +45,7 @@ describe('AgentCard Component', () => {
     fireEvent.click(screen.getByTestId("view-details-button"));
 
     await waitFor(() => {
-      expect(screen.getByText('Agent Details')).toBeInTheDocument();
+      expect(screen.getByText('Agent Details Today')).toBeInTheDocument();
     });
   });
   test ('closes modal on close button click', async () => {
@@ -54,7 +54,7 @@ describe('AgentCard Component', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(screen.getByText('Agent Details')).toBeInTheDocument();
+      expect(screen.getByText('Agent Details Today')).toBeInTheDocument();
     })
 
     const closeButton = screen.queryByTestId("close-button");
@@ -77,7 +77,7 @@ describe('AgentCard Component', () => {
     const button = screen.getByTestId("view-details-button");
     fireEvent.click(button);
     
-    const titleDetails = await screen.findByText('Agent Details');
+    const titleDetails = await screen.findByText('Agent Details Today');
     const agentWorkspace = await screen.findByText('Test Workspace');
 
     expect(titleDetails).toBeInTheDocument();
@@ -105,10 +105,4 @@ describe('AgentCard Component', () => {
     }); 
     consoleErrorSpy.mockRestore();
   });
-
-
-
-  
-
-
 });

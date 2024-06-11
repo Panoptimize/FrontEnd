@@ -21,22 +21,22 @@ describe('DataCard component', () => {
 
   test('applies the correct text color class based on textColor prop', () => {
     const { rerender } = render(<DataCard {...props} />);
-    expect(screen.getByText('Content%')).toHaveClass('text-blue-700');
+    expect(screen.getByText('50%')).toHaveClass('text-blue-700');
 
     rerender(<DataCard {...props} textColor="purple" />);
-    expect(screen.getByText('Content%')).toHaveClass('text-fuchsia-600');
+    expect(screen.getByText('50%')).toHaveClass('text-fuchsia-600');
 
-    rerender(<DataCard {...props} textColor="red" />);
-    expect(screen.getByText('Content%')).toHaveClass('text-red-500');
+    rerender(<DataCard {...props} textColor="red" />); 
+    expect(screen.getByText('50%')).toHaveClass('text-red-500');
 
     rerender(<DataCard {...props} textColor="green" />);
-    expect(screen.getByText('Content%')).toHaveClass('text-green-600');
+    expect(screen.getByText('50%')).toHaveClass('text-green-600');
 
     rerender(<DataCard {...props} textColor="yellow" />);
-    expect(screen.getByText('Content%')).toHaveClass('text-amber-500');
+    expect(screen.getByText('50%')).toHaveClass('text-amber-500');
 
     rerender(<DataCard {...props} textColor={undefined} />);
-    expect(screen.getByText('Content%')).toHaveClass('text-black');
+    expect(screen.getByText('50%')).toHaveClass('text-black');
   });
 
 
