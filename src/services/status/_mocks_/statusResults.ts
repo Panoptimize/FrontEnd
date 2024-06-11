@@ -1,11 +1,6 @@
 import { IRowAC } from "../../../components/RowAC/types";
 import { IStatusCard } from "../../../components/StatusCard/types"
 
-export const mockStatusData = [
-    { status: 'Online', numUsers: 10 },
-    { status: 'Offline', numUsers: 5 },
-];
-
 export const mockAgentsData = [
     { id: '1', name: 'Agent 1', workspace: 'Workspace 1' },
     { id: '2', name: 'Agent 2', workspace: 'Workspace 2' },

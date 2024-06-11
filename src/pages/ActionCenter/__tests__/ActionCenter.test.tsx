@@ -1,7 +1,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import ActionCenter from "../ActionCenter";
-import { mockActionCenterData, mockAgentsData, mockStatusCard, mockStatusData } from "../../../services/status/_mocks_/statusResults";
+import { mockActionCenterData, mockAgentsData, mockStatusCard } from "../../../services/status/_mocks_/statusResults";
 import { getActionCenter } from "../../../services/actionCenter/getActionCenter";
 import { getStatus } from "../../../services/status/getStatus";
 import { getAgentsList } from "../../../services/agentsList/getAgentsList";
@@ -23,7 +23,7 @@ beforeEach(() => {
 
 describe("ActionCenter", () => {
   beforeEach(() => {
-    (getStatus as jest.Mock).mockResolvedValue({ data: mockStatusData, error: null });
+    (getStatus as jest.Mock).mockResolvedValue({ data: mockStatusCard, error: null });
     (getAgentsList as jest.Mock).mockResolvedValue(mockAgentsData);
     (getActionCenter as jest.Mock).mockResolvedValue(mockActionCenterData);
   });
@@ -38,9 +38,16 @@ describe("ActionCenter", () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('wrapper-ActionCenter')).toBeInTheDocument();
+
+      const expectedStatuses = [
+        "Agents",
+        "Online",
+        "Available",
+        "Offline",
+      ]
       // Check if Status Cards are rendered correctly
-      mockStatusCard.forEach(item => {
-        expect(screen.getByText(item.status)).toBeInTheDocument();
+      expectedStatuses.forEach(item => {
+        expect(screen.getByText(item)).toBeInTheDocument();
       });
     });
   });
