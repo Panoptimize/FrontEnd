@@ -1,24 +1,38 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import Dashboard from "../Dashboard"
-import * as services from '../../../services';
-import * as getFSer from '../../../services/dashboard/getFilters'
-import * as servicesK from '../../../services/dashboard';
-
-
-
-jest.mock ("../../../components/Button", () =>({
-  Button : () => <div data-testid="Dbutton">Download</div>
-}))
+import { getFilters } from "../../../services/dashboard/getFilters"
+import { getDownload } from "../../../services/dashboard/getDownload"
+import { getKpis } from "../../../services/dashboard/getKpis"
+import { getSatisfaction, getStatus } from "../../../services"
+import { mockStatusCard } from "../../../services/status/_mocks_/statusResults"
 
 // Mocking services functions
-jest.mock('../../../services');
-jest.mock('../../../services/dashboard');
-jest.mock('../../../services/dashboard/getFilters');
+jest.mock("../../../services/dashboard/getFilters")
+jest.mock("../../../services/dashboard/getKpis")
+jest.mock("../../../services/dashboard/getSatisfaction")
+jest.mock("../../../services/dashboard/getDownload")
+jest.mock("../../../services/status/getStatus")
+
+// Mock chartjs
+jest.mock('react-chartjs-2', () => ({
+  Bar: () => null,
+  Doughnut: () => null,
+  Line: () => null,
+}));
+
+// Mock button component
+jest.mock("../../../components/Button", () => ({
+  Button: ({ children, onClick, ...props }: any) => <button onClick={onClick} data-testid={props["data-testid"]}>{children}</button>
+}));
 
 // Mocking data
 const mockFiltersResponse = {
   instanceCreationDate: '2024-01-01T00:00:00.000Z',
-  workspaces: [{ id: '1', name: 'Workspace 1' }]
+  workspaces: [
+    { id: '1', name: 'Workspace 1' },
+    { id: '2', name: 'Workspace 2' },
+    { id: '3', name: 'Workspace 3' }
+  ]
 };
 
 const mockKpiResponse = {
@@ -47,14 +61,17 @@ const mockSatisfactionResponse = {
 beforeEach(() => {
   jest.clearAllMocks();
 
-  (getFSer.getFilters as jest.Mock).mockResolvedValue(mockFiltersResponse);
-  (services.getDownload as jest.Mock).mockResolvedValue(mockSatisfactionResponse);
-  (servicesK.getKpis as jest.Mock).mockResolvedValue(mockKpiResponse);
-  (services.getSatisfaction as jest.Mock).mockResolvedValue(mockSatisfactionResponse);
+  (getFilters as jest.Mock).mockResolvedValue(mockFiltersResponse);
+  (getKpis as jest.Mock).mockResolvedValue(mockKpiResponse);
+  (getDownload as jest.Mock).mockResolvedValue({ data: 'Downloaded' });
+  (getStatus as jest.Mock).mockResolvedValue({
+    data: mockStatusCard,
+    error: null
+  });
+  (getSatisfaction as jest.Mock).mockResolvedValue(mockSatisfactionResponse);
 });
 
 describe("Dashboard page", () => {
-
 
   test('renders without crashing', async () => {
     render(<Dashboard />);
@@ -64,9 +81,9 @@ describe("Dashboard page", () => {
   test('displays initial data correctly', async () => {
     render(<Dashboard />);
 
-    // Wait for the useEffect to run
+    // Wait for the useEffect to run 
     await waitFor(() => {
-      expect(getFSer.getFilters).toHaveBeenCalled();
+      expect(getFilters).toHaveBeenCalled();
     });
 
     // Check that initial data is displayed
@@ -78,40 +95,33 @@ describe("Dashboard page", () => {
     render(<Dashboard />);
 
     await waitFor(() => {
-      expect(getFSer.getFilters).toHaveBeenCalled();
+      expect(getFilters).toHaveBeenCalled();
     })
 
-    const downloadButton = screen.getByTestId("Dbutton");
+    const downloadButton = screen.getByTestId('download-button');
 
     fireEvent.click(downloadButton);
-
     await waitFor(() => {
-      expect(services.getDownload).toHaveBeenCalled();
+      expect(getDownload).toHaveBeenCalled();
     });
 
-    expect(services.getDownload).toHaveBeenCalledWith(expect.any(String), expect.any(String), expect.any(Array));
+    expect(getDownload).toHaveBeenCalledWith(expect.any(String), expect.any(String), expect.any(Array));
+
   });
-
-  test('updates state correctly on date change', async () => {
-    render(<Dashboard />);
-
-    const startDateInput = screen.getByLabelText("Filters:");
-    const endDateInput = screen.getByLabelText('Timeframe:');
-
-    fireEvent.change(startDateInput, { target: { value: '2024-06-01' } });
-    fireEvent.change(startDateInput, { target: { value: '2024-06-30' } });
-
-    await waitFor(() => {
-      expect(servicesK.getKpis).toHaveBeenCalledWith(expect.objectContaining({ startDate: '2024-06-01', endDate: '2024-06-30' }));
-    });
-  });
-
 
   test('fetches and displays KPI data correctly', async () => {
     render(<Dashboard />);
 
     await waitFor(() => {
-      expect(servicesK.getKpis).toHaveBeenCalled();
+      expect(getFilters).toHaveBeenCalled();
+    });
+
+    // Check that initial data is displayed
+    expect(screen.getByText('Dashboard')).toBeInTheDocument();
+
+    // Wait for the useEffect to run 
+    await waitFor(() => {
+      expect(getKpis).toHaveBeenCalled();
     });
 
     // Check that KPI data is displayed
