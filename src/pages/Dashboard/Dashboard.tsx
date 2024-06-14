@@ -188,7 +188,10 @@ export const Dashboard: React.FC = () => {
             baseColor="transparent"
             image="Download.svg"
             text="Download"
-            onClick={() => fetchDownload()}
+            onClick={() => {
+              toast.success("Downloading data...");
+              fetchDownload()
+            }}
             data-testid="download-button"
           ></Button>
         </div>
