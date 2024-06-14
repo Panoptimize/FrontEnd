@@ -113,7 +113,7 @@ const NoteCard: React.FC<INoteCard> = ({
         className="flex flex-auto flex-col bg-white rounded-3xl p-8 max-w-[900px] w-full h-[600px] overflow-y-auto"
       >
         <div className="flex flex-row items-center justify-between mb-3">
-          <h2 className="text-3xl font-bold mb-2">Contact Note</h2>
+          <h2 className="text-3xl font-bold mb-2">Agent Note</h2>
           <div>
             <Button
               baseColor="transparent"
