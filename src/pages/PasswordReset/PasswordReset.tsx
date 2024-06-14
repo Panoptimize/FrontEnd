@@ -19,7 +19,7 @@ const PasswordReset = () => {
       setResetMessage("Password reset email sent! Check your inbox");
     } catch (error: any) {
       setResetMessage(error.message);
-      console.log(error.message);
+      console.error(error.message);
     }
   };
 

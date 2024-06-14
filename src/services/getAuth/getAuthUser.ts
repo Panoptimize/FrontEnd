@@ -11,6 +11,6 @@ export const getAuthUser = async () => {
       throw new Error(`HTTP error: ${response.status}`);
     }
   } catch (error) {
-    console.log("Error fetching data", error);
+    console.error("Error fetching data", error);
   }
 };

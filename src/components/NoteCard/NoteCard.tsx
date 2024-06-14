@@ -46,9 +46,11 @@ const NoteCard: React.FC<INoteCard> = ({
 
   const getAgentPerformance = async (noteId: number) => {
     try {
-      const data = await getAgentPerformanceByNote(noteId);
-      if (data) {
-        setAgentPerformance(data);
+      const response = await getAgentPerformanceByNote(noteId);
+      console.log(response.data);
+      if (response.data) {
+        setAgentPerformance(response.data);
+        console.log(agentPerformance);
       }
     } catch (error) {
       console.error(error);
@@ -57,9 +59,9 @@ const NoteCard: React.FC<INoteCard> = ({
 
   const getMetrics = async (agentId: number) => {
     try {
-      const data = await getAgentMetrics(agentId);
-      if (data) {
-        setAgentPerformance(data);
+      const response = await getAgentMetrics(agentId);
+      if (response && response.data) {
+        setAgentPerformance(response.data);
       }
     } catch (error) {
       console.error(error);
@@ -68,9 +70,9 @@ const NoteCard: React.FC<INoteCard> = ({
 
   const getId = async (id: string) => {
     try {
-      const data = await getAgentId(id);
-      if (data) {
-        const agentDbId = data.id;
+      const response = await getAgentId(id);
+      if (response.data) {
+        const agentDbId = response.data.id;
         setAgentId(agentDbId);
         return agentDbId;
       }
@@ -79,22 +81,20 @@ const NoteCard: React.FC<INoteCard> = ({
     }
   };
 
+
   useEffect(() => {
-    const fetchMetrics = async () => {
-      if (isVisible && !id && connectId) {
+    console.log(isVisible, id, connectId);
+    if (isVisible && id) {
+      getAgentPerformance(id);
+    } else if (isVisible && !id && connectId) {
+      const fetchMetrics = async () => {
         const agentDbId = await getId(connectId);
         if (agentDbId && !metrics) {
           await getMetrics(agentDbId);
         }
-      }
-    };
+      };
 
-    fetchMetrics();
-  }, [isVisible]);
-
-  useEffect(() => {
-    if (isVisible && id) {
-      getAgentPerformance(id);
+      fetchMetrics();
     }
   }, [isVisible]);
 
@@ -110,13 +110,7 @@ const NoteCard: React.FC<INoteCard> = ({
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black/[0.3]">
       <div
-        className="flex flex-auto flex-col bg-white rounded-3xl p-8"
-        style={{
-          maxWidth: "900px",
-          width: "100%",
-          maxHeight: "600px",
-          height: "600px",
-        }}
+        className="flex flex-auto flex-col bg-white rounded-3xl p-8 max-w-[900px] w-full h-[600px] overflow-y-auto"
       >
         <div className="flex flex-row items-center justify-between mb-3">
           <h2 className="text-3xl font-bold mb-2">Contact Note</h2>

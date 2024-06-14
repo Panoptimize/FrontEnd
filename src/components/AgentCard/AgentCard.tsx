@@ -171,6 +171,7 @@ const AgentCard: React.FC<IAgentCard> = ({
                   <NoteCard
                     area={workspace}
                     connectId={id}
+                    agentId={agentId}
                     metrics={metricsData ? metricsData : undefined}
                     signalNotesRow={receivedSignal}
                     bttn_color="teal"

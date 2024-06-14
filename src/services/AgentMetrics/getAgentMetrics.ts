@@ -8,6 +8,5 @@ export const getAgentMetrics = async (agentId: number) => {
     }).catch((err) => {
         res = err.response;
     });
-    console.log(res);
     return res;
 };

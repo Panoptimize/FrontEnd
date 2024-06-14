@@ -62,7 +62,7 @@ const Topbar: React.FC<TopbarProps> = ({ toggleSidebar, notifications, unreadCou
         setFirstName(firstName);
       }
     } catch (error) {
-      console.log("Error fetching user info", error);
+      toast.error("Error fetching user info");
     }
   };
 
