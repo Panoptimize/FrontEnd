@@ -34,7 +34,7 @@ describe('Agents Component', () => {
         });
     
         render(<Agents />);
-        expect(screen.getByText('Loading...')).toBeInTheDocument();
+        expect(screen.getByTestId('loader')).toBeInTheDocument();
       });
   
       test('renders agent rows', async () => {

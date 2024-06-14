@@ -3,7 +3,7 @@ import Topbar from "./Topbar";
 
 // Export
 export default {
-    title: 'Topbar',
+    title: 'Components/Topbar',
     component: Topbar,
     argTypes: {
         variant: {

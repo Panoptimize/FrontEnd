@@ -1,6 +1,12 @@
 import { cleanup, render, screen } from "@testing-library/react"
 import Loading from "../Loading"
 
+// Mock up Loader component
+jest.mock("../../../components/Loader/Loader", () => ({
+    __esModule: true,
+    default: () => <div data-testid="loader" className="spinning"></div>
+})); 
+
 beforeEach(() => {
     cleanup();
 });
@@ -9,10 +15,7 @@ describe("Loading component", () => {
     test("Renders loading component", () => {
         render(<Loading />)
 
-        const loadingMessage = screen.getByText("Loading...");
-        const description = screen.getByText('Please wait while we load your content.');
+        expect(screen.getByTestId("loader")).toBeInTheDocument();
 
-        expect(loadingMessage).toBeInTheDocument();
-        expect(description).toBeInTheDocument();
     });
 });

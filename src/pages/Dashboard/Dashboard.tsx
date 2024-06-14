@@ -17,6 +17,7 @@ import { Option } from "../../components/ChoiceBoxes/ChoiceBox/types";
 import { MultipleChoiceBox } from "../../components/ChoiceBoxes/MultipleChoiceBox";
 import { IPerformanceChart } from "../../components/PerformanceChart/types";
 import { toast } from "react-toastify";
+import { Loading } from "../Loading";
 
 export const Dashboard: React.FC = () => {
   const [workspaces, setWorkspaces] = useState<Option[]>();
@@ -29,6 +30,7 @@ export const Dashboard: React.FC = () => {
   const [kpiData, setKpiData] = useState<MetricResponse>();
   const [selectedOptions, setSelectedOptions] = useState<Option[]>();
   const [limit, setLimit] = useState<number>(90);
+  const [loading, setLoading] = useState<boolean>(true);
   //const [contactMediumData, setContactMediumData] = useState<number[]>([]);
   //const [error, setError] = useState<string | null>(null);
 
@@ -134,28 +136,34 @@ export const Dashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (workspaces) {
-      getSatisfactionLevels();
-      getKpiData();
+    const setDashboardData = async () => {
+      if (workspaces) {
+        setLoading(true);
+        await getSatisfactionLevels();
+        await getKpiData();
+        setLoading(false);
+      }
     }
+    setDashboardData();
   }, [startDate, endDate, selectedOptions]);
 
   return (
-    <div className="flex w-full h-fit flex-col " data-testid= "wrapper-Dashboard">
+    <div className="flex w-full h-fit flex-col " data-testid="wrapper-Dashboard">
       <div className="font-poppins pt-6 px-6">
 
         <h1 className="font-semibold text-3xl">Dashboard</h1>
         <p className="text-gray-600 pt-2 text-lg" data-testid="txt-AgentStatus">Agents Status</p>
-        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">            
-        {status.map((item, index) => (
-                <StatusCard 
-                  key={index}
-                  status={item.status}
-                  numUsers={item.numUsers}
-                />
-              ))}
+        <div className="flex flex-row sm:flex-row flex-wrap justify-between mx-6 my-4">
+          {status.map((item, index) => (
+            <StatusCard
+              key={index}
+              status={item.status}
+              numUsers={item.numUsers}
+            />
+          ))}
         </div>
       </div>
+
       <div className="font-poppins px-6">
         <p className="text-gray-600 pt-1 text-lg" data-testid="txt-OverallPerformance">Overall Performance</p>
       </div>
@@ -185,63 +193,65 @@ export const Dashboard: React.FC = () => {
           ></Button>
         </div>
       </div>
-      <div className="grid grid-cols-2 my-2 mx-10 h-72 space-x-5 place-content-evenly">
-        <div className="flex flex-auto space-x-5 place-content-evenly">
-          <div className="flex flex-auto">
-            <SatisfactionChart data={satisfactionLevels?.satisfaction_levels} />
-          </div>
-          <div className="flex flex-auto">
-            <ContactMedium data={[
-              (kpiData?.voice ?? 0),
-              (kpiData?.chat ?? 0),
-            ]} />
-          </div>
-        </div>
-        <div className="flex flex-auto">
-          {kpiData && (
-            <div className="flex flex-col flex-auto place-content-evenly space-y-2">
-              <div className="grid grid-cols-3 flex-auto space-x-3">
-                <DataCard
-                  title="Avg Hold Time"
-                  content={kpiData.metrics.avgHoldTime}
-                  decorator=" seconds"
-                />
-                <DataCard
-                  title="First Contact Resolution"
-                  content={kpiData.metrics.firstContactResolution}
-                  decorator="%"
-                />
-                <DataCard
-                  title="Abandonment Rate"
-                  content={kpiData.metrics.abandonmentRate}
-                  decorator="%"
-                />
-              </div>
-              <div className="grid grid-cols-3 flex-auto space-x-3">
-                <DataCard
-                  title="Service Level"
-                  content={kpiData.metrics.serviceLevel}
-                  decorator="%"
-                />
-                <DataCard
-                  title="Agent Schedule Adherence"
-                  content={kpiData.metrics.agentScheduleAdherence}
-                  decorator="%"
-                />
-                <DataCard
-                  title="Avg Speed Answer"
-                  content={kpiData.metrics.avgSpeedOfAnswer}
-                  decorator=" seconds"
-                />
-              </div>
+      {loading ? <Loading /> : (<>
+        <div className="grid grid-cols-2 my-2 mx-10 h-72 space-x-5 place-content-evenly">
+          <div className="flex flex-auto space-x-5 place-content-evenly">
+            <div className="flex flex-auto">
+              <SatisfactionChart data={satisfactionLevels?.satisfaction_levels} />
             </div>
-          )}
+            <div className="flex flex-auto">
+              <ContactMedium data={[
+                (kpiData?.voice ?? 0),
+                (kpiData?.chat ?? 0),
+              ]} />
+            </div>
+          </div>
+          <div className="flex flex-auto">
+            {kpiData && (
+              <div className="flex flex-col flex-auto place-content-evenly space-y-2">
+                <div className="grid grid-cols-3 flex-auto space-x-3">
+                  <DataCard
+                    title="Avg Hold Time"
+                    content={kpiData.metrics.avgHoldTime}
+                    decorator=" s"
+                  />
+                  <DataCard
+                    title="First Contact Resolution"
+                    content={kpiData.metrics.firstContactResolution}
+                    decorator="%"
+                  />
+                  <DataCard
+                    title="Abandonment Rate"
+                    content={kpiData.metrics.abandonmentRate}
+                    decorator="%"
+                  />
+                </div>
+                <div className="grid grid-cols-3 flex-auto space-x-3">
+                  <DataCard
+                    title="Service Level"
+                    content={kpiData.metrics.serviceLevel}
+                    decorator="%"
+                  />
+                  <DataCard
+                    title="Agent Schedule Adherence"
+                    content={kpiData.metrics.agentScheduleAdherence}
+                    decorator="%"
+                  />
+                  <DataCard
+                    title="Avg Speed Answer"
+                    content={kpiData.metrics.avgSpeedOfAnswer}
+                    decorator=" s"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="grid grid-cols-2 flex-auto my-2 mx-10 space-x-5 place-content-evenly">
-        {performanceData && <PerformanceChart users={performanceData.users} />}
-        <ActivityChart chartData={activityData} />
-      </div>
+        <div className="grid grid-cols-2 flex-auto my-2 mx-10 space-x-5 place-content-evenly">
+          {performanceData && <PerformanceChart users={performanceData.users} />}
+          <ActivityChart chartData={activityData} />
+        </div>
+      </>)}
     </div>
 
   )
